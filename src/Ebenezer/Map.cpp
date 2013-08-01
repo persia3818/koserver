@@ -109,7 +109,7 @@ bool C3DMap::CheckEvent(float x, float z, CUser* pUser)
 
 	try
 	{
-		m_smdFile->GetEventID((int)(x / m_smdFile->GetUnitDistance()), (int)(z / m_smdFile->GetUnitDistance()));
+	//m_smdFile->GetEventID((int)(x / m_smdFile->GetUnitDistance()), (int)(z / m_smdFile->GetUnitDistance()));
 	}
 	catch (std::exception & ex)
 	{
