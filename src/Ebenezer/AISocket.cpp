@@ -413,9 +413,6 @@ void CAISocket::RecvNpcGiveItem(Packet & pkt)
 				if (sCount[i] + coinAmount > USHRT_MAX)
 					coinAmount = USHRT_MAX;
 
-				if (pUser->m_bPremiumType != 0)
-					coinAmount = coinAmount * (100 + g_pMain->m_PremiumItemArray.GetData(pUser->m_bPremiumType)->NoahPercent) / 100;
-
 				pUser = g_pMain->GetUserPtr(sUid);
 				pItem.sCount = coinAmount;
 			}
