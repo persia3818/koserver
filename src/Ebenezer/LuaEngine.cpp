@@ -11,7 +11,6 @@ DEFINE_LUA_FUNCTION_TABLE(g_globalFunctions,
 	MAKE_LUA_FUNCTION(CheckPercent)
 );
 #else
-DEFINE_LUA_FUNCTION_TABLE(g_globalFunctions, 
 DEFINE_LUA_FUNCTION_TABLE(g_globalFunctions,
 MAKE_LUA_FUNCTION(CheckPercent)
 MAKE_LUA_FUNCTION(HowmuchItem)

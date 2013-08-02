@@ -104,18 +104,7 @@ void C3DMap::RegionItemRemove(CRegion * pRegion, _LOOT_BUNDLE * pBundle, _LOOT_I
 
 bool C3DMap::CheckEvent(float x, float z, CUser* pUser)
 {
-
-	int event_index = 0;
-
-	try
-	{
-	//m_smdFile->GetEventID((int)(x / m_smdFile->GetUnitDistance()), (int)(z / m_smdFile->GetUnitDistance()));
-	}
-	catch (std::exception & ex)
-	{
-		printf("Exception occurred: %s\n", ex.what());
-		event_index = 0;
-	}
+	int event_index = m_smdFile->GetEventID((int)(x / m_smdFile->GetUnitDistance()), (int)(z / m_smdFile->GetUnitDistance()));
 
 	if (event_index < 2)
 		return false;

@@ -64,27 +64,9 @@ public:
 		m_cury = fy;
 	}
 
-	INLINE uint16 GetSPosX() { 
-
-		uint16 returntest = 100;
-		try
-		{
-			returntest = uint16(GetX() * 10);
-		}
-		catch (std::exception & ex)
-		{
-			printf("Exception occurred: %s\n", ex.what());
-			returntest = returntest* 10;
-		}
-		return returntest;
-	};
-
-	INLINE uint16 GetSPosY() {
-		return uint16(GetY() * 10);
-	};
-	INLINE uint16 GetSPosZ() {
-		return uint16(GetZ() * 10);
-	};
+	INLINE uint16 GetSPosX() { return uint16(GetX() * 10); };
+	INLINE uint16 GetSPosY() { return uint16(GetY() * 10); };
+	INLINE uint16 GetSPosZ() { return uint16(GetZ() * 10); };
 
 	INLINE uint16 GetRegionX() { return m_sRegionX; }
 	INLINE uint16 GetRegionZ() { return m_sRegionZ; }
