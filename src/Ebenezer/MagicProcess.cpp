@@ -25,15 +25,20 @@ void CMagicProcess::MagicPacket(Packet & pkt, Unit * pCaster /*= nullptr*/)
 		return;
 	}
 
-	if (instance.nSkillID < 400000 && TO_USER(pCaster)->isPlayer()) {
-		if (TO_USER(pCaster)->m_LastSkillID != instance.nSkillID &&  instance.pSkill->bType[0] == TO_USER(pCaster)->m_LastSkillType) {
-			if ((UNIXTIME - TO_USER(pCaster)->m_LastSkillUseTime) <= PLAYER_SKILL_REQUEST_INTERVAL) {
+	if (instance.bSendSkillFailed)
+		instance.bSendSkillFailed = false;
+
+	if (TO_USER(pCaster)->isPlayer()) {
+		if (instance.nSkillID < 400000) {
+			if (TO_USER(pCaster)->m_LastSkillID != instance.nSkillID &&  instance.pSkill->bType[0] == TO_USER(pCaster)->m_LastSkillType) {
+				if ((UNIXTIME - TO_USER(pCaster)->m_LastSkillUseTime) <= PLAYER_SKILL_REQUEST_INTERVAL) {
+					instance.bSendSkillFailed = true;
+				}
+			}
+		} else if (TO_USER(pCaster)->m_LastSkillID == instance.nSkillID) {
+			if ((UNIXTIME - TO_USER(pCaster)->m_LastSkillUseTime) * 1000 <= (instance.pSkill->sReCastTime * 100) && instance.pSkill->sReCastTime != 0) {
 				instance.bSendSkillFailed = true;
 			}
-		}
-	} else if (TO_USER(pCaster)->m_LastSkillID == instance.nSkillID && TO_USER(pCaster)->isPlayer()) {
-		if ((UNIXTIME - TO_USER(pCaster)->m_LastSkillUseTime) * 1000 <= (instance.pSkill->sReCastTime * 100) && instance.pSkill->sReCastTime != 0) {
-			instance.bSendSkillFailed = true;
 		}
 	}
 
