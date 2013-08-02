@@ -66,7 +66,7 @@ void CNpc::AddToRegion(int16 new_region_x, int16 new_region_z)
 * @param	fSpeed	The speed.
 */
 void CNpc::MoveResult(float fPosX, float fPosY, float fPosZ, float fSpeed)
-{
+{//BPKOY
 	Packet result(WIZ_NPC_MOVE);
 
 	SetPosition(fPosX, fPosY, fPosZ);
@@ -128,7 +128,7 @@ void CNpc::SendInOut(uint8 bType, float fX, float fZ, float fY)
 * @param	pkt	The packet the information will be stored in.
 */
 void CNpc::GetNpcInfo(Packet & pkt)
-{
+{//BPKOY
 	pkt << GetProtoID()
 		<< uint8(isMonster() ? 1 : 2) // Monster = 1, NPC = 2 (need to use a better flag)
 		<< m_sPid

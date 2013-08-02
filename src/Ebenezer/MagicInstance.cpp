@@ -1877,13 +1877,13 @@ bool MagicInstance::ExecuteType8()
 				g_pMain->Send_AIServer(&result);
 			} break;
 
-		case 12:	// Summon a target within the zone.	
+		case 12:	// Summon a target within the zone.
 			// Cannot teleport users from other zones.
 			if (pSkillCaster->GetZoneID() != pTUser->GetZoneID()
 				// Cannot teleport ourselves.
 					|| pSkillCaster == pSkillTarget)
 					goto packet_send;
-
+			//BPKOY
 			// Send the packet to the target.
 			sData[1] = 1;
 			BuildAndSendSkillPacket(*itr, true, sCasterID, (*itr)->GetID(), bOpcode, nSkillID, sData); 

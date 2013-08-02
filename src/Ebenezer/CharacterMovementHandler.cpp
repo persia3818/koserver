@@ -137,7 +137,7 @@ void CUser::GetUserInfo(Packet & pkt)
 	uint8 bInvisibilityType = m_bInvisibilityType;
 	if (bInvisibilityType != INVIS_NONE)
 		bInvisibilityType = INVIS_DISPEL_ON_MOVE;
-
+	//BPKOY
 	pkt	<< GetLevel() << m_bRace << m_sClass
 		<< GetSPosX() << GetSPosZ() << GetSPosY()
 		<< m_bFace << m_nHair
@@ -347,7 +347,7 @@ void CUser::ZoneChange(uint16 sNewZone, float x, float z)
 	}
 
 	SetRegion(GetNewRegionX(), GetNewRegionZ());
-
+	//BPKOY
 	Packet result(WIZ_ZONE_CHANGE, uint8(ZoneChangeTeleport));
 	result << uint16(GetZoneID()) << GetSPosX() << GetSPosZ() << GetSPosY() << g_pMain->m_byOldVictory;
 	Send(&result);

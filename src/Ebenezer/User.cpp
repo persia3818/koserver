@@ -723,7 +723,7 @@ void CUser::LogOut()
 * @brief	Sends the player's information on initial login.
 */
 void CUser::SendMyInfo()
-{
+{//BPKOY
 	C3DMap* pMap = GetMap();
 	CKnights* pKnights = nullptr;
 

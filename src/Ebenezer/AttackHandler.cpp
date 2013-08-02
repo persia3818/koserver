@@ -172,7 +172,7 @@ void CUser::Regene(uint8 regene_type, uint32 magicid /*= 0*/)
 		m_bResHpType = USER_STANDING;
 		m_bRegeneType = REGENE_MAGIC;
 	}
-
+	//BPKOY
 	Packet result(WIZ_REGENE);
 	result << GetSPosX() << GetSPosZ() << GetSPosY();
 	Send(&result);

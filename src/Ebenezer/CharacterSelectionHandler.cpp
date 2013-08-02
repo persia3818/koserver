@@ -175,7 +175,7 @@ void CUser::SelectCharacter(Packet & pkt)
 	}
 
 	SetLogInInfoToDB(bInit);
-
+	//BPKOY
 	result << GetZoneID() << GetSPosX() << GetSPosZ() << GetSPosY() << g_pMain->m_byOldVictory;
 	m_bSelectedCharacter = true;
 	Send(&result);

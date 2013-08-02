@@ -46,6 +46,10 @@ void CUser::ItemRepair(Packet & pkt)
 		quantity = pTable->m_sDuration - m_sItemArray[SLOT_MAX+sSlot].sDuration;
 
 	money = (unsigned int)((((pTable->m_iBuyPrice-10) / 10000.0f) + pow((float)pTable->m_iBuyPrice, 0.75f)) * quantity / (double)durability);
+
+	if (m_bPremiumType != 0)
+		money = money * (g_pMain->m_PremiumItemArray.GetData(m_bPremiumType)->RepairDiscountPercent) / 100;
+
 	if (!GoldLose(money, false))
 		goto fail_return;
 
