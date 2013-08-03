@@ -643,6 +643,7 @@ COMMAND_HANDLER(CUser::HandlePermitConnectCommand)
 	return true;
 }
 
+
 COMMAND_HANDLER(CEbenezerDlg::HandleShutdownCommand)
 {
 	g_pMain->m_socketMgr.SuspendServer();

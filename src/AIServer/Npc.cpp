@@ -2183,8 +2183,7 @@ time_t CNpc::Attack()
 			nRandom = myrand(1, 10000);
 			if (nRandom < nPercent)	
 			{
-				//Magic1 to Magic2
-				CNpcMagicProcess::MagicPacket(MAGIC_EFFECTING, m_proto->m_iMagic2, GetID(), -1, int16(pUser->GetX()), int16(pUser->GetY()), int16(pUser->GetZ()));
+				CNpcMagicProcess::MagicPacket(MAGIC_EFFECTING, m_proto->m_iMagic1, GetID(), -1, int16(pUser->GetX()), int16(pUser->GetY()), int16(pUser->GetZ()));
 				printf("++++ AreaMagicAttack --- sid=%d, magicid=%d\n", GetID(), m_proto->m_iMagic1);
 				return m_sAttackDelay + 1000;
 			}
@@ -3405,10 +3404,17 @@ bool CNpc::CheckFindEnemy()
 	if (isGuard())
 		return true;
 
-	if (GetRegion() == nullptr)
+	MAP* pMap = GetMap();
+
+	if (pMap == nullptr)
 		return false;
 
-	return (GetRegion()->m_byMoving == 1);
+	if (pMap->GetRegion(GetRegionX(),GetRegionZ()) == nullptr)
+		return false;
+	else 
+		return pMap->GetRegion(GetRegionX(),GetRegionZ())->m_byMoving == 1;
+
+	return false;
 }
 
 int	CNpc::ItemProdution(int item_number)							// 아이템 제작

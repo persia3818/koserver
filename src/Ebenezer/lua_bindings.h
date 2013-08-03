@@ -18,7 +18,6 @@ LUA_FUNCTION(ExistMonsterQuestSub);
 LUA_FUNCTION(PromoteKnight);
 LUA_FUNCTION(SelectMsg);
 LUA_FUNCTION(CastSkill);
-/*New Quest*/
 LUA_FUNCTION(GetName);;
 LUA_FUNCTION(GetAccountName);;
 LUA_FUNCTION(GetZoneID);;

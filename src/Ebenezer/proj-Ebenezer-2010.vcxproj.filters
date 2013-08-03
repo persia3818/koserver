@@ -13,6 +13,9 @@
       <UniqueIdentifier>{af2e61dc-c6bd-4804-b0cf-e40469960eb9}</UniqueIdentifier>
       <Extensions>ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe</Extensions>
     </Filter>
+    <Filter Include="Shared">
+      <UniqueIdentifier>{4e057f9a-36a1-4108-82b7-0c5069025f87}</UniqueIdentifier>
+    </Filter>
     <Filter Include="Source Files\Handlers">
       <UniqueIdentifier>{1a89cbf7-5ff4-4e1a-80d8-75ae79aa83ba}</UniqueIdentifier>
     </Filter>
@@ -20,10 +23,16 @@
       <UniqueIdentifier>{42082f42-a5b4-4353-96b5-16b8c87bbee0}</UniqueIdentifier>
     </Filter>
     <Filter Include="N3Base">
-      <UniqueIdentifier>{65077a65-a242-4880-9f12-b9c7a324593b}</UniqueIdentifier>
+      <UniqueIdentifier>{2a2d2375-bccb-483a-a755-1480594e73be}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Shared\Networking">
+      <UniqueIdentifier>{073be5de-f0b1-4042-8494-5704e8177083}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Shared\Database">
+      <UniqueIdentifier>{c8afe734-98ac-422d-8694-0c0302c5bcea}</UniqueIdentifier>
     </Filter>
     <Filter Include="Scripting">
-      <UniqueIdentifier>{7b685819-91d6-429e-b8e5-467471921bed}</UniqueIdentifier>
+      <UniqueIdentifier>{30c4a470-f4a7-4861-a8b6-11334e979a70}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -90,6 +99,9 @@
     <ClCompile Include="MerchantHandler.cpp">
       <Filter>Source Files\Handlers</Filter>
     </ClCompile>
+    <ClCompile Include="..\shared\Ini.cpp">
+      <Filter>Shared</Filter>
+    </ClCompile>
     <ClCompile Include="..\N3BASE\N3ShapeMgr.cpp">
       <Filter>N3Base</Filter>
     </ClCompile>
@@ -98,6 +110,27 @@
     </ClCompile>
     <ClCompile Include="AISocket.cpp">
       <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\shared\crc32.cpp">
+      <Filter>Shared\Networking</Filter>
+    </ClCompile>
+    <ClCompile Include="..\shared\lzf.cpp">
+      <Filter>Shared\Networking</Filter>
+    </ClCompile>
+    <ClCompile Include="..\shared\CircularBuffer.cpp">
+      <Filter>Shared\Networking</Filter>
+    </ClCompile>
+    <ClCompile Include="..\shared\JvCryption.cpp">
+      <Filter>Shared\Networking</Filter>
+    </ClCompile>
+    <ClCompile Include="..\shared\KOSocket.cpp">
+      <Filter>Shared\Networking</Filter>
+    </ClCompile>
+    <ClCompile Include="..\shared\Socket.cpp">
+      <Filter>Shared\Networking</Filter>
+    </ClCompile>
+    <ClCompile Include="..\shared\SocketMgr.cpp">
+      <Filter>Shared\Networking</Filter>
     </ClCompile>
     <ClCompile Include="Unit.cpp">
       <Filter>Source Files</Filter>
@@ -108,11 +141,26 @@
     <ClCompile Include="ArenaHandler.cpp">
       <Filter>Source Files\Handlers</Filter>
     </ClCompile>
+    <ClCompile Include="DBAgent.cpp">
+      <Filter>Database</Filter>
+    </ClCompile>
     <ClCompile Include="DatabaseThread.cpp">
       <Filter>Database</Filter>
     </ClCompile>
-    <ClCompile Include="DBAgent.cpp">
-      <Filter>Database</Filter>
+    <ClCompile Include="..\shared\database\OdbcParameter.cpp">
+      <Filter>Shared\Database</Filter>
+    </ClCompile>
+    <ClCompile Include="..\shared\database\OdbcCommand.cpp">
+      <Filter>Shared\Database</Filter>
+    </ClCompile>
+    <ClCompile Include="..\shared\database\OdbcConnection.cpp">
+      <Filter>Shared\Database</Filter>
+    </ClCompile>
+    <ClCompile Include="..\shared\database\OdbcRecordset.cpp">
+      <Filter>Shared\Database</Filter>
+    </ClCompile>
+    <ClCompile Include="..\shared\SMDFile.cpp">
+      <Filter>Shared</Filter>
     </ClCompile>
     <ClCompile Include="main.cpp">
       <Filter>Source Files</Filter>
@@ -120,11 +168,23 @@
     <ClCompile Include="QuestHandler.cpp">
       <Filter>Source Files\Handlers</Filter>
     </ClCompile>
+    <ClCompile Include="..\shared\TimeThread.cpp">
+      <Filter>Shared</Filter>
+    </ClCompile>
     <ClCompile Include="LuaEngine.cpp">
       <Filter>Scripting</Filter>
     </ClCompile>
     <ClCompile Include="lua_bindings.cpp">
       <Filter>Scripting</Filter>
+    </ClCompile>
+    <ClCompile Include="..\shared\Mutex.cpp">
+      <Filter>Shared</Filter>
+    </ClCompile>
+    <ClCompile Include="..\shared\RWLock.cpp">
+      <Filter>Shared</Filter>
+    </ClCompile>
+    <ClCompile Include="..\shared\Condition.cpp">
+      <Filter>Shared</Filter>
     </ClCompile>
     <ClCompile Include="LoadServerData.cpp">
       <Filter>Source Files</Filter>
@@ -135,11 +195,29 @@
     <ClCompile Include="StdAfx.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="..\shared\tstring.cpp">
+      <Filter>Shared</Filter>
+    </ClCompile>
+    <ClCompile Include="..\shared\ReferenceObject.cpp">
+      <Filter>Shared</Filter>
+    </ClCompile>
     <ClCompile Include="ConsoleInputThread.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="..\shared\DebugUtils.cpp">
+      <Filter>Shared</Filter>
+    </ClCompile>
     <ClCompile Include="KingSystem.cpp">
       <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\shared\SocketMgrWin32.cpp">
+      <Filter>Shared\Networking</Filter>
+    </ClCompile>
+    <ClCompile Include="..\shared\SocketOpsWin32.cpp">
+      <Filter>Shared\Networking</Filter>
+    </ClCompile>
+    <ClCompile Include="..\shared\SocketWin32.cpp">
+      <Filter>Shared\Networking</Filter>
     </ClCompile>
     <ClCompile Include="SealHandler.cpp">
       <Filter>Source Files\Handlers</Filter>
@@ -188,11 +266,20 @@
     <ClInclude Include="Resource.h">
       <Filter>Resource Files</Filter>
     </ClInclude>
+    <ClInclude Include="..\shared\globals.h">
+      <Filter>Shared</Filter>
+    </ClInclude>
+    <ClInclude Include="..\shared\Ini.h">
+      <Filter>Shared</Filter>
+    </ClInclude>
     <ClInclude Include="..\N3BASE\N3ShapeMgr.h">
       <Filter>N3Base</Filter>
     </ClInclude>
     <ClInclude Include="..\N3BASE\My_3DStruct.h">
       <Filter>N3Base</Filter>
+    </ClInclude>
+    <ClInclude Include="..\shared\database\MagicType8Set.h">
+      <Filter>Database</Filter>
     </ClInclude>
     <ClInclude Include="..\shared\database\ServerResourceSet.h">
       <Filter>Database</Filter>
@@ -248,9 +335,6 @@
     <ClInclude Include="..\shared\database\MagicType5Set.h">
       <Filter>Database</Filter>
     </ClInclude>
-    <ClInclude Include="..\shared\database\MagicType8Set.h">
-      <Filter>Database</Filter>
-    </ClInclude>
     <ClInclude Include="..\shared\database\MagicType6Set.h">
       <Filter>Database</Filter>
     </ClInclude>
@@ -266,20 +350,65 @@
     <ClInclude Include="AISocket.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="..\shared\CircularBuffer.h">
+      <Filter>Shared\Networking</Filter>
+    </ClInclude>
+    <ClInclude Include="..\shared\crc32.h">
+      <Filter>Shared\Networking</Filter>
+    </ClInclude>
+    <ClInclude Include="..\shared\lzf.h">
+      <Filter>Shared\Networking</Filter>
+    </ClInclude>
+    <ClInclude Include="..\shared\packets.h">
+      <Filter>Shared\Networking</Filter>
+    </ClInclude>
+    <ClInclude Include="..\shared\ClientSocketMgr.h">
+      <Filter>Shared\Networking</Filter>
+    </ClInclude>
+    <ClInclude Include="..\shared\JvCryption.h">
+      <Filter>Shared\Networking</Filter>
+    </ClInclude>
+    <ClInclude Include="..\shared\KOSocket.h">
+      <Filter>Shared\Networking</Filter>
+    </ClInclude>
+    <ClInclude Include="..\shared\KOSocketMgr.h">
+      <Filter>Shared\Networking</Filter>
+    </ClInclude>
+    <ClInclude Include="..\shared\Socket.h">
+      <Filter>Shared\Networking</Filter>
+    </ClInclude>
+    <ClInclude Include="..\shared\SocketDefines.h">
+      <Filter>Shared\Networking</Filter>
+    </ClInclude>
+    <ClInclude Include="..\shared\SocketMgr.h">
+      <Filter>Shared\Networking</Filter>
+    </ClInclude>
     <ClInclude Include="Unit.h">
       <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\shared\database\UserKnightsRankSet.h">
+      <Filter>Database</Filter>
     </ClInclude>
     <ClInclude Include="..\shared\database\UserPersonalRankSet.h">
       <Filter>Database</Filter>
     </ClInclude>
-    <ClInclude Include="..\shared\database\UserKnightsRankSet.h">
+    <ClInclude Include="DBAgent.h">
       <Filter>Database</Filter>
     </ClInclude>
     <ClInclude Include="DatabaseThread.h">
       <Filter>Database</Filter>
     </ClInclude>
-    <ClInclude Include="DBAgent.h">
-      <Filter>Database</Filter>
+    <ClInclude Include="..\shared\database\OdbcConnection.h">
+      <Filter>Shared\Database</Filter>
+    </ClInclude>
+    <ClInclude Include="..\shared\database\OdbcParameter.h">
+      <Filter>Shared\Database</Filter>
+    </ClInclude>
+    <ClInclude Include="..\shared\database\OdbcCommand.h">
+      <Filter>Shared\Database</Filter>
+    </ClInclude>
+    <ClInclude Include="..\shared\database\OdbcRecordset.h">
+      <Filter>Shared\Database</Filter>
     </ClInclude>
     <ClInclude Include="..\shared\database\KnightsAllianceSet.h">
       <Filter>Database</Filter>
@@ -293,11 +422,17 @@
     <ClInclude Include="..\shared\database\QuestHelperSet.h">
       <Filter>Database</Filter>
     </ClInclude>
+    <ClInclude Include="..\shared\SMDFile.h">
+      <Filter>Shared</Filter>
+    </ClInclude>
     <ClInclude Include="..\shared\database\RentalItemSet.h">
       <Filter>Database</Filter>
     </ClInclude>
     <ClInclude Include="..\shared\database\ItemExchangeSet.h">
       <Filter>Database</Filter>
+    </ClInclude>
+    <ClInclude Include="..\shared\TimeThread.h">
+      <Filter>Shared</Filter>
     </ClInclude>
     <ClInclude Include="lua_bindings.h">
       <Filter>Scripting</Filter>
@@ -308,20 +443,38 @@
     <ClInclude Include="..\scripting\lua_helpers.h">
       <Filter>Scripting</Filter>
     </ClInclude>
+    <ClInclude Include="..\shared\Condition.h">
+      <Filter>Shared</Filter>
+    </ClInclude>
+    <ClInclude Include="..\shared\RWLock.h">
+      <Filter>Shared</Filter>
+    </ClInclude>
+    <ClInclude Include="..\shared\Mutex.h">
+      <Filter>Shared</Filter>
+    </ClInclude>
     <ClInclude Include="LoadServerData.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="MagicInstance.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="..\shared\ReferenceObject.h">
+      <Filter>Shared</Filter>
+    </ClInclude>
     <ClInclude Include="ConsoleInputThread.h">
       <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\shared\DebugUtils.h">
+      <Filter>Shared</Filter>
     </ClInclude>
     <ClInclude Include="..\shared\database\KingSystemSet.h">
       <Filter>Database</Filter>
     </ClInclude>
     <ClInclude Include="KingSystem.h">
       <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\shared\DateTime.h">
+      <Filter>Shared</Filter>
     </ClInclude>
     <ClInclude Include="..\shared\database\KingCandidacyNoticeBoardSet.h">
       <Filter>Database</Filter>
@@ -332,20 +485,14 @@
     <ClInclude Include="..\shared\database\ItemUpgradeSet.h">
       <Filter>Database</Filter>
     </ClInclude>
-    <ClInclude Include="..\shared\database\SetItemTableSet.h">
-      <Filter>Database</Filter>
+    <ClInclude Include="..\shared\ListenSocketWin32.h">
+      <Filter>Shared\Networking</Filter>
     </ClInclude>
-    <ClInclude Include="..\shared\database\ItemOpSet.h">
-      <Filter>Database</Filter>
+    <ClInclude Include="..\shared\SocketMgrWin32.h">
+      <Filter>Shared\Networking</Filter>
     </ClInclude>
-    <ClInclude Include="..\shared\database\MonsterSummonListSet.h">
-      <Filter>Database</Filter>
-    </ClInclude>
-    <ClInclude Include="..\shared\database\PremiumItemExpSet.h">
-      <Filter>Database</Filter>
-    </ClInclude>
-    <ClInclude Include="..\shared\database\PremiumItemSet.h">
-      <Filter>Database</Filter>
+    <ClInclude Include="..\shared\SocketOps.h">
+      <Filter>Shared\Networking</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -355,7 +502,7 @@
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="Ebenezer.rc">
-      <Filter>Source Files</Filter>
+      <Filter>Resource Files</Filter>
     </ResourceCompile>
   </ItemGroup>
 </Project>

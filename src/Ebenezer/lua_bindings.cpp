@@ -4,33 +4,33 @@
 #include "Npc.h"
 
 /* 
-	Classes
+Classes
 */
 
 /**
- * Defining a class is simple: just #define LUA_CLASS to your class name, 
- * then call DEFINE_LUA_CLASS(), specifying each method to expose.
- *
- * Remember to #undef LUA_CLASS when you're done.
- *
- * Doing so sacrifices a little readability, however it
- * makes manually defining methods much quicker (less to type).
- *
- * Also, as our method doesn't support inheritance, you'll need
- * to redefine the same methods for each class.
- *
- * This is because of the way we dynamically pull instance pointers;
- * these are typedef'd within the class, so that we can refer to them 
- * to grab the class name from within. As we type check these with Lua,
- * they'll fail, so we won't be able to use them.
- *
- * I don't think this is such a big issue, as there's only a handful of
- * cases that actually require this behaviour.
- **/
+* Defining a class is simple: just #define LUA_CLASS to your class name, 
+* then call DEFINE_LUA_CLASS(), specifying each method to expose.
+*
+* Remember to #undef LUA_CLASS when you're done.
+*
+* Doing so sacrifices a little readability, however it
+* makes manually defining methods much quicker (less to type).
+*
+* Also, as our method doesn't support inheritance, you'll need
+* to redefine the same methods for each class.
+*
+* This is because of the way we dynamically pull instance pointers;
+* these are typedef'd within the class, so that we can refer to them 
+* to grab the class name from within. As we type check these with Lua,
+* they'll fail, so we won't be able to use them.
+*
+* I don't think this is such a big issue, as there's only a handful of
+* cases that actually require this behaviour.
+**/
 
 #define LUA_CLASS CUser
 DEFINE_LUA_CLASS
-(
+	(
 	// Getters
 	MAKE_LUA_METHOD(GetName)
 	MAKE_LUA_METHOD(GetAccountName)
@@ -126,12 +126,12 @@ DEFINE_LUA_CLASS
 	MAKE_LUA_METHOD(KissUser)
 	MAKE_LUA_METHOD(ChangeManner)
 	MAKE_LUA_METHOD(PromoteClan)
-);
+	);
 #undef LUA_CLASS
 
 #define LUA_CLASS CNpc
 DEFINE_LUA_CLASS
-(
+	(
 	// Getters
 	MAKE_LUA_METHOD(GetID)
 	MAKE_LUA_METHOD(GetProtoID)
@@ -147,12 +147,12 @@ DEFINE_LUA_CLASS
 	// Useful methods
 	// MAKE_LUA_METHOD(CycleSpawn) // i.e. ChangePosition(), used to cycle a spawn through the various trap numbers (like 7 key quest NPCs)
 
-);
+	);
 #undef LUA_CLASS
 
 
 /* 
-	Global functions 
+Global functions 
 */
 LUA_FUNCTION(CheckPercent)
 {
@@ -226,12 +226,12 @@ LUA_FUNCTION(CheckSkillPoint)
 
 #define _LUA_WRAPPER_USER_FUNCTION(name, methodName) \
 	LUA_FUNCTION(name) { \
-		CUser * pUser = Lua_GetUser(); /* get the user from the stack using the specified user ID */ \
-		lua_tpush(L, pUser); /* push the user pointer onto the stack, as our code expects */ \
-		lua_remove(L, 1); /* removes the user ID from the stack */ \
-		lua_insert(L, 1); /* moves the user pointer to the start of the bottom of the stack where it's expected */ \
-		return CUser::Lua_ ## methodName(L); \
-	}
+	CUser * pUser = Lua_GetUser(); /* get the user from the stack using the specified user ID */ \
+	lua_tpush(L, pUser); /* push the user pointer onto the stack, as our code expects */ \
+	lua_remove(L, 1); /* removes the user ID from the stack */ \
+	lua_insert(L, 1); /* moves the user pointer to the start of the bottom of the stack where it's expected */ \
+	return CUser::Lua_ ## methodName(L); \
+}
 
 #define LUA_WRAPPER_USER_FUNCTION(name) \
 	_LUA_WRAPPER_USER_FUNCTION(name, name)
@@ -246,7 +246,6 @@ LUA_WRAPPER_USER_FUNCTION(ShowEffect);
 LUA_WRAPPER_USER_FUNCTION(ShowNpcEffect);
 _LUA_WRAPPER_USER_FUNCTION(ExistMonsterQuestSub, GetActiveQuestID);
 _LUA_WRAPPER_USER_FUNCTION(PromoteKnight, PromoteClan);
-/*New Lua Add Code*/
 _LUA_WRAPPER_USER_FUNCTION(GetName, GetName);
 _LUA_WRAPPER_USER_FUNCTION(GetAccountName, GetAccountName);
 _LUA_WRAPPER_USER_FUNCTION(GetZoneID, GetZoneID);
@@ -337,7 +336,7 @@ LUA_FUNCTION(CastSkill)
 			bResult = pNpc->CastSkill(
 				reinterpret_cast<Unit *>(pUser),
 				LUA_ARG(uint32, 2)
-			);
+				);
 		}
 	}
 	return bResult;

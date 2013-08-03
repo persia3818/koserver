@@ -3,6 +3,7 @@
 #include "KnightsManager.h"
 #include "KingSystem.h"
 #include "MagicInstance.h"
+#include "DBAgent.h"
 
 using namespace std;
 
@@ -528,8 +529,7 @@ void CUser::RemoveRival()
 void CUser::SendLoyaltyChange(int32 nChangeAmount /*= 0*/, bool bIsKillReward /*= false*/)
 {
 	Packet result(WIZ_LOYALTY_CHANGE, uint8(LOYALTY_NATIONAL_POINTS));
-
-	int nClanLoyaltyAmount = 0;
+	uint32 nClanLoyaltyAmount = 0;
 
 	// If we're taking NP, we need to prevent us from hitting values below 0.
 	if (nChangeAmount < 0)
@@ -611,8 +611,8 @@ void CUser::SendLoyaltyChange(int32 nChangeAmount /*= 0*/, bool bIsKillReward /*
 	}
 
 	result	<< m_iLoyalty << m_iLoyaltyMonthly
-		<< uint32(0) // Premium NP(? Additional NP gained?)
-		<< nClanLoyaltyAmount; // Clan donations(? Donations made by this user? For the clan overall?)
+		<< uint32(0) // Clan donations(? Donations made by this user? For the clan overall?)
+		<< nClanLoyaltyAmount; // Premium NP(? Additional NP gained?)
 
 	Send(&result);
 }
@@ -723,7 +723,7 @@ void CUser::LogOut()
 * @brief	Sends the player's information on initial login.
 */
 void CUser::SendMyInfo()
-{//BPKOY
+{
 	C3DMap* pMap = GetMap();
 	CKnights* pKnights = nullptr;
 
@@ -1379,7 +1379,7 @@ void CUser::RecvUserExp(Packet & pkt)
 */
 void CUser::ExpChange(int64 iExp)
 {	
-	// Stop players level 5 or under frsom losing XP on death.
+	// Stop players level 5 or under from losing XP on death.
 	if ((GetLevel() < 6 && iExp < 0)
 		// Stop players in the war zone (TO-DO: Add other war zones) from losing XP on death.
 			|| (GetMap()->isWarZone() && iExp < 0))
@@ -1397,9 +1397,6 @@ void CUser::ExpChange(int64 iExp)
 		// Add on any additional XP earned because of a global XP event.
 		// NOTE: They officially check to see if the XP is <= 100,000.
 		iExp = iExp * (100 + g_pMain->m_byExpEventAmount) / 100;
-
-		if (m_bPremiumType != 0)
-			iExp = iExp * (100 + GetPremiumExpPercent()) / 100;
 	}
 
 	bool bLevel = true;
@@ -1452,29 +1449,6 @@ void CUser::ExpChange(int64 iExp)
 	// If we've lost XP, save it for possible refund later.
 	if (iExp < 0)
 		m_iLostExp = -iExp;
-}
-
-/**
-* @brief	Player Premium experience point percent.
-*/
-uint16 CUser::GetPremiumExpPercent() {
-
-	uint16 iBonusExpPercent = 0;
-
-	foreach_stlmap_nolock(itr, g_pMain->m_PremiumItemExpArray) {
-		_PREMIUM_ITEM_EXP *pPremiumItemExp = g_pMain->m_PremiumItemExpArray.GetData(itr->first);
-
-		if (m_bPremiumType == pPremiumItemExp->Type)
-		{
-			if (GetLevel() >= pPremiumItemExp->MinLevel && GetLevel() <= pPremiumItemExp->MaxLevel)
-			{
-				iBonusExpPercent= pPremiumItemExp->sPercent;
-				break;
-			}
-		}
-	}
-
-	return iBonusExpPercent;
 }
 
 /**
@@ -2110,9 +2084,7 @@ void CUser::ItemGet(Packet & pkt)
 	if (nItemID == ITEM_GOLD)
 	{
 		_PARTY_GROUP * pParty;
-
-		int pGold =0;
-
+		uint32 pGold =0;
 		// Not in a party, so all the coins go to us.
 		if (!isInParty()
 			|| (pParty = g_pMain->GetPartyPtr(GetPartyID())) == nullptr)
@@ -2152,7 +2124,7 @@ void CUser::ItemGet(Packet & pkt)
 				if ((*itr)->m_bPremiumType != 0)
 					pGold = coins * (100 + g_pMain->m_PremiumItemArray.GetData((*itr)->m_bPremiumType)->NoahPercent) / 100;
 
-				(*itr)->GoldGain(coins, false, true);
+				(*itr)->GoldGain(pGold, false, true);
 
 				// Let each player know they received coins.
 				result.clear();
@@ -3006,47 +2978,69 @@ void CUser::OperatorCommand(Packet & pkt)
 
 	std::string strUserID;
 	uint8 opcode;
+	bool bIsOnline = false;
+	std::string sNoticeMessage;
 	pkt >> opcode >> strUserID;
 
 	if (strUserID.empty() || strUserID.size() > MAX_ID_SIZE)
 		return;
 
 	CUser *pUser = g_pMain->GetUserPtr(strUserID, TYPE_CHARACTER);
-	if (pUser == nullptr)
-		return;
 
-	std::string sNoticeMessage;
+	if (pUser == nullptr)
+		bIsOnline = false;
+	else
+		bIsOnline = true;
 
 	switch (opcode)
 	{
 	case OPERATOR_ARREST:
-		ZoneChange(pUser->GetZoneID(), pUser->m_curx, pUser->m_curz);
+		if (bIsOnline)
+			ZoneChange(pUser->GetZoneID(), pUser->m_curx, pUser->m_curz);
 		break;
 	case OPERATOR_SUMMON:
-		pUser->ZoneChange(GetZoneID(), m_curx, m_curz);
+		if (bIsOnline)
+			pUser->ZoneChange(GetZoneID(), m_curx, m_curz);
 		break;
 	case OPERATOR_CUTOFF:
-		pUser->Disconnect();
+		if (bIsOnline)
+			pUser->Disconnect();
 		break;
 	case OPERATOR_BAN:
 	case OPERATOR_BAN_ACCOUNT: // ban account is meant to call a proc to do so
-		pUser->m_bAuthority = AUTHORITY_BANNED;
-		pUser->Disconnect();
+		if (bIsOnline)  {
+			pUser->m_bAuthority = AUTHORITY_BANNED;
+			pUser->Disconnect();
+		} else {
+			g_DBAgent.UpdateUserAuthority(strUserID,AUTHORITY_BANNED);
+		}
 		sNoticeMessage = string_format("%s has been banned..!", pUser->GetName().c_str());
 		break;
 	case OPERATOR_MUTE:
-		pUser->m_bAuthority = AUTHORITY_MUTED;
+		if (bIsOnline)
+			pUser->m_bAuthority = AUTHORITY_MUTED;
+		else
+			g_DBAgent.UpdateUserAuthority(strUserID,AUTHORITY_MUTED);
 		sNoticeMessage = string_format("%s has been muted..!", pUser->GetName().c_str());
 		break;
 	case OPERATOR_DISABLE_ATTACK:
-		pUser->m_bAuthority = AUTHORITY_ATTACK_DISABLED;
+		if (bIsOnline) 
+			pUser->m_bAuthority = AUTHORITY_ATTACK_DISABLED;
+		else
+			g_DBAgent.UpdateUserAuthority(strUserID,AUTHORITY_ATTACK_DISABLED);
 		sNoticeMessage = string_format("%s has been disabled attack..!", pUser->GetName().c_str());
 		break;
 	case OPERATOR_ENABLE_ATTACK:
-		pUser->m_bAuthority = AUTHORITY_PLAYER;
+		if (bIsOnline)
+			pUser->m_bAuthority = AUTHORITY_PLAYER;
+		else
+			g_DBAgent.UpdateUserAuthority(strUserID,AUTHORITY_PLAYER);
 		sNoticeMessage = string_format("%s has been enabled attack..!", pUser->GetName().c_str());
 	case OPERATOR_UNMUTE:
-		pUser->m_bAuthority = AUTHORITY_PLAYER;
+		if (bIsOnline)
+			pUser->m_bAuthority = AUTHORITY_PLAYER;
+		else
+			g_DBAgent.UpdateUserAuthority(strUserID,AUTHORITY_PLAYER);
 		sNoticeMessage = string_format("%s has been unmuted..!", pUser->GetName().c_str());
 		break;
 	}
@@ -4021,7 +4015,6 @@ void CUser::OnDeath(Unit *pKiller)
 
 			ExpChange(-nExpLost);
 		}
-
 		else
 		{
 			CUser *pUser = TO_USER(pKiller);

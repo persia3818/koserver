@@ -8,85 +8,85 @@
 // define global functions to be called from Lua (e.g. myrand())
 #if !defined(USE_ORIGINAL_QUESTS)
 DEFINE_LUA_FUNCTION_TABLE(g_globalFunctions, 
-	MAKE_LUA_FUNCTION(CheckPercent)
-);
+						  MAKE_LUA_FUNCTION(CheckPercent)
+						  );
 #else
 DEFINE_LUA_FUNCTION_TABLE(g_globalFunctions,
-MAKE_LUA_FUNCTION(CheckPercent)
-MAKE_LUA_FUNCTION(HowmuchItem)
-MAKE_LUA_FUNCTION(ShowMap)
-MAKE_LUA_FUNCTION(CheckNation)
-MAKE_LUA_FUNCTION(CheckClass)
-MAKE_LUA_FUNCTION(CheckLevel)
-MAKE_LUA_FUNCTION(CheckSkillPoint)
-MAKE_LUA_FUNCTION(SaveEvent)
-MAKE_LUA_FUNCTION(CheckExchange)
-MAKE_LUA_FUNCTION(RunExchange)
-MAKE_LUA_FUNCTION(SearchQuest)
-MAKE_LUA_FUNCTION(NpcMsg)
-MAKE_LUA_FUNCTION(ShowEffect)
-MAKE_LUA_FUNCTION(ShowNpcEffect)
-MAKE_LUA_FUNCTION(ExistMonsterQuestSub)
-MAKE_LUA_FUNCTION(PromoteKnight)
-MAKE_LUA_FUNCTION(CheckClanGrade)
-MAKE_LUA_FUNCTION(CheckLoyalty)
-MAKE_LUA_FUNCTION(SelectMsg)
-MAKE_LUA_FUNCTION(CastSkill)
-/*New Quest*/
-MAKE_LUA_FUNCTION(GetName)
-MAKE_LUA_FUNCTION(GetAccountName)
-MAKE_LUA_FUNCTION(GetZoneID)
-MAKE_LUA_FUNCTION(GetX)
-MAKE_LUA_FUNCTION(GetY)
-MAKE_LUA_FUNCTION(GetZ)
-MAKE_LUA_FUNCTION(GetNation)
-MAKE_LUA_FUNCTION(GetLevel)
-MAKE_LUA_FUNCTION(GetCoins)
-MAKE_LUA_FUNCTION(GetInnCoins)
-MAKE_LUA_FUNCTION(GetLoyalty)
-MAKE_LUA_FUNCTION(GetMonthlyLoyalty)
-MAKE_LUA_FUNCTION(GetManner)
-MAKE_LUA_FUNCTION(isWarrior)
-MAKE_LUA_FUNCTION(isRogue)
-MAKE_LUA_FUNCTION(isMage)
-MAKE_LUA_FUNCTION(isPriest)
-MAKE_LUA_FUNCTION(isInClan)
-MAKE_LUA_FUNCTION(isClanLeader)
-MAKE_LUA_FUNCTION(isInParty)
-MAKE_LUA_FUNCTION(isPartyLeader)
-// Shortcuts for lazy people
-MAKE_LUA_FUNCTION(hasCoins)
-MAKE_LUA_FUNCTION(hasInnCoins)
-MAKE_LUA_FUNCTION(hasLoyalty)
-MAKE_LUA_FUNCTION(hasMonthlyLoyalty)
-MAKE_LUA_FUNCTION(hasManner)
-// Here lie the useful methods.
-MAKE_LUA_FUNCTION(GiveItem)
-MAKE_LUA_FUNCTION(RobItem)
-MAKE_LUA_FUNCTION(CheckExistItem)
-MAKE_LUA_FUNCTION(GoldGain)
-MAKE_LUA_FUNCTION(GoldLose)
-MAKE_LUA_FUNCTION(ExpChange)
-MAKE_LUA_FUNCTION(GiveLoyalty)
-MAKE_LUA_FUNCTION(RobLoyalty)
-MAKE_LUA_FUNCTION(NpcSay) // dialog
-MAKE_LUA_FUNCTION(CheckWeight)
-MAKE_LUA_FUNCTION(isRoomForItem) // FindSlotForItem()
-MAKE_LUA_FUNCTION(SendNameChange)
-MAKE_LUA_FUNCTION(ResetSkillPoints) // AllSkillPointChange(1)
-MAKE_LUA_FUNCTION(ResetStatPoints) // AllStatPointChange(1)
-MAKE_LUA_FUNCTION(PromoteUserNovice)
-MAKE_LUA_FUNCTION(PromoteUser)
-MAKE_LUA_FUNCTION(RobAllItemParty)
-MAKE_LUA_FUNCTION(ZoneChange)
-MAKE_LUA_FUNCTION(ZoneChangeParty)
-MAKE_LUA_FUNCTION(ZoneChangeClan)
-MAKE_LUA_FUNCTION(KissUser)
-MAKE_LUA_FUNCTION(ChangeManner)
-MAKE_LUA_FUNCTION(GetClass)	
-MAKE_LUA_FUNCTION(CheckKnight)
-MAKE_LUA_FUNCTION(CheckStatPoint) 
-);
+						  MAKE_LUA_FUNCTION(CheckPercent)
+						  MAKE_LUA_FUNCTION(HowmuchItem)
+						  MAKE_LUA_FUNCTION(ShowMap)
+						  MAKE_LUA_FUNCTION(CheckNation)
+						  MAKE_LUA_FUNCTION(CheckClass)
+						  MAKE_LUA_FUNCTION(CheckLevel)
+						  MAKE_LUA_FUNCTION(CheckSkillPoint)
+						  MAKE_LUA_FUNCTION(SaveEvent)
+						  MAKE_LUA_FUNCTION(CheckExchange)
+						  MAKE_LUA_FUNCTION(RunExchange)
+						  MAKE_LUA_FUNCTION(SearchQuest)
+						  MAKE_LUA_FUNCTION(NpcMsg)
+						  MAKE_LUA_FUNCTION(ShowEffect)
+						  MAKE_LUA_FUNCTION(ShowNpcEffect)
+						  MAKE_LUA_FUNCTION(ExistMonsterQuestSub)
+						  MAKE_LUA_FUNCTION(PromoteKnight)
+						  MAKE_LUA_FUNCTION(CheckClanGrade)
+						  MAKE_LUA_FUNCTION(CheckLoyalty)
+						  MAKE_LUA_FUNCTION(SelectMsg)
+						  MAKE_LUA_FUNCTION(CastSkill)
+						  /*New Quest*/
+						  MAKE_LUA_FUNCTION(GetName)
+						  MAKE_LUA_FUNCTION(GetAccountName)
+						  MAKE_LUA_FUNCTION(GetZoneID)
+						  MAKE_LUA_FUNCTION(GetX)
+						  MAKE_LUA_FUNCTION(GetY)
+						  MAKE_LUA_FUNCTION(GetZ)
+						  MAKE_LUA_FUNCTION(GetNation)
+						  MAKE_LUA_FUNCTION(GetLevel)
+						  MAKE_LUA_FUNCTION(GetCoins)
+						  MAKE_LUA_FUNCTION(GetInnCoins)
+						  MAKE_LUA_FUNCTION(GetLoyalty)
+						  MAKE_LUA_FUNCTION(GetMonthlyLoyalty)
+						  MAKE_LUA_FUNCTION(GetManner)
+						  MAKE_LUA_FUNCTION(isWarrior)
+						  MAKE_LUA_FUNCTION(isRogue)
+						  MAKE_LUA_FUNCTION(isMage)
+						  MAKE_LUA_FUNCTION(isPriest)
+						  MAKE_LUA_FUNCTION(isInClan)
+						  MAKE_LUA_FUNCTION(isClanLeader)
+						  MAKE_LUA_FUNCTION(isInParty)
+						  MAKE_LUA_FUNCTION(isPartyLeader)
+						  // Shortcuts for lazy people
+						  MAKE_LUA_FUNCTION(hasCoins)
+						  MAKE_LUA_FUNCTION(hasInnCoins)
+						  MAKE_LUA_FUNCTION(hasLoyalty)
+						  MAKE_LUA_FUNCTION(hasMonthlyLoyalty)
+						  MAKE_LUA_FUNCTION(hasManner)
+						  // Here lie the useful methods.
+						  MAKE_LUA_FUNCTION(GiveItem)
+						  MAKE_LUA_FUNCTION(RobItem)
+						  MAKE_LUA_FUNCTION(CheckExistItem)
+						  MAKE_LUA_FUNCTION(GoldGain)
+						  MAKE_LUA_FUNCTION(GoldLose)
+						  MAKE_LUA_FUNCTION(ExpChange)
+						  MAKE_LUA_FUNCTION(GiveLoyalty)
+						  MAKE_LUA_FUNCTION(RobLoyalty)
+						  MAKE_LUA_FUNCTION(NpcSay) // dialog
+						  MAKE_LUA_FUNCTION(CheckWeight)
+						  MAKE_LUA_FUNCTION(isRoomForItem) // FindSlotForItem()
+						  MAKE_LUA_FUNCTION(SendNameChange)
+						  MAKE_LUA_FUNCTION(ResetSkillPoints) // AllSkillPointChange(1)
+						  MAKE_LUA_FUNCTION(ResetStatPoints) // AllStatPointChange(1)
+						  MAKE_LUA_FUNCTION(PromoteUserNovice)
+						  MAKE_LUA_FUNCTION(PromoteUser)
+						  MAKE_LUA_FUNCTION(RobAllItemParty)
+						  MAKE_LUA_FUNCTION(ZoneChange)
+						  MAKE_LUA_FUNCTION(ZoneChangeParty)
+						  MAKE_LUA_FUNCTION(ZoneChangeClan)
+						  MAKE_LUA_FUNCTION(KissUser)
+						  MAKE_LUA_FUNCTION(ChangeManner)
+						  MAKE_LUA_FUNCTION(GetClass)	
+						  MAKE_LUA_FUNCTION(CheckKnight)
+						  MAKE_LUA_FUNCTION(CheckStatPoint) 
+						  );
 #endif
 
 CLuaEngine::CLuaEngine() : m_lock(new RWLock())
@@ -98,10 +98,10 @@ CLuaScript::CLuaScript() : m_luaState(nullptr), m_lock(new FastMutex())
 }
 
 /**
- * @brief	Initialise Lua scripts.
- *
- * @return	true if it succeeds, false if it fails.
- */
+* @brief	Initialise Lua scripts.
+*
+* @return	true if it succeeds, false if it fails.
+*/
 bool CLuaEngine::Initialise()
 {
 	printf("Starting up Lua engine in %s mode (built with %s)...\n", LUA_ENGINE_MODE, LUA_RELEASE);
@@ -110,10 +110,10 @@ bool CLuaEngine::Initialise()
 }
 
 /**
- * @brief	Initialises a Lua script state.
- *
- * @return	true if it succeeds, false if it fails.
- */
+* @brief	Initialises a Lua script state.
+*
+* @return	true if it succeeds, false if it fails.
+*/
 bool CLuaScript::Initialise()
 {
 	FastGuard lock(m_lock);
@@ -155,28 +155,28 @@ bool CLuaScript::Initialise()
 }
 
 /**
- * @brief	TO-DO: Pull an available script for use.
- *
- * @return	null if it fails, else.
- */
+* @brief	TO-DO: Pull an available script for use.
+*
+* @return	null if it fails, else.
+*/
 CLuaScript * CLuaEngine::SelectAvailableScript()
 {
 	return &m_luaScript;
 }
 
 /**
- * @brief	Attempts to executes a Lua script.
- * 			If it has not been compiled already, it will compile the script
- * 			and cache it in the internal script map.
- *
- * @param	pUser		   	The user running the script.
- * @param	pNpc		   	The NPC attached to the script.
- * @param	nEventID	   	Identifier for the event.
- * @param	bSelectedReward	The reward selected, if applicable.
- * @param	filename	   	The script's filename.
- *
- * @return	true if it succeeds, false if it fails.
- */
+* @brief	Attempts to executes a Lua script.
+* 			If it has not been compiled already, it will compile the script
+* 			and cache it in the internal script map.
+*
+* @param	pUser		   	The user running the script.
+* @param	pNpc		   	The NPC attached to the script.
+* @param	nEventID	   	Identifier for the event.
+* @param	bSelectedReward	The reward selected, if applicable.
+* @param	filename	   	The script's filename.
+*
+* @return	true if it succeeds, false if it fails.
+*/
 bool CLuaEngine::ExecuteScript(CUser * pUser, CNpc * pNpc, int32 nEventID, int8 bSelectedReward, const char * filename)
 {
 	ScriptBytecodeMap::iterator itr;
@@ -231,13 +231,13 @@ bool CLuaEngine::ExecuteScript(CUser * pUser, CNpc * pNpc, int32 nEventID, int8 
 }
 
 /**
- * @brief	Attempts to compile a Lua script.
- *
- * @param	filename	Filename of the script.
- * @param	buffer  	The buffer to store the script's compiled bytecode.
- *
- * @return	true if it succeeds, false if it fails.
- */
+* @brief	Attempts to compile a Lua script.
+*
+* @param	filename	Filename of the script.
+* @param	buffer  	The buffer to store the script's compiled bytecode.
+*
+* @return	true if it succeeds, false if it fails.
+*/
 bool CLuaScript::CompileScript(const char * filename, BytecodeBuffer & buffer)
 {
 	// ensure that we wait until the last user's done executing their script.
@@ -278,15 +278,15 @@ bool CLuaScript::CompileScript(const char * filename, BytecodeBuffer & buffer)
 }
 
 /**
- * @brief	Callback for lua_dump() to read in each chunk of bytecode.
- *
- * @param	L	  	The associated lua_State.
- * @param	bytes 	The chunk of bytecode being dumped.
- * @param	len   	The number of bytes of bytecode in this chunk.
- * @param	buffer	The buffer to store this chunk of bytecode in.
- *
- * @return	The bytecode chunk.
- */
+* @brief	Callback for lua_dump() to read in each chunk of bytecode.
+*
+* @param	L	  	The associated lua_State.
+* @param	bytes 	The chunk of bytecode being dumped.
+* @param	len   	The number of bytes of bytecode in this chunk.
+* @param	buffer	The buffer to store this chunk of bytecode in.
+*
+* @return	The bytecode chunk.
+*/
 int CLuaScript::LoadBytecodeChunk(lua_State * L, uint8 * bytes, size_t len, BytecodeBuffer * buffer)
 {
 	for (size_t i = 0; i < len; i++)
@@ -296,17 +296,17 @@ int CLuaScript::LoadBytecodeChunk(lua_State * L, uint8 * bytes, size_t len, Byte
 }
 
 /**
- * @brief	Executes the Lua script from bytecode.
- *
- * @param	pUser		   	The user running the script.
- * @param	pNpc		   	The NPC attached to the script.
- * @param	nEventID	   	Identifier for the event.
- * @param	bSelectedReward	The reward selected, if applicable.
- * @param	filename	   	The script's filename for debugging purposes.
- * @param	bytecode	   	The script's compiled bytecode.
- *
- * @return	true if it succeeds, false if it fails.
- */
+* @brief	Executes the Lua script from bytecode.
+*
+* @param	pUser		   	The user running the script.
+* @param	pNpc		   	The NPC attached to the script.
+* @param	nEventID	   	Identifier for the event.
+* @param	bSelectedReward	The reward selected, if applicable.
+* @param	filename	   	The script's filename for debugging purposes.
+* @param	bytecode	   	The script's compiled bytecode.
+*
+* @return	true if it succeeds, false if it fails.
+*/
 bool CLuaScript::ExecuteScript(CUser * pUser, CNpc * pNpc, int32 nEventID, int8 bSelectedReward, const char * filename, BytecodeBuffer & bytecode)
 {
 	// Ensure that we wait until the last user's done executing their script.
@@ -398,11 +398,11 @@ bool CLuaScript::ExecuteScript(CUser * pUser, CNpc * pNpc, int32 nEventID, int8 
 }
 
 /**
- * @brief	Retrieves the associated error for a script load operation.
- *
- * @param	err			The error.
- * @param	filename	Filename of the file.
- */
+* @brief	Retrieves the associated error for a script load operation.
+*
+* @param	err			The error.
+* @param	filename	Filename of the file.
+*/
 void CLuaScript::RetrieveLoadError(int err, const char * filename)
 {
 	switch (err)
@@ -433,8 +433,8 @@ void CLuaScript::RetrieveLoadError(int err, const char * filename)
 }
 
 /**
- * @brief	Waits for & shuts down the current Lua script.
- */
+* @brief	Waits for & shuts down the current Lua script.
+*/
 void CLuaScript::Shutdown()
 {
 	m_lock->Acquire();
@@ -445,8 +445,8 @@ void CLuaScript::Shutdown()
 }
 
 /**
- * @brief	Shuts down the Lua script pool.
- */
+* @brief	Shuts down the Lua script pool.
+*/
 void CLuaEngine::Shutdown()
 {
 	m_lock->AcquireWriteLock();

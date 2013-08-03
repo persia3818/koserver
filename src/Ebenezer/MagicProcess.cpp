@@ -25,23 +25,6 @@ void CMagicProcess::MagicPacket(Packet & pkt, Unit * pCaster /*= nullptr*/)
 		return;
 	}
 
-	if (instance.bSendSkillFailed)
-		instance.bSendSkillFailed = false;
-
-	if (TO_USER(pCaster)->isPlayer()) {
-		if (instance.nSkillID < 400000) {
-			if (TO_USER(pCaster)->m_LastSkillID != instance.nSkillID &&  instance.pSkill->bType[0] == TO_USER(pCaster)->m_LastSkillType) {
-				if ((UNIXTIME - TO_USER(pCaster)->m_LastSkillUseTime) <= PLAYER_SKILL_REQUEST_INTERVAL) {
-					instance.bSendSkillFailed = true;
-				}
-			}
-		} else if (TO_USER(pCaster)->m_LastSkillID == instance.nSkillID) {
-			if ((UNIXTIME - TO_USER(pCaster)->m_LastSkillUseTime) * 1000 <= (instance.pSkill->sReCastTime * 100) && instance.pSkill->sReCastTime != 0) {
-				instance.bSendSkillFailed = true;
-			}
-		}
-	}
-
 	pkt >> instance.sCasterID >> instance.sTargetID
 		>> instance.sData[0] >> instance.sData[1] >> instance.sData[2] >> instance.sData[3]
 	>> instance.sData[4] >> instance.sData[5] >> instance.sData[6];
@@ -51,6 +34,27 @@ void CMagicProcess::MagicPacket(Packet & pkt, Unit * pCaster /*= nullptr*/)
 		&& (instance.sCasterID >= NPC_BAND 
 		|| instance.sCasterID != pCaster->GetID()))
 		return;
+
+	if (instance.bSendSkillFailed)
+		instance.bSendSkillFailed = false;
+
+	CUser * pUser = TO_USER(pCaster);
+
+	if (pUser != nullptr) {
+		if (pUser->isPlayer()) {
+			if (instance.nSkillID < 400000) {
+				if (pUser->m_LastSkillID != instance.nSkillID &&  instance.pSkill->bType[0] == pUser->m_LastSkillType) {
+					if ((UNIXTIME - pUser->m_LastSkillUseTime) <= PLAYER_SKILL_REQUEST_INTERVAL) {
+						instance.bSendSkillFailed = true;
+					}
+				}
+			} else if (pUser->m_LastSkillID == instance.nSkillID) {
+				if ((UNIXTIME - pUser->m_LastSkillUseTime) * 1000 <= (instance.pSkill->sReCastTime * 100) && instance.pSkill->sReCastTime != 0) {
+					instance.bSendSkillFailed = true;
+				}
+			}
+		}
+	}
 
 	instance.bIsRecastingSavedMagic = false;
 	instance.Run();

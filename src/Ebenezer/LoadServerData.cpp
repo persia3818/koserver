@@ -48,7 +48,6 @@
 #include "../shared/database/PremiumItemSet.h"
 #include "../shared/database/PremiumItemExpSet.h"
 
-
 bool CEbenezerDlg::LoadItemTable()
 {
 	LOAD_TABLE(CItemTableSet, g_DBAgent.m_GameDB, &m_ItemtableArray, false);

@@ -113,10 +113,13 @@ void MagicInstance::Run()
 
 		if (bInitialResult)
 		{
-			if (nSkillID < 400000  && TO_USER(pSkillCaster)->isPlayer()) {
-				TO_USER(pSkillCaster)->m_LastSkillID = nSkillID;
-				TO_USER(pSkillCaster)->m_LastSkillUseTime = UNIXTIME;
-				TO_USER(pSkillCaster)->m_LastSkillType = pSkill->bType[0];
+			CUser * pCaster = TO_USER(pSkillCaster);
+			if (pCaster != nullptr){
+				if (nSkillID < 400000  && pCaster->isPlayer()) {
+					pCaster->m_LastSkillID = nSkillID;
+					pCaster->m_LastSkillUseTime = UNIXTIME;
+					pCaster->m_LastSkillType = pSkill->bType[0];
+				}
 			}
 
 			ExecuteSkill(pSkill->bType[1]);
@@ -1877,13 +1880,13 @@ bool MagicInstance::ExecuteType8()
 				g_pMain->Send_AIServer(&result);
 			} break;
 
-		case 12:	// Summon a target within the zone.
+		case 12:	// Summon a target within the zone.	
 			// Cannot teleport users from other zones.
 			if (pSkillCaster->GetZoneID() != pTUser->GetZoneID()
 				// Cannot teleport ourselves.
 					|| pSkillCaster == pSkillTarget)
 					goto packet_send;
-			//BPKOY
+
 			// Send the packet to the target.
 			sData[1] = 1;
 			BuildAndSendSkillPacket(*itr, true, sCasterID, (*itr)->GetID(), bOpcode, nSkillID, sData); 

@@ -330,12 +330,15 @@ short CUser::GetDamage(Unit *pTarget, _MAGIC_TABLE *pSkill /*= nullptr*/, bool b
 				damage = (short)(((temp_hit * 0.6f) + 1.0f * random) + 0.99f);
 		}
 		else
-		{	// Normal Hit.	
+		{	// Normal Hit.
+
+#ifdef EBENEZER
 			if (isGM() && !pTarget->isPlayer())
 			{
 				damage = 30000;
 				return damage;
 			}
+#endif
 
 			damage = temp_hit_B;
 			random = myrand(0, damage);
@@ -343,6 +346,19 @@ short CUser::GetDamage(Unit *pTarget, _MAGIC_TABLE *pSkill /*= nullptr*/, bool b
 		}		
 
 		break;
+	case FAIL:
+		if (pSkill != nullptr)
+		{	 // Skill Hit.
+
+		} else { // Normal Hit.
+#ifdef EBENEZER
+			if (isGM() && !pTarget->isPlayer())
+			{
+				damage = 30000;
+				return damage;
+			}
+#endif
+		}
 	}	
 
 	// Apply item bonuses

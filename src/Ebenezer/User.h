@@ -845,7 +845,6 @@ public:
 	void SendMyInfo();
 	void SendServerChange(std::string & ip, uint8 bInit);
 	void Send2AI_UserUpdateInfo(bool initialInfo = false);
-	uint16 GetPremiumExpPercent();
 
 	virtual void GetInOut(Packet & result, uint8 bType);
 	void UserInOut(uint8 bType);

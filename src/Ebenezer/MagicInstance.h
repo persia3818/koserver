@@ -79,13 +79,13 @@ public:
 	Unit	*pSkillCaster, *pSkillTarget;
 	int16	sData[7];
 	bool	bSendFail;	// When enabled (enabled by default), sends fail packets to the client.
-	bool bSendSkillFailed;
 	// This is not preferable in cases like scripted casts, as the script should handle the failure.
 	bool	bIsRecastingSavedMagic;
 	bool	bIsItemProc;
 	bool	bInstantCast;
 
 	bool	bSkillSuccessful;
+	bool	bSendSkillFailed;
 
 	uint32	nConsumeItem;
 

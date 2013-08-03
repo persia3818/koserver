@@ -73,7 +73,7 @@ public:
 	static uint32 THREADCALL Timer_UpdateConcurrent(void * lpParam);
 
 	void ReqUpdateConcurrent();
-	
+
 	void SendFlyingSantaOrAngel();
 	void BattleZoneCurrentUsers();
 	void GetCaptainUserPtr();
@@ -339,11 +339,11 @@ public:
 	ServerArray			m_ServerGroupArray;
 
 	NameMap		m_accountNameMap,
-				m_characterNameMap;
+		m_characterNameMap;
 
 	FastMutex	m_accountNameLock,
-				m_characterNameLock,
-				m_questNpcLock;
+		m_characterNameLock,
+		m_questNpcLock;
 
 	// Controlled weather events set by Kings
 	uint8 m_byKingWeatherEvent;

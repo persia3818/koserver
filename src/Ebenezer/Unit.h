@@ -33,8 +33,8 @@ enum AttackType { AttackTypeNone, AttackTypePhysical, AttackTypeMagic };
 enum UnitType { UnitPlayer, UnitNPC, UnitPet };
 
 /**
-* This class is a bridge between the CNpc & CUser classes
-**/
+ * This class is a bridge between the CNpc & CUser classes
+ **/
 class Unit : public ReferenceObject
 {
 public:
@@ -177,8 +177,8 @@ public:
 	void OnDeath(Unit *pKiller);
 	void SendDeathAnimation(Unit *pKiller = nullptr);
 
-	// public for the moment
-	// protected:
+// public for the moment
+// protected:
 	KOMap  * m_pMap;
 	CRegion * m_pRegion;
 
@@ -210,15 +210,15 @@ public:
 
 	// Item calculated elemental resistances.
 	uint16	m_sFireR, m_sColdR, m_sLightningR, 
-		m_sMagicR, m_sDiseaseR, m_sPoisonR;
+			m_sMagicR, m_sDiseaseR, m_sPoisonR;
 
 	// Additional elemental resistance amounts from skills (note: NOT percentages)
 	uint8	m_bAddFireR, m_bAddColdR, m_bAddLightningR,
-		m_bAddMagicR, m_bAddDiseaseR, m_bAddPoisonR;
+			m_bAddMagicR, m_bAddDiseaseR, m_bAddPoisonR;
 
 	// Elemental resistance percentages (adjusted by debuffs)
 	uint8	m_bPctFireR, m_bPctColdR, m_bPctLightningR,
-		m_bPctMagicR, m_bPctDiseaseR, m_bPctPoisonR;
+			m_bPctMagicR, m_bPctDiseaseR, m_bPctPoisonR;
 
 	uint8	m_bMagicDamageReduction;
 	uint8	m_bManaAbsorb;
