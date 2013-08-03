@@ -485,6 +485,21 @@
     <ClInclude Include="..\shared\database\ItemUpgradeSet.h">
       <Filter>Database</Filter>
     </ClInclude>
+    <ClInclude Include="..\shared\database\SetItemTableSet.h">
+      <Filter>Database</Filter>
+    </ClInclude>
+    <ClInclude Include="..\shared\database\ItemOpSet.h">
+      <Filter>Database</Filter>
+    </ClInclude>
+    <ClInclude Include="..\shared\database\MonsterSummonListSet.h">
+      <Filter>Database</Filter>
+    </ClInclude>
+    <ClInclude Include="..\shared\database\PremiumItemExpSet.h">
+      <Filter>Database</Filter>
+    </ClInclude>
+    <ClInclude Include="..\shared\database\PremiumItemSet.h">
+      <Filter>Database</Filter>
+    </ClInclude>
     <ClInclude Include="..\shared\ListenSocketWin32.h">
       <Filter>Shared\Networking</Filter>
     </ClInclude>
