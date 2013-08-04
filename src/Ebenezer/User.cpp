@@ -2110,7 +2110,7 @@ void CUser::ItemGet(Packet & pkt)
 	if (nItemID == ITEM_GOLD)
 	{
 		_PARTY_GROUP * pParty;
-		uint32 pGold =0;
+		uint32 pGold = 0;
 		// Not in a party, so all the coins go to us.
 		if (!isInParty()
 			|| (pParty = g_pMain->GetPartyPtr(GetPartyID())) == nullptr)
@@ -2118,6 +2118,8 @@ void CUser::ItemGet(Packet & pkt)
 			// NOTE: Coins have been checked already.
 			if (m_bPremiumType != 0)
 				pGold = pItem->sCount * (100 + g_pMain->m_PremiumItemArray.GetData(m_bPremiumType)->NoahPercent) / 100;
+			else
+				pGold = pItem->sCount;
 
 			GoldGain(pGold, false, true);
 			result << uint8(LootSolo) << nBundleID << int8(-1) << nItemID << pItem->sCount << GetCoins();
@@ -2149,6 +2151,8 @@ void CUser::ItemGet(Packet & pkt)
 
 				if ((*itr)->m_bPremiumType != 0)
 					pGold = coins * (100 + g_pMain->m_PremiumItemArray.GetData((*itr)->m_bPremiumType)->NoahPercent) / 100;
+				else
+					pGold = coins;
 
 				(*itr)->GoldGain(pGold, false, true);
 
