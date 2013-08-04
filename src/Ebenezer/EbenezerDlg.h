@@ -301,6 +301,7 @@ public:
 	MonsterSummonListArray	m_MonsterSummonList;
 	PremiumItemArray		m_PremiumItemArray;
 	PremiumItemExpArray		m_PremiumItemExpArray;
+	_PVP_RANKINGS				m_PVPRankings[MAX_USER];
 
 	Atomic<uint16>			m_sPartyIndex;
 	short	m_sZoneCount;							// AI Server 재접속시 사용
@@ -331,6 +332,9 @@ public:
 	std::string	m_strPermanentChat;
 
 	uint8 m_bSantaOrAngel;
+	short	m_sRankInfoIndex;
+	short m_sKarus;
+	short m_sHuman;
 
 	// zone server info
 	int					m_nServerNo, m_nServerGroupNo;
@@ -372,6 +376,7 @@ private:
 public:
 	void InitServerCommands();
 	void CleanupServerCommands();
+	_PVP_RANKINGS* PVPRankInfo(_PVP_RANKINGS m_PVPRankings[], uint16 sNation, uint8 sZoneID);
 
 	static ServerCommandTable s_commandTable;
 

@@ -384,10 +384,10 @@ void CUser::ReqRemoveFriend(Packet & pkt)
 }
 
 /**
- * @brief	Handles name change requests.
- *
- * @param	pkt	The packet.
- */
+* @brief	Handles name change requests.
+*
+* @param	pkt	The packet.
+*/
 void CUser::ReqChangeName(Packet & pkt)
 {
 	NameChangeOpcode response;
@@ -423,10 +423,10 @@ void CUser::ReqChangeName(Packet & pkt)
 }
 
 /**
- * @brief	Handles clan cape update requests.
- *
- * @param	pkt	The packet.
- */
+* @brief	Handles clan cape update requests.
+*
+* @param	pkt	The packet.
+*/
 void CUser::ReqChangeCape(Packet & pkt)
 {
 	uint16 sClanID, sCapeID;
@@ -441,6 +441,8 @@ void CUser::ReqUserLogOut()
 	g_DBAgent.UpdateUser(GetName(), UPDATE_LOGOUT, this);
 	g_DBAgent.UpdateWarehouseData(GetAccountName(), UPDATE_LOGOUT, this);
 	g_DBAgent.UpdateSavedMagic(this);
+
+	PlayerRanking(m_bZone, true);
 
 	if (m_bLogout != 2)	// zone change logout
 		g_DBAgent.AccountLogout(GetAccountName());
@@ -549,9 +551,9 @@ void CKnightsManager::ReqCreateKnights(CUser *pUser, Packet & pkt)
 	pUser->m_bFame = CHIEF;
 
 	result	<< uint8(1) << pUser->GetSocketID() 
-			<< sClanID << strKnightsName
-			<< pKnights->m_byGrade << pKnights->m_byRanking
-			<< pUser->m_iGold;
+		<< sClanID << strKnightsName
+		<< pKnights->m_byGrade << pKnights->m_byRanking
+		<< pUser->m_iGold;
 
 	pUser->SendToRegion(&result);
 }
@@ -626,7 +628,7 @@ void CKnightsManager::ReqAllKnightsMember(CUser *pUser, Packet & pkt)
 	result << uint8(1);
 	nOffset = result.wpos(); // store offset
 	result	<< uint16(0) // placeholder for packet length 
-			<< uint16(0); // placeholder for user count
+		<< uint16(0); // placeholder for user count
 
 	sCount = g_DBAgent.LoadKnightsAllMembers(sClanID, result);
 	if (sCount > MAX_CLAN_USERS)
@@ -716,17 +718,17 @@ void CKnightsManager::ReqRegisterClanSymbol(CUser *pUser, Packet & pkt)
 
 		sErrorCode = 1;
 	} while (0);
-	
+
 	result << sErrorCode << sNewVersion;
 	pUser->Send(&result);
 }
 
 /**
- * @brief	Request a clan's grade (and cape) be updated
- * 			in the database.
- *
- * @param	pkt	The packet.
- */
+* @brief	Request a clan's grade (and cape) be updated
+* 			in the database.
+*
+* @param	pkt	The packet.
+*/
 void CKnightsManager::ReqUpdateGrade(Packet & pkt)
 {
 	uint16 sClanID, sCapeID;
@@ -737,10 +739,10 @@ void CKnightsManager::ReqUpdateGrade(Packet & pkt)
 }
 
 /**
- * @brief	Requests a clan's notice be updated in the database.
- *
- * @param	pkt	The packet.
- */
+* @brief	Requests a clan's notice be updated in the database.
+*
+* @param	pkt	The packet.
+*/
 void CKnightsManager::ReqUpdateClanNotice(Packet & pkt)
 {
 	uint16 sClanID;
@@ -774,12 +776,12 @@ void CUser::ReqBattleEventResult(Packet & pkt)
 #endif
 
 /**
- * @brief	Handles database requests for the King system.
- *
- * @param	pUser	The user making the request, if applicable. 
- * 					nullptr if not.
- * @param	pkt  	The packet.
- */
+* @brief	Handles database requests for the King system.
+*
+* @param	pUser	The user making the request, if applicable. 
+* 					nullptr if not.
+* @param	pkt  	The packet.
+*/
 void CKingSystem::HandleDatabaseRequest(CUser * pUser, Packet & pkt)
 {
 	switch (pkt.read<uint8>())
@@ -795,12 +797,12 @@ void CKingSystem::HandleDatabaseRequest(CUser * pUser, Packet & pkt)
 }
 
 /**
- * @brief	Handles database requests for the election system.
- *
- * @param	pUser	The user making the request, if applicable. 
- * 					nullptr if not.
- * @param	pkt  	The packet.
- */
+* @brief	Handles database requests for the election system.
+*
+* @param	pUser	The user making the request, if applicable. 
+* 					nullptr if not.
+* @param	pkt  	The packet.
+*/
 void CKingSystem::HandleDatabaseRequest_Election(CUser * pUser, Packet & pkt)
 {
 	uint8 opcode;
@@ -808,7 +810,7 @@ void CKingSystem::HandleDatabaseRequest_Election(CUser * pUser, Packet & pkt)
 
 	switch (opcode)
 	{
-	// Special king system/election database requests
+		// Special king system/election database requests
 	case KING_ELECTION:
 		{
 			uint8 byNation, byType;
@@ -873,12 +875,12 @@ void CKingSystem::HandleDatabaseRequest_Election(CUser * pUser, Packet & pkt)
 }
 
 /**
- * @brief	Handles database requests for King commands.
- *
- * @param	pUser	The user making the request, if applicable. 
- * 					nullptr if not.
- * @param	pkt  	The packet.
- */
+* @brief	Handles database requests for King commands.
+*
+* @param	pUser	The user making the request, if applicable. 
+* 					nullptr if not.
+* @param	pkt  	The packet.
+*/
 void CKingSystem::HandleDatabaseRequest_Event(CUser * pUser, Packet & pkt)
 {
 	uint8 opcode, byNation;
@@ -915,7 +917,7 @@ void CUser::ReqSealItem(Packet & pkt)
 	string strSealPasswd;
 
 	pkt >> opcode >> bSealType >> nItemID >> bSrcPos >> strSealPasswd >> bSealResult;
-	
+
 	nItemSerial = GetItem(SLOT_MAX+bSrcPos)->nSerialNum;
 
 	if (!bSealResult)

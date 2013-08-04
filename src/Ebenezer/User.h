@@ -276,6 +276,8 @@ public:
 	int		m_LastSkillID;
 	time_t	m_LastSkillUseTime;
 	int		m_LastSkillType;
+	uint32 m_iLoyaltyDaily;
+	uint16 m_iLoyaltyPremiumBonus;
 
 public:
 	INLINE bool isBanned() { return GetAuthority() == AUTHORITY_BANNED; }
@@ -300,6 +302,7 @@ public:
 	INLINE bool isRogue() { return JobGroupCheck(ClassRogue); }
 	INLINE bool isMage() { return JobGroupCheck(ClassMage); }
 	INLINE bool isPriest() { return JobGroupCheck(ClassPriest); }
+	INLINE bool isRankingPVPZone() {  return GetZoneID() == ZONE_ARDREAM || GetZoneID() == ZONE_RONARK_LAND || GetZoneID() == ZONE_RONARK_LAND_BASE; }
 
 	INLINE bool isBeginner() 
 	{
@@ -826,6 +829,7 @@ public:
 	void ZoneChange(uint16 sNewZone, float x, float z);
 	void ZoneChangeParty(uint16 sNewZone, float x, float z);
 	void ZoneChangeClan(uint16 sNewZone, float x, float z);
+	void PlayerRanking(uint16 ZoneID, bool RemoveInZone = false);
 
 	void SendTargetHP( uint8 echo, int tid, int damage = 0 );
 	bool IsValidSlotPos( _ITEM_TABLE* pTable, int destpos );

@@ -606,6 +606,15 @@ struct _PREMIUM_ITEM_EXP
 	uint16	sPercent;
 };
 
+struct _PVP_RANKINGS 
+{
+	uint16 m_bZone;
+	int16 s_SocketID;
+	uint8 m_bNation;
+	uint32 m_iLoyaltyDaily;
+	uint16 m_iLoyaltyPremiumBonus;
+};
+
 enum BuffType
 {
 	BUFF_TYPE_NONE					= 0,

@@ -249,6 +249,18 @@ void CEbenezerDlg::GetTimeFromIni()
 
 	ini.GetString("AI_SERVER", "IP", "127.0.0.1", m_AIServerIP);
 
+	m_sRankInfoIndex = 0;
+	m_sHuman = 0;
+	m_sKarus = 0;
+
+	for(int w = 0; w < MAX_USER; w++) {
+		m_PVPRankings[w].m_bZone = 0;
+		m_PVPRankings[w].s_SocketID = -1;
+		m_PVPRankings[w].m_bNation = 0;
+		m_PVPRankings[w].m_iLoyaltyDaily = 0;
+		m_PVPRankings[w].m_iLoyaltyPremiumBonus = 0;
+	}
+
 	g_timerThreads.push_back(new Thread(Timer_UpdateGameTime));
 	g_timerThreads.push_back(new Thread(Timer_UpdateSessions));
 	g_timerThreads.push_back(new Thread(Timer_UpdateConcurrent));
@@ -1846,6 +1858,43 @@ void CEbenezerDlg::SendFlyingSantaOrAngel()
 {
 	Packet result(WIZ_SANTA, uint8(m_bSantaOrAngel));
 	Send_All(&result);
+}
+
+_PVP_RANKINGS* CEbenezerDlg::PVPRankInfo(_PVP_RANKINGS* m_PVPRankings, uint16 sNation, uint8 sZoneID)
+{
+	_PVP_RANKINGS PVPRankingsTemp;
+	for (int i = m_sRankInfoIndex - 1; i > 0; i--)
+	{
+		for (int j = 1; j <= i; j++)
+		{
+			if( m_PVPRankings[j - 1].m_iLoyaltyDaily < m_PVPRankings[j].m_iLoyaltyDaily ) {
+				PVPRankingsTemp = m_PVPRankings[j - 1];
+				m_PVPRankings[j - 1] = m_PVPRankings[j];
+				m_PVPRankings[j] = PVPRankingsTemp;
+			}
+		}
+	}
+
+	_PVP_RANKINGS* pPVPRankInfo = new _PVP_RANKINGS();
+
+	int nRank = 0;
+
+	for(int i = 0; i < m_sRankInfoIndex; i++) 
+	{
+		if( m_PVPRankings[i].m_bNation == sNation) {
+			if(m_PVPRankings[i].s_SocketID != -1) {
+				pPVPRankInfo[nRank] = m_PVPRankings[i];
+				nRank++;
+				if(nRank <= 10) {
+					if( sNation == KARUS )
+						m_sKarus = nRank;
+					else if( sNation == ELMORAD ) 
+						m_sHuman = nRank;
+				}
+			}
+		}
+	}
+	return pPVPRankInfo;
 }
 
 CEbenezerDlg::~CEbenezerDlg() 

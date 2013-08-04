@@ -158,6 +158,8 @@ void CUser::Initialize()
 	m_LastSkillID = 0;
 	m_LastSkillUseTime = UNIXTIME;
 	m_LastSkillType = 0;
+	m_iLoyaltyDaily = 0;
+	m_iLoyaltyPremiumBonus = 0;
 }
 
 /**
@@ -566,20 +568,35 @@ void CUser::SendLoyaltyChange(int32 nChangeAmount /*= 0*/, bool bIsKillReward /*
 		else
 			m_iLoyalty += nChangeAmount;
 
-		// We should only apply additional monthly NP when NP was gained as a reward for killing a player.
-		if (bIsKillReward)
+		if (isRankingPVPZone())
 		{
-			if (m_iLoyaltyMonthly + nChangeAmount > LOYALTY_MAX)
-				m_iLoyaltyMonthly = LOYALTY_MAX;
-			else
-				m_iLoyaltyMonthly += nChangeAmount;
+			m_iLoyaltyDaily += nChangeAmount;
+
+			for( int i = 0; i < MAX_USER; i++) {
+				if( g_pMain->m_PVPRankings[i].s_SocketID == GetSocketID()) {
+					g_pMain->m_PVPRankings[i].m_iLoyaltyDaily = m_iLoyaltyDaily;
+					g_pMain->m_PVPRankings[i].m_iLoyaltyPremiumBonus = m_iLoyaltyPremiumBonus;
+					break;
+				}
+			}
 		}
+		//// We should only apply additional monthly NP when NP was gained as a reward for killing a player.
+		//if (bIsKillReward)
+		//{
+		if (m_iLoyaltyMonthly + nChangeAmount > LOYALTY_MAX)
+			m_iLoyaltyMonthly = LOYALTY_MAX;
+		else
+			m_iLoyaltyMonthly += nChangeAmount;
+		//}
 
 		if (bIsKillReward)
 		{
 			if (m_bPremiumType != 0) {
 				m_iLoyalty += g_pMain->m_PremiumItemArray.GetData(m_bPremiumType)->BonusLoyalty;
 				m_iLoyaltyMonthly += g_pMain->m_PremiumItemArray.GetData(m_bPremiumType)->BonusLoyalty;
+
+				if (isRankingPVPZone())
+					m_iLoyaltyPremiumBonus += g_pMain->m_PremiumItemArray.GetData(m_bPremiumType)->BonusLoyalty;
 			}
 		}
 
@@ -821,6 +838,7 @@ void CUser::SendMyInfo()
 		<< m_bIsChicken						// chicken/beginner flag
 		<< m_iMannerPoint;
 
+
 	Send(&result);
 
 	g_pMain->AddCharacterName(this);
@@ -929,6 +947,8 @@ void CUser::SetZoneAbilityChange(uint16 sNewZone)
 	C3DMap * pMap = g_pMain->GetZoneByID(sNewZone);
 	if (pMap == nullptr)
 		return;
+
+	PlayerRanking(sNewZone,false);
 
 	Packet result(WIZ_ZONEABILITY, uint8(1));
 
@@ -1542,6 +1562,9 @@ void CUser::PointChange(Packet & pkt)
 */
 void CUser::HpChange(int amount, Unit *pAttacker /*= nullptr*/, bool bSendToAI /*= true*/) 
 {
+	if (isGM())
+		return;
+
 	Packet result(WIZ_HP_CHANGE);
 	uint16 tid = (pAttacker != nullptr ? pAttacker->GetID() : -1);
 	int16 oldHP = m_sHp;
@@ -1662,6 +1685,9 @@ void CUser::HpChange(int amount, Unit *pAttacker /*= nullptr*/, bool bSendToAI /
 */
 void CUser::MSpChange(int amount)
 {
+	if (isGM())
+		return;
+
 	Packet result(WIZ_MSP_CHANGE);
 	int16 oldMP = m_sMp;
 
@@ -2423,10 +2449,16 @@ void CUser::LoyaltyChange(int16 tid, uint16 bonusNP /*= 0*/)
 			//	g_pMain->UpdateColonyZoneRankInfo();
 		}
 		// Ardream
-		else if (pTUser->GetZoneID() == 72)
+		else if (pTUser->GetZoneID() == ZONE_ARDREAM)
 		{
 			loyalty_source =  25; 
 			loyalty_target = -25;
+		}
+		// Ronark Land Base
+		else if (pTUser->GetZoneID() == ZONE_RONARK_LAND_BASE)
+		{
+			loyalty_source =  50; 
+			loyalty_target = -50;
 		}
 		// Other zones
 		else 
@@ -4466,55 +4498,109 @@ void CUser::HandlePlayerRankings(Packet & pkt)
 	It should not be used in its current state for anything
 	other than testing.
 	*/
-	Packet result(WIZ_RANK, uint8(1));
+	uint16 OwnRank = 1;
+	uint8 RankType = 1;
 
-	CKnights * pKnights = g_pMain->GetClanPtr(GetClanID());
+	if (isRankingPVPZone())
+		RankType = 1;
+	else // BDW
+		RankType = 2;
+
+	Packet result(WIZ_RANK, RankType);
 	uint16 sClanID = 0;
 	uint16 sMarkVersion = 0;
 	std::string strClanName;
 
-	// Just testing with the active clan, 
-	// as we don't currently store the clan ID in the rankings tables.
-	if (pKnights != nullptr)
-	{
-		sClanID = GetClanID();
-		sMarkVersion = pKnights->m_sMarkVersion;
-		strClanName = pKnights->m_strName;
-	}
+	_PVP_RANKINGS* PVPRankingKarus = NULL;
+	PVPRankingKarus = g_pMain->PVPRankInfo(g_pMain->m_PVPRankings,KARUS, m_bZone);
 
-	FastGuard lock(g_pMain->m_userRankingsLock);
+	_PVP_RANKINGS* PVPRankingHuman = NULL;
+	PVPRankingHuman = g_pMain->PVPRankInfo(g_pMain->m_PVPRankings,ELMORAD, m_bZone);
 
-	// List top 10 rankings for each nation
-	for (int nation = KARUS_ARRAY; nation <= ELMORAD_ARRAY; nation++)
+	for (int nation = KARUS; nation <= ELMORAD; nation++)
 	{
 		uint16 sCount = 0;
 		size_t wpos = result.wpos();
-		result << sCount; // placeholder
+		result << sCount; 
 
-		foreach (itr, g_pMain->m_playerRankings[nation])
-		{
-			if (itr->first > 10)
-				break;
+		if (nation == KARUS) {
+			for(int i = 0; i < g_pMain->m_sKarus; i++) 
+			{
+				CUser *pUser = g_pMain->GetUserPtr(PVPRankingKarus[i].s_SocketID);
 
-			result	<< itr->second->strUserID[nation]
-			<< true // seems to be 0 or 1, not sure what it does though
-				<< sClanID // clan ID
-				<< sMarkVersion // mark/symbol version
-				<< strClanName // clan name
-				<< itr->second->nLoyalty[nation]
-			<< uint16(123); // bonus from prem NP
+				if( pUser == nullptr )
+					continue;
 
-			sCount++;
+				if (pUser->GetSocketID() == GetSocketID())
+					OwnRank = i+1;
+
+				CKnights * pKnights = g_pMain->GetClanPtr(pUser->m_bKnights);
+
+				if (pKnights != nullptr)
+				{
+					sClanID = pKnights->m_sIndex;
+					sMarkVersion = pKnights->m_sMarkVersion;
+					strClanName = pKnights->m_strName;
+				} else {
+					sClanID = 0;
+					sMarkVersion = 0;
+					strClanName = "";
+				}
+
+				result	<< pUser->m_strUserID
+					<< true // seems to be 0 or 1, not sure what it does though
+					<< sClanID // clan ID
+					<< sMarkVersion // mark/symbol version
+					<< strClanName // clan name
+					<< PVPRankingKarus[i].m_iLoyaltyDaily
+					<< PVPRankingKarus[i].m_iLoyaltyPremiumBonus; // bonus from prem NP
+
+				sCount++;
+			}
+		} else if (nation == ELMORAD) {
+
+			for(int i = 0; i < g_pMain->m_sHuman; i++) 
+			{
+				CUser *pUser = g_pMain->GetUserPtr(PVPRankingHuman[i].s_SocketID);
+
+				if( pUser == nullptr )
+					continue;
+
+				if (pUser->GetSocketID() == GetSocketID())
+					OwnRank = i+1;
+
+				CKnights * pKnights = g_pMain->GetClanPtr(pUser->m_bKnights);
+
+				if (pKnights != nullptr)
+				{
+					sClanID = pKnights->m_sIndex;
+					sMarkVersion = pKnights->m_sMarkVersion;
+					strClanName = pKnights->m_strName;
+				} else {
+					sClanID = 0;
+					sMarkVersion = 0;
+					strClanName = "";
+				}
+
+				result	<< pUser->m_strUserID
+					<< true // seems to be 0 or 1, not sure what it does though
+					<< sClanID // clan ID
+					<< sMarkVersion // mark/symbol version
+					<< strClanName // clan name
+					<< PVPRankingHuman[i].m_iLoyaltyDaily
+					<< PVPRankingHuman[i].m_iLoyaltyPremiumBonus; // bonus from prem NP
+
+				sCount++;
+			}
 		}
 
 		result.put(wpos, sCount);
 		wpos = result.wpos();
 	}
 
-	result	<< uint16(1) // I don't know what this is, changing it to 0 has no effect...
-		// player's own stats
-		<< GetLoyalty()
-		<< uint16(123);
+	result	<< OwnRank
+		<< m_iLoyaltyDaily
+		<< m_iLoyaltyPremiumBonus;
 
 	Send(&result);
 }

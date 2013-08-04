@@ -56,3 +56,4 @@ typedef CSTLMap <MonsterSummonList>			MonsterSummonListArray;
 
 typedef CSTLMap <_PREMIUM_ITEM>			PremiumItemArray;
 typedef CSTLMap <_PREMIUM_ITEM_EXP>		PremiumItemExpArray;
+typedef CSTLMap <_PVP_RANKINGS>			PVPRankingsArray;
