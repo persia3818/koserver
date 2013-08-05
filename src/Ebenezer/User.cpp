@@ -3084,34 +3084,34 @@ void CUser::OperatorCommand(Packet & pkt)
 		} else {
 			g_DBAgent.UpdateUserAuthority(strUserID,AUTHORITY_BANNED);
 		}
-		sNoticeMessage = string_format("%s has been banned..!", pUser->GetName().c_str());
+		sNoticeMessage = string_format("%s has been banned..!", strUserID.c_str());
 		break;
 	case OPERATOR_MUTE:
 		if (bIsOnline)
 			pUser->m_bAuthority = AUTHORITY_MUTED;
 		else
 			g_DBAgent.UpdateUserAuthority(strUserID,AUTHORITY_MUTED);
-		sNoticeMessage = string_format("%s has been muted..!", pUser->GetName().c_str());
+		sNoticeMessage = string_format("%s has been muted..!", strUserID.c_str());
 		break;
 	case OPERATOR_DISABLE_ATTACK:
 		if (bIsOnline) 
 			pUser->m_bAuthority = AUTHORITY_ATTACK_DISABLED;
 		else
 			g_DBAgent.UpdateUserAuthority(strUserID,AUTHORITY_ATTACK_DISABLED);
-		sNoticeMessage = string_format("%s has been disabled attack..!", pUser->GetName().c_str());
+		sNoticeMessage = string_format("%s has been disabled attack..!", strUserID.c_str());
 		break;
 	case OPERATOR_ENABLE_ATTACK:
 		if (bIsOnline)
 			pUser->m_bAuthority = AUTHORITY_PLAYER;
 		else
 			g_DBAgent.UpdateUserAuthority(strUserID,AUTHORITY_PLAYER);
-		sNoticeMessage = string_format("%s has been enabled attack..!", pUser->GetName().c_str());
+		sNoticeMessage = string_format("%s has been enabled attack..!", strUserID.c_str());
 	case OPERATOR_UNMUTE:
 		if (bIsOnline)
 			pUser->m_bAuthority = AUTHORITY_PLAYER;
 		else
 			g_DBAgent.UpdateUserAuthority(strUserID,AUTHORITY_PLAYER);
-		sNoticeMessage = string_format("%s has been unmuted..!", pUser->GetName().c_str());
+		sNoticeMessage = string_format("%s has been unmuted..!", strUserID.c_str());
 		break;
 	}
 
