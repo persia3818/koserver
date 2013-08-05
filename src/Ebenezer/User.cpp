@@ -591,7 +591,7 @@ void CUser::SendLoyaltyChange(int32 nChangeAmount /*= 0*/, bool bIsKillReward /*
 
 		if (bIsKillReward)
 		{
-			if (m_bPremiumType != 0) {
+			if (m_bPremiumType > 0) {
 				m_iLoyalty += g_pMain->m_PremiumItemArray.GetData(m_bPremiumType)->BonusLoyalty;
 				m_iLoyaltyMonthly += g_pMain->m_PremiumItemArray.GetData(m_bPremiumType)->BonusLoyalty;
 
@@ -1314,10 +1314,15 @@ void CUser::RecvUserExp(Packet & pkt)
 		// Give solo NP
 		if (iNpcLoyalty > 0)
 		{
-			TempValue = nFinalLoyalty * fModifier;
-			nFinalLoyalty = (int) TempValue;
-			if (TempValue > nFinalLoyalty)
-				nFinalLoyalty++;
+			bool UseModifier = false;
+
+			if (UseModifier)
+			{
+				TempValue = nFinalLoyalty * fModifier;
+				nFinalLoyalty = (int) TempValue;
+				if (TempValue > nFinalLoyalty)
+					nFinalLoyalty++;
+			}
 
 			SendLoyaltyChange(nFinalLoyalty);
 		}
@@ -1417,6 +1422,9 @@ void CUser::ExpChange(int64 iExp)
 		// Add on any additional XP earned because of a global XP event.
 		// NOTE: They officially check to see if the XP is <= 100,000.
 		iExp = iExp * (100 + g_pMain->m_byExpEventAmount) / 100;
+
+		if (m_bPremiumType > 0)
+			iExp = iExp * (100 + GetPremiumExpPercent()) / 100;
 	}
 
 	bool bLevel = true;
@@ -1469,6 +1477,32 @@ void CUser::ExpChange(int64 iExp)
 	// If we've lost XP, save it for possible refund later.
 	if (iExp < 0)
 		m_iLostExp = -iExp;
+}
+
+/**
+* @brief	Player Premium experience point percent.
+*/
+uint16 CUser::GetPremiumExpPercent() {
+
+	uint16 iBonusExpPercent = 0;
+
+	foreach_stlmap_nolock(itr, g_pMain->m_PremiumItemExpArray) {
+		_PREMIUM_ITEM_EXP *pPremiumItemExp = g_pMain->m_PremiumItemExpArray.GetData(itr->first);
+
+		if (pPremiumItemExp != nullptr)
+		{
+			if (m_bPremiumType == pPremiumItemExp->Type)
+			{
+				if (GetLevel() >= pPremiumItemExp->MinLevel && GetLevel() <= pPremiumItemExp->MaxLevel)
+				{
+					iBonusExpPercent= pPremiumItemExp->sPercent;
+					break;
+				}
+			}
+		}
+	}
+
+	return iBonusExpPercent;
 }
 
 /**
@@ -2116,7 +2150,7 @@ void CUser::ItemGet(Packet & pkt)
 			|| (pParty = g_pMain->GetPartyPtr(GetPartyID())) == nullptr)
 		{
 			// NOTE: Coins have been checked already.
-			if (m_bPremiumType != 0)
+			if (m_bPremiumType > 0)
 				pGold = pItem->sCount * (100 + g_pMain->m_PremiumItemArray.GetData(m_bPremiumType)->NoahPercent) / 100;
 			else
 				pGold = pItem->sCount;
@@ -2149,7 +2183,7 @@ void CUser::ItemGet(Packet & pkt)
 				// Give each party member coins relative to their level.
 				int coins = (int)(pItem->sCount * (float)((*itr)->GetLevel() / (float)sumOfLevels));
 
-				if ((*itr)->m_bPremiumType != 0)
+				if ((*itr)->m_bPremiumType > 0)
 					pGold = coins * (100 + g_pMain->m_PremiumItemArray.GetData((*itr)->m_bPremiumType)->NoahPercent) / 100;
 				else
 					pGold = coins;
@@ -4046,7 +4080,7 @@ void CUser::OnDeath(Unit *pKiller)
 			else
 				nExpLost = m_iMaxExp / 20;
 
-			if (m_bPremiumType != 0)
+			if (m_bPremiumType > 0)
 				nExpLost = nExpLost * (g_pMain->m_PremiumItemArray.GetData(m_bPremiumType)->ExpRestorePercent) / 100;
 
 			ExpChange(-nExpLost);

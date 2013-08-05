@@ -861,6 +861,8 @@ void CEbenezerDlg::UpdateGameTime()
 	foreach_stlmap (itr, m_KingSystemArray)
 		itr->second->CheckKingTimer();
 
+	// Every minute
+
 	// Every hour
 	if (m_sHour != now.GetHour())
 	{
