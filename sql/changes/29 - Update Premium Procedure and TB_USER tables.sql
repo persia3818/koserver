@@ -17,7 +17,7 @@ ADD
 PremiumEndDate datetime NOT NULL
 GO
 
-UPDATE PremiumType = 1,PremiumStartDate = GETDATE(), PremiumStartDate = GETDATE() + 365
+UPDATE TB_USER SET PremiumType = 1,PremiumStartDate = GETDATE(), PremiumStartDate = GETDATE() + 365
 GO
 
 ALTER PROCEDURE [dbo].[LOAD_PREMIUM_SERVICE_USER]
