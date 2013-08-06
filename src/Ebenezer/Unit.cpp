@@ -864,7 +864,7 @@ void Unit::SendDeathAnimation(Unit * pKiller /*= nullptr*/)
 #else
 	Packet result(AG_DEAD);
 	int16 tid = (pKiller == nullptr ? -1 : pKiller->GetID());
-	result << GetID() << pKiller->GetID();
+	result << GetID() << tid;
 	g_pMain->Send(&result);
 #endif
 }
