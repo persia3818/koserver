@@ -816,7 +816,7 @@ void CUser::SendMyInfo()
 		<< uint8(m_sMagicR) << uint8(m_sDiseaseR) << uint8(m_sPoisonR)
 		<< m_iGold
 		<< m_bAuthority
-		<< m_bPersonalRank << m_bKnightsRank; // national rank, leader rank
+		<< m_bKnightsRank << m_bPersonalRank; // national rank, leader rank
 
 	result.append(m_bstrSkill, 9);
 

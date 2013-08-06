@@ -151,7 +151,7 @@ void CUser::GetUserInfo(Packet & pkt)
 		<< m_sDirection // direction 
 		<< m_bIsChicken // chicken/beginner flag
 		<< m_bRank // king flag
-		<< m_bPersonalRank << m_bKnightsRank; // NP ranks (total, monthly)
+		<< m_bKnightsRank << m_bPersonalRank; // NP ranks (total, monthly)
 
 	uint8 equippedItems[] = 
 	{
