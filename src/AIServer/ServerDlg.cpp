@@ -176,7 +176,7 @@ bool CServerDlg::CreateNpcThread()
 	m_CurrentNPC = 0;
 
 	LOAD_TABLE_ERROR_ONLY(CNpcPosSet, &m_GameDB, nullptr, false);
-			
+
 	FastGuard lock(m_eventThreadLock);
 	foreach_stlmap (itr, g_arZone)
 	{
@@ -215,11 +215,11 @@ bool CServerDlg::LoadSpawnCallback(OdbcCommand *dbCommand)
 	// copies of the data to allow for the way they handle multiple spawns...
 	// Best we can do, I think, is to avoid allocating it on the stack.
 	static uint8	bNumNpc, bZoneID, bActType, bRegenType, bDungeonFamily, bSpecialType,
-					bTrapNumber, bDirection, bDotCnt;	
+		bTrapNumber, bDirection, bDotCnt;	
 	static uint16	sSid, sRegTime;
 	static uint32	nServerNum;
 	static int32	iLeftX, iTopZ, iRightX, iBottomZ,
-					iLimitMinX, iLimitMinZ, iLimitMaxX, iLimitMaxZ;
+		iLimitMinX, iLimitMinZ, iLimitMaxX, iLimitMaxZ;
 
 	dbCommand->FetchByte(1, bZoneID);
 	dbCommand->FetchUInt16(2, sSid);
@@ -278,7 +278,7 @@ bool CServerDlg::LoadSpawnCallback(OdbcCommand *dbCommand)
 		}
 
 		pNpc->InitPos();
-			
+
 		pNpc->m_bZone = bZoneID;
 
 		nRandom = abs(iLeftX - iRightX);
@@ -304,7 +304,7 @@ bool CServerDlg::LoadSpawnCallback(OdbcCommand *dbCommand)
 		}
 
 		pNpc->SetPosition(fRandom_X, 0.0f, fRandom_Z);
-					
+
 		pNpc->m_sRegenTime		= sRegTime * SECOND;
 		pNpc->m_byDirection		= bDirection;
 		pNpc->m_sMaxPathCount	= bDotCnt;
@@ -355,7 +355,7 @@ bool CServerDlg::LoadSpawnCallback(OdbcCommand *dbCommand)
 			pNpc->m_nLimitMaxX = iLimitMaxX;
 			pNpc->m_nLimitMaxZ = iLimitMaxZ;
 		}	
-			
+
 		pNpc->m_pMap = GetZoneByID(pNpc->GetZoneID());
 		if (pNpc->GetMap() == nullptr)
 		{
@@ -389,7 +389,7 @@ bool CServerDlg::LoadSpawnCallback(OdbcCommand *dbCommand)
 			{
 				delete pInt;
 				TRACE("### Map - Room Array MonsterNid Fail : nid=%d, sid=%d ###\n", 
-				pNpc->GetID(), pNpc->GetProtoID());
+					pNpc->GetID(), pNpc->GetProtoID());
 			}
 		}
 	}
@@ -440,11 +440,11 @@ bool CServerDlg::MapFileLoad()
 }
 
 /**
- * @brief	Gets & formats a cached server resource (_SERVER_RESOURCE entry).
- *
- * @param	nResourceID	Identifier for the resource.
- * @param	result	   	The string to store the formatted result in.
- */
+* @brief	Gets & formats a cached server resource (_SERVER_RESOURCE entry).
+*
+* @param	nResourceID	Identifier for the resource.
+* @param	result	   	The string to store the formatted result in.
+*/
 void CServerDlg::GetServerResource(int nResourceID, string * result, ...)
 {
 	_SERVER_RESOURCE *pResource = m_ServerResourceArray.GetData(nResourceID);
@@ -641,7 +641,7 @@ void CServerDlg::GameServerAcceptThread()
 bool CServerDlg::AddObjectEventNpc(_OBJECT_EVENT* pEvent, MAP * pMap)
 {
 	int sSid = (pEvent->sType == OBJECT_ANVIL || pEvent->sType == OBJECT_ARTIFACT 
-					? pEvent->sIndex : pEvent->sControlNpcID);
+		? pEvent->sIndex : pEvent->sControlNpcID);
 	if (sSid <= 0)
 		return false;
 
@@ -663,8 +663,8 @@ bool CServerDlg::AddObjectEventNpc(_OBJECT_EVENT* pEvent, MAP * pMap)
 
 	pNpc->m_bZone	= pMap->m_nZoneNumber;
 	pNpc->SetPosition(pEvent->fPosX, pEvent->fPosY, pEvent->fPosZ);
-	
- 	pNpc->m_nInitMinX	= (int)pEvent->fPosX-1;
+
+	pNpc->m_nInitMinX	= (int)pEvent->fPosX-1;
 	pNpc->m_nInitMinY	= (int)pEvent->fPosZ-1;
 	pNpc->m_nInitMaxX	= (int)pEvent->fPosX+1;
 	pNpc->m_nInitMaxY	= (int)pEvent->fPosZ+1;	

@@ -1,12 +1,12 @@
 #include "stdafx.h"
 
 /*
-	NOTE: 
-		std::thread allow for threads to be spawned with a variety of 
-		different function/method signatures.
+NOTE: 
+std::thread allow for threads to be spawned with a variety of 
+different function/method signatures.
 
-		For backwards compatibility, we'll enforce the use of the default
-		single parameter signature (we don't really need more than that).
+For backwards compatibility, we'll enforce the use of the default
+single parameter signature (we don't really need more than that).
 */
 
 Thread::Thread()
@@ -79,24 +79,24 @@ bool Thread::waitForExit()
 
 void Thread::suspend()
 {
-/* no native functionality on *nix for this, it needs to be handled in the thread */
+	/* no native functionality on *nix for this, it needs to be handled in the thread */
 #ifdef WIN32 
 #	ifdef USE_STD_THREAD
-		SuspendThread(m_thread.native_handle());
+	SuspendThread(m_thread.native_handle());
 #	else
-		SuspendThread(m_thread);
+	SuspendThread(m_thread);
 #	endif
 #endif
 }
 
 void Thread::resume()
 {
-/* no native functionality on *nix for this, it needs to be handled in the thread */
+	/* no native functionality on *nix for this, it needs to be handled in the thread */
 #ifdef WIN32 
 #	ifdef USE_STD_THREAD
-		ResumeThread(m_thread.native_handle());
+	ResumeThread(m_thread.native_handle());
 #	else
-		ResumeThread(m_thread);
+	ResumeThread(m_thread);
 #	endif
 #endif
 }

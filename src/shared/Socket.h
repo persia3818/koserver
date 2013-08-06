@@ -8,7 +8,7 @@ class Socket
 public:
 	// Constructor. If fd = 0, it will be assigned 
 	Socket(SOCKET fd, uint32 sendbuffersize, uint32 recvbuffersize);
-	
+
 	// Open a connection to another machine.
 	bool Connect(const char * Address, uint32 Port);
 
@@ -76,7 +76,7 @@ public:
 protected:
 	// Called when connection is opened.
 	void _OnConnect();
-  
+
 	SOCKET m_fd;
 
 	CircularBuffer readBuffer, writeBuffer;
@@ -93,7 +93,7 @@ protected:
 
 	SocketMgr *m_socketMgr;
 
-/* Win32 - IOCP Specific Calls */
+	/* Win32 - IOCP Specific Calls */
 #ifdef CONFIG_USE_IOCP
 public:
 	// Set completion port that this socket will be assigned to.
@@ -110,14 +110,14 @@ private:
 	void AssignToCompletionPort();
 #endif
 
-/* Linux - EPOLL Specific Calls */
+	/* Linux - EPOLL Specific Calls */
 #ifdef CONFIG_USE_EPOLL
 public:
 	// Posts a epoll event with the specified arguments.
 	void PostEvent(uint32 events);
 #endif
 
-/* FreeBSD - kqueue specific calls */
+	/* FreeBSD - kqueue specific calls */
 #ifdef CONFIG_USE_KQUEUE
 public:
 	// Posts an event with the specified arguments.

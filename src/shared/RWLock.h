@@ -11,7 +11,7 @@ public:
 	void ReleaseReadLock();
 	void AcquireWriteLock();
 	void ReleaseWriteLock();
-  
+
 private:
 	Condition _cond;
 	volatile unsigned int _readers;

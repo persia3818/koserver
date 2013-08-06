@@ -42,7 +42,7 @@ uint32 THREADCALL NpcThreadProc(void * pParam /* CNpcThread ptr */)
 					}
 					continue;
 				}	
-			
+
 				dwTickTime = fTime2 - pNpc->m_fHPChangeTime;
 				if( 10000 < dwTickTime )	{	// 10초마다 HP를 회복 시켜준다
 					pNpc->HpChange();
@@ -59,7 +59,7 @@ uint32 THREADCALL NpcThreadProc(void * pParam /* CNpcThread ptr */)
 				case NPC_STANDING:						// 하는 일 없이 서있는 경우
 					tDelay = pNpc->NpcStanding();
 					break;
-			
+
 				case NPC_MOVING:
 					tDelay = pNpc->NpcMoving();
 					break;

@@ -95,13 +95,13 @@ public:
 	{
 		int x = (int)(fX / CELL_MAIN_SIZE);
 		int z = (int)(fZ / CELL_MAIN_SIZE);
-		
+
 		// _ASSERT(x >= 0 && x < MAX_CELL_MAIN && z >= 0 && z < MAX_CELL_MAIN);
 		if(nullptr == m_pCells[x][z]) return nullptr;
 
 		int xx = (((int)fX)%CELL_MAIN_SIZE)/CELL_SUB_SIZE;
 		int zz = (((int)fZ)%CELL_MAIN_SIZE)/CELL_SUB_SIZE;
-		
+
 		return &(m_pCells[x][z]->SubCells[xx][zz]);
 	}
 	float		GetHeightNearstPos(const __Vector3& vPos, __Vector3* pvNormal = nullptr);
@@ -111,11 +111,11 @@ public:
 	float		Height() { return m_fMapWidth; }
 
 	bool		CheckCollision(	const __Vector3& vPos,
-								const __Vector3& vDir,
-								float fSpeedPerSec,
-								__Vector3* pvCol = nullptr,
-								__Vector3* pvNormal = nullptr,
-								__Vector3* pVec = nullptr);
+		const __Vector3& vDir,
+		float fSpeedPerSec,
+		__Vector3* pvCol = nullptr,
+		__Vector3* pvNormal = nullptr,
+		__Vector3* pVec = nullptr);
 
 	bool		Create(float fMapWidth, float fMapLength);
 	bool		LoadCollisionData(FILE *fp);

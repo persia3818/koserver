@@ -8,7 +8,7 @@ CParty::CParty()
 
 CParty::~CParty()
 {
-	
+
 }
 
 void CParty::Initialize()
@@ -69,7 +69,7 @@ void CParty::PartyInsert(Packet & pkt)
 
 	pParty = g_pMain->m_arParty.GetData( sPartyIndex );
 	if( !pParty ) {				// 이상한 경우
-			return;
+		return;
 	}
 
 	if(byIndex >= 0 && byIndex < 8)	{
@@ -93,7 +93,7 @@ void CParty::PartyRemove(Packet & pkt)
 
 	pParty = g_pMain->m_arParty.GetData( sPartyIndex );
 	if( !pParty ) {				// 이상한 경우
-			return;
+		return;
 	}
 
 	for( int i=0; i<8; i++ ) {

@@ -28,7 +28,7 @@ int main()
 
 	// Start up the console input thread
 	StartConsoleInputThread();
-	
+
 	g_pMain = new CEbenezerDlg();
 
 	// Start up server

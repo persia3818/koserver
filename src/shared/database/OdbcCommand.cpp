@@ -50,7 +50,7 @@ bool OdbcCommand::Open(bool bRetry /*= false*/)
 		// Attempt full SQL reconnection once.
 		if (m_odbcConnection == nullptr || bRetry)
 			return false;
-		
+
 		// Perform soft disconnect, preserving existing commands
 		m_odbcConnection->Close();
 
@@ -158,18 +158,18 @@ bool OdbcCommand::MoveNextSet()
 	type OdbcCommand::Fetch ## name(int pos) { type value; SQLINTEGER cb = SQL_NTS; SQLGetData(m_hStmt, pos, sqlType, &value, 0, &cb); return value; } \
 	void OdbcCommand::Fetch ## name(int pos, type & value) { SQLINTEGER cb = SQL_NTS; SQLGetData(m_hStmt, pos, sqlType, &value, 0, &cb); }
 ADD_ODBC_PARAMETER(Byte, uint8, SQL_C_UTINYINT)
-ADD_ODBC_PARAMETER(SByte, int8, SQL_C_STINYINT)
-ADD_ODBC_PARAMETER(UInt16, uint16, SQL_C_USHORT)
-ADD_ODBC_PARAMETER(Int16, int16, SQL_C_SSHORT)
-ADD_ODBC_PARAMETER(UInt32, uint32, SQL_C_ULONG)
-ADD_ODBC_PARAMETER(Int32, int32, SQL_C_SLONG)
-ADD_ODBC_PARAMETER(Single, float, SQL_C_FLOAT)
-ADD_ODBC_PARAMETER(Double, double, SQL_C_DOUBLE)
-ADD_ODBC_PARAMETER(UInt64, uint64, SQL_C_UBIGINT)
-ADD_ODBC_PARAMETER(Int64, int64, SQL_C_SBIGINT)
+	ADD_ODBC_PARAMETER(SByte, int8, SQL_C_STINYINT)
+	ADD_ODBC_PARAMETER(UInt16, uint16, SQL_C_USHORT)
+	ADD_ODBC_PARAMETER(Int16, int16, SQL_C_SSHORT)
+	ADD_ODBC_PARAMETER(UInt32, uint32, SQL_C_ULONG)
+	ADD_ODBC_PARAMETER(Int32, int32, SQL_C_SLONG)
+	ADD_ODBC_PARAMETER(Single, float, SQL_C_FLOAT)
+	ADD_ODBC_PARAMETER(Double, double, SQL_C_DOUBLE)
+	ADD_ODBC_PARAMETER(UInt64, uint64, SQL_C_UBIGINT)
+	ADD_ODBC_PARAMETER(Int64, int64, SQL_C_SBIGINT)
 #undef ADD_ODBC_PARAMETER
 
-void OdbcCommand::AddParameter(SQLSMALLINT paramType, const char *value, SQLLEN maxLength = 1, SQLSMALLINT sqlDataType /*= SQL_CHAR*/)
+	void OdbcCommand::AddParameter(SQLSMALLINT paramType, const char *value, SQLLEN maxLength = 1, SQLSMALLINT sqlDataType /*= SQL_CHAR*/)
 {
 	m_params.insert(std::make_pair(m_params.size(), new OdbcParameter(paramType, sqlDataType, (SQLPOINTER)value, maxLength))); 
 }

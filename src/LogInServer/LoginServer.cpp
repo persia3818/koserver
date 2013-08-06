@@ -99,7 +99,7 @@ void LoginServer::UpdateServerList()
 
 		// we read all this stuff from ini, TO-DO: make this more versatile.
 		result	<< pServer->strKarusKingName << pServer->strKarusNotice 
-				<< pServer->strElMoradKingName << pServer->strElMoradNotice;
+			<< pServer->strElMoradKingName << pServer->strElMoradNotice;
 #endif
 	}
 }
@@ -118,10 +118,10 @@ void LoginServer::GetInfoFromIni()
 	int nServerCount = ini.GetInt("SERVER_LIST", "COUNT", 1);
 	if (nServerCount <= 0) 
 		nServerCount = 1;
-	
+
 	char key[20]; 
 	_SERVER_INFO* pInfo = nullptr;
-	
+
 	m_ServerList.reserve(nServerCount);
 
 	// TO-DO: Replace this nonsense with something a little more versatile
@@ -166,9 +166,9 @@ void LoginServer::GetInfoFromIni()
 	}
 
 	// Read news from INI (max 3 blocks)
-	#define BOX_START '#' << uint8(0) << '\n'
-	#define LINE_ENDING uint8(0) << '\n'
-	#define BOX_END BOX_START << LINE_ENDING
+#define BOX_START '#' << uint8(0) << '\n'
+#define LINE_ENDING uint8(0) << '\n'
+#define BOX_END BOX_START << LINE_ENDING
 
 	m_news.Size = 0;
 	std::stringstream ss;
@@ -180,7 +180,7 @@ void LoginServer::GetInfoFromIni()
 		ini.GetString("NEWS", key, "", title);
 		if (title.empty())
 			continue;
-		
+
 		_snprintf(key, sizeof(key), "MESSAGE_%02d", i);
 		ini.GetString("NEWS", key, "", message);
 		if (message.empty())

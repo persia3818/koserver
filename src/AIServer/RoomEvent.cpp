@@ -98,7 +98,7 @@ bool CRoomEvent::CheckEvent(int event_num)
 		}
 		break;
 	case 4:					// 목표지점까지 이동
-		
+
 		break;
 	case 5:					// 특정몬스터를 옵션2의 마리수 만큼 죽여라
 		nOption_1 = m_Logic[ m_byLogicNumber-1 ].sOption_1;
@@ -143,7 +143,7 @@ bool CRoomEvent::RunEvent( int event_num )
 		nOption_1 = m_Exec[ m_byLogicNumber-1 ].sOption_1;
 		pNpc = GetNpcPtr( nOption_1 );
 		if( pNpc )	{
-			
+
 		}
 		else	{
 			TRACE("### RunEvent Error : 문 담당 몬스터 출현 할 수 없당 = %d, logic=%d ###\n", nOption_1, m_byLogicNumber);
@@ -222,14 +222,14 @@ bool  CRoomEvent::CheckMonsterCount( int sid, int count, int type )
 {
 	int nMonsterCount = 0, nTotalMonster = 0;
 	bool bRetValue = false;
-	
+
 	int nMonster = m_mapRoomNpcArray.GetSize();
 	if (nMonster == 0)
 	{
 		TRACE("### RoomEvent-GetNpcPtr() : monster empty ###\n");
 		return nullptr;
 	}
-	
+
 	foreach_stlmap (itr, m_mapRoomNpcArray)
 	{
 		CNpc *pNpc = g_pMain->GetNpcPtr(itr->first);
@@ -279,7 +279,7 @@ void CRoomEvent::EndEventSay( int option1, int option2 )
 
 	switch (option1)
 	{
-		case 1:
+	case 1:
 		{ 
 			switch (option2)
 			{
@@ -300,13 +300,13 @@ void CRoomEvent::EndEventSay( int option1, int option2 )
 			g_pMain->SendSystemMsg(buff, WAR_SYSTEM_CHAT);
 		} break;
 
-		case 2:
-			g_pMain->GetServerResource(IDS_KARUS_PATHWAY + (option2-1), &buff);
-			g_pMain->SendSystemMsg(buff, WAR_SYSTEM_CHAT);
+	case 2:
+		g_pMain->GetServerResource(IDS_KARUS_PATHWAY + (option2-1), &buff);
+		g_pMain->SendSystemMsg(buff, WAR_SYSTEM_CHAT);
 
-			// this is normal, we need to send the following packet as well.
+		// this is normal, we need to send the following packet as well.
 
-		case 3:
+	case 3:
 		{
 			Packet result(AG_BATTLE_EVENT, uint8(BATTLE_MAP_EVENT_RESULT));
 			result << uint8(option2);

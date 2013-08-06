@@ -12,7 +12,7 @@ void RWLock::AcquireReadLock()
 	_readers++;
 	_cond.EndSynchronized();
 }
-	
+
 void RWLock::ReleaseReadLock()
 {
 	_cond.BeginSynchronized();

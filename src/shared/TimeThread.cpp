@@ -36,7 +36,7 @@ uint32 THREADCALL TimeThread(void * lpParam)
 		}
 
 		sleep(1000);	// might need to run it twice a second 
-						// to be sure it does in fact update somewhat accurately.. depends on the use cases.
+		// to be sure it does in fact update somewhat accurately.. depends on the use cases.
 	}
 
 	return 0;

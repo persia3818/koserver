@@ -264,7 +264,7 @@ bool CGameSocket::SetUid(float x, float z, int id, int speed)
 		TRACE("#### User not in valid zone, sid = %d ####\n", id);
 		return false;
 	}
-	
+
 	if(x1 < 0 || z1 < 0 || x1 >= pMap->GetMapSize() || z1 >= pMap->GetMapSize())
 	{
 		TRACE("#### GameSocket ,, SetUid Fail : [nid=%d, name=%s], x1=%d, z1=%d #####\n", id, pUser->GetName().c_str(), x1, z1);
@@ -283,7 +283,7 @@ bool CGameSocket::SetUid(float x, float z, int id, int speed)
 	{
 		if (pUser->isDead())
 			return false;
-		
+
 		///// attack ~ 
 		if( speed != 0 )	{
 			pUser->m_curx = pUser->m_fWill_x;

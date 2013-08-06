@@ -14,8 +14,8 @@ public:
 	uint8	m_byGroup;			// 소속집단
 	uint8	m_byActType;		// 행동패턴
 	uint8	m_tNpcType;			// NPC Type
-								// 0 : Monster
-								// 1 : Normal NPC
+	// 0 : Monster
+	// 1 : Normal NPC
 	uint8	m_byFamilyType;		// 몹들사이에서 가족관계를 결정한다.
 	uint8	m_byRank;			// 작위
 	uint8	m_byTitle;			// 지위

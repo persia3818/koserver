@@ -149,7 +149,7 @@ void OdbcConnection::ResetHandles()
 }
 
 tstring OdbcConnection::ReportSQLError(SQLSMALLINT handleType, SQLHANDLE handle,
-								 const TCHAR *szSource, const TCHAR *szError, ...)
+									   const TCHAR *szSource, const TCHAR *szError, ...)
 {
 	FastGuard lock(m_lock);
 	TCHAR szErrorBuffer[256];
@@ -171,7 +171,7 @@ tstring OdbcConnection::ReportSQLError(SQLSMALLINT handleType, SQLHANDLE handle,
 		if (!error->ExtendedErrorMessage.empty())
 			return error->ExtendedErrorMessage;
 	}
-	
+
 	return szErrorBuffer;
 }
 

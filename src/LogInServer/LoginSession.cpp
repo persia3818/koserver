@@ -53,7 +53,7 @@ void LoginSession::HandlePatches(Packet & pkt)
 
 	result << g_pMain->GetFTPUrl() << g_pMain->GetFTPPath();
 	result << uint16(downloadset.size());
-	
+
 	foreach (itr, downloadset)
 		result << (*itr);
 

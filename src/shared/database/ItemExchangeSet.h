@@ -10,11 +10,11 @@ public:
 	virtual tstring GetColumns() 
 	{
 		return _T("nIndex, nNpcNum, bRandomFlag, "
-					"nOriginItemNum1, nOriginItemCount1, nExchangeItemNum1, nExchangeItemCount1, "
-					"nOriginItemNum2, nOriginItemCount2, nExchangeItemNum2, nExchangeItemCount2, "
-					"nOriginItemNum3, nOriginItemCount3, nExchangeItemNum3, nExchangeItemCount3, "
-					"nOriginItemNum4, nOriginItemCount4, nExchangeItemNum4, nExchangeItemCount4, "
-					"nOriginItemNum5, nOriginItemCount5, nExchangeItemNum5, nExchangeItemCount5");
+			"nOriginItemNum1, nOriginItemCount1, nExchangeItemNum1, nExchangeItemCount1, "
+			"nOriginItemNum2, nOriginItemCount2, nExchangeItemNum2, nExchangeItemCount2, "
+			"nOriginItemNum3, nOriginItemCount3, nExchangeItemNum3, nExchangeItemCount3, "
+			"nOriginItemNum4, nOriginItemCount4, nExchangeItemNum4, nExchangeItemCount4, "
+			"nOriginItemNum5, nOriginItemCount5, nExchangeItemNum5, nExchangeItemCount5");
 	}
 
 	virtual bool Fetch()

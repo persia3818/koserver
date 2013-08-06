@@ -20,65 +20,65 @@ void CUser::MerchantProcess(Packet & pkt)
 	switch (opcode)
 	{
 		// Regular merchants
-		case MERCHANT_OPEN: 
-			MerchantOpen(); 
-			break;
+	case MERCHANT_OPEN: 
+		MerchantOpen(); 
+		break;
 
-		case MERCHANT_CLOSE: 
-			MerchantClose(); 
-			break;
+	case MERCHANT_CLOSE: 
+		MerchantClose(); 
+		break;
 
-		case MERCHANT_ITEM_ADD: 
-			MerchantItemAdd(pkt); 
-			break;
+	case MERCHANT_ITEM_ADD: 
+		MerchantItemAdd(pkt); 
+		break;
 
-		case MERCHANT_ITEM_CANCEL: 
-			MerchantItemCancel(pkt); 
-			break;
+	case MERCHANT_ITEM_CANCEL: 
+		MerchantItemCancel(pkt); 
+		break;
 
-		case MERCHANT_ITEM_LIST: 
-			MerchantItemList(pkt); 
-			break;
+	case MERCHANT_ITEM_LIST: 
+		MerchantItemList(pkt); 
+		break;
 
-		case MERCHANT_ITEM_BUY: 
-			MerchantItemBuy(pkt); 
-			break;
+	case MERCHANT_ITEM_BUY: 
+		MerchantItemBuy(pkt); 
+		break;
 
-		case MERCHANT_INSERT: 
-			MerchantInsert(pkt); 
-			break;
+	case MERCHANT_INSERT: 
+		MerchantInsert(pkt); 
+		break;
 
-		case MERCHANT_TRADE_CANCEL: 
-			CancelMerchant(); 
-			break;
+	case MERCHANT_TRADE_CANCEL: 
+		CancelMerchant(); 
+		break;
 
 #if __VERSION >= 1700
 		// Buying merchants
-		case MERCHANT_BUY_OPEN: 
-			BuyingMerchantOpen(pkt); 
-			break;
+	case MERCHANT_BUY_OPEN: 
+		BuyingMerchantOpen(pkt); 
+		break;
 
-		case MERCHANT_BUY_CLOSE: 
-			BuyingMerchantClose(); 
-			break;
+	case MERCHANT_BUY_CLOSE: 
+		BuyingMerchantClose(); 
+		break;
 
-		case MERCHANT_BUY_LIST: 
-			BuyingMerchantList(pkt); 
-			break;
+	case MERCHANT_BUY_LIST: 
+		BuyingMerchantList(pkt); 
+		break;
 
-		case MERCHANT_BUY_INSERT: 
-			BuyingMerchantInsert(pkt); 
-			break;
+	case MERCHANT_BUY_INSERT: 
+		BuyingMerchantInsert(pkt); 
+		break;
 
-		case MERCHANT_BUY_BUY: // seeya!
-			BuyingMerchantBuy(pkt); 
-			break;
+	case MERCHANT_BUY_BUY: // seeya!
+		BuyingMerchantBuy(pkt); 
+		break;
 #endif
 	}
 }
 
 /*
-	Regular merchants
+Regular merchants
 */
 void CUser::MerchantOpen()
 {
@@ -139,7 +139,7 @@ void CUser::MerchantItemAdd(Packet & pkt)
 	_ITEM_TABLE * pTable = g_pMain->GetItemPtr(nItemID);
 	if (pTable == nullptr
 		|| nItemID >= ITEM_NO_TRADE // Cannot be traded, sold or stored.
-	 	|| pTable->m_bRace == RACE_UNTRADEABLE) // Cannot be traded or sold.
+		|| pTable->m_bRace == RACE_UNTRADEABLE) // Cannot be traded or sold.
 		return;
 
 	bSrcPos += SLOT_MAX;
@@ -163,8 +163,8 @@ void CUser::MerchantItemAdd(Packet & pkt)
 
 	Packet result(WIZ_MERCHANT, uint8(MERCHANT_ITEM_ADD));
 	result	<< uint16(1)
-			<< nItemID << sCount << pMerch->sDuration << nGold 
-			<< bSrcPos << bDstPos;
+		<< nItemID << sCount << pMerch->sDuration << nGold 
+		<< bSrcPos << bDstPos;
 	Send(&result);
 }
 
@@ -176,8 +176,8 @@ void CUser::MerchantItemCancel(Packet & pkt)
 
 	uint8 bSrcPos = pkt.read<uint8>();
 
-/*	if (this == nullptr)
-		result << int16(-1);*/
+	/*	if (this == nullptr)
+	result << int16(-1);*/
 	// Invalid source position
 	if (bSrcPos >= MAX_MERCH_ITEMS)
 		result << int16(-2);
@@ -204,7 +204,7 @@ void CUser::MerchantItemList(Packet & pkt)
 {
 	if (m_sMerchantsSocketID >= 0)
 		RemoveFromMerchantLookers(); //This check should never be hit...
-	
+
 	uint16 uid = pkt.read<uint16>();
 
 	CUser *pMerchant = g_pMain->GetUserPtr(uid);
@@ -221,8 +221,8 @@ void CUser::MerchantItemList(Packet & pkt)
 	{
 		_MERCH_DATA *pMerch = &pMerchant->m_arMerchantItems[i];
 		result	<< pMerch->nNum << pMerch->sCount
-				<< pMerch->sDuration << pMerch->nPrice
-				<< uint32(0); // Not sure what this one is
+			<< pMerch->sDuration << pMerch->nPrice
+			<< uint32(0); // Not sure what this one is
 	}
 	Send(&result);
 }
@@ -270,9 +270,9 @@ void CUser::MerchantItemBuy(Packet & pkt)
 	// If the slot's not empty
 	if (pItem->nNum != 0 
 		// and we already have an item that isn't the same item
-		// or it's the same item but the item's not stackable...
-		&& (pItem->nNum != itemid || !proto->m_bCountable))
-		return;
+			// or it's the same item but the item's not stackable...
+				&& (pItem->nNum != itemid || !proto->m_bCountable))
+				return;
 
 	leftover_count = pMerch->sCount - item_count;
 	pMerchant->GoldChange(GetSocketID(), req_gold);
@@ -300,8 +300,8 @@ void CUser::MerchantItemBuy(Packet & pkt)
 	result.clear();
 
 	result	<< uint8(MERCHANT_ITEM_BUY) << uint16(1)
-			<< itemid << leftover_count
-			<< item_slot << dest_slot;
+		<< itemid << leftover_count
+		<< item_slot << dest_slot;
 	Send(&result);
 
 	if (item_slot < 4 && leftover_count == 0)
@@ -331,7 +331,7 @@ void CUser::MerchantInsert(Packet & pkt)
 		return;
 
 	m_bMerchantState = MERCHANT_STATE_SELLING;
-	
+
 	Packet result(WIZ_MERCHANT, uint8(MERCHANT_INSERT));
 	result << uint16(1) << advertMessage << GetSocketID()
 		<< m_bPremiumMerchant; 
@@ -373,7 +373,7 @@ void CUser::CancelMerchant()
 }
 
 /*
-	Buying merchants: 1.7XX only
+Buying merchants: 1.7XX only
 */
 void CUser::BuyingMerchantOpen(Packet & pkt)
 {
@@ -399,7 +399,7 @@ void CUser::BuyingMerchantOpen(Packet & pkt)
 
 	if (errorCode == MERCHANT_OPEN_MERCHANTING)
 		BuyingMerchantClose();
-	
+
 	memset(&m_arMerchantItems, 0, sizeof(m_arMerchantItems));
 }
 
@@ -464,7 +464,7 @@ void CUser::BuyingMerchantList(Packet & pkt)
 {
 	if (m_sMerchantsSocketID >= 0)
 		RemoveFromMerchantLookers(); //This check should never be hit...
-	
+
 	uint16 uid = pkt.read<uint16>();
 
 	CUser *pMerchant = g_pMain->GetUserPtr(uid);
@@ -481,7 +481,7 @@ void CUser::BuyingMerchantList(Packet & pkt)
 	{
 		_MERCH_DATA *pMerch = &pMerchant->m_arMerchantItems[i];
 		result	<< pMerch->nNum << pMerch->sCount
-				<< pMerch->sDuration << pMerch->nPrice;
+			<< pMerch->sDuration << pMerch->nPrice;
 	}
 	Send(&result);
 }
@@ -567,7 +567,7 @@ void CUser::BuyingMerchantBuy(Packet & pkt)
 	SendStackChange(pSellerItem->nNum, pSellerItem->sCount, pSellerItem->sDuration, bSellerSrcSlot);
 	pMerchant->SendStackChange(pMerchantItem->nNum, pMerchantItem->sCount, pMerchantItem->sDuration, bDstPos - SLOT_MAX,
 		pMerchantItem->sCount == sStackSize); 	// if the buying merchant only has what they wanted, it's a new item.
-												// (otherwise it was a stackable item that was merged into an existing slot)
+	// (otherwise it was a stackable item that was merged into an existing slot)
 
 	Packet result(WIZ_MERCHANT, uint8(MERCHANT_BUY_BOUGHT));
 	result << bMerchantListSlot << uint16(0) << GetName();

@@ -20,20 +20,20 @@ private:
 
 class _PathNode {
 public:
-    int f;
+	int f;
 	int h;
-    int g;
-    int x;
+	int g;
+	int x;
 	int y;
-    _PathNode *Parent;
-    _PathNode *Child[8];
-    _PathNode *NextNode;
+	_PathNode *Parent;
+	_PathNode *Child[8];
+	_PathNode *NextNode;
 };
 
 class STACK {
 public:
-    _PathNode *NodePtr;
-    STACK *NextStackPtr;
+	_PathNode *NodePtr;
+	STACK *NextStackPtr;
 };
 
 class CPathFind  

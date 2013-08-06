@@ -68,7 +68,7 @@ public:
 			pData->m_tNpcType = NPC_GENERAL;
 
 		pData->m_fBulk =  (float)(((double)sBulk / 100) * ((double)pData->m_sSize / 100));
-			
+
 		if (!m_pMap->PutData(pData->m_sSid, pData))
 			delete pData;
 

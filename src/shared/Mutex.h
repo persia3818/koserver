@@ -12,25 +12,25 @@ public:
 	friend class Condition;
 
 	/** Initializes a mutex class, with InitializeCriticalSection / pthread_mutex_init
-	 */
+	*/
 	Mutex();
 
 	/** Deletes the associated critical section / mutex
-	 */
+	*/
 	~Mutex();
 
 	/** Acquires this mutex. If it cannot be acquired immediately, it will block.
-	 */
+	*/
 	void Acquire();
 
 	/** Releases this mutex. No error checking performed
-	 */
+	*/
 	void Release();
 
 	/** Attempts to acquire this mutex. If it cannot be acquired (held by another thread)
-	 * it will return false.
-	 * @return false if cannot be acquired, true if it was acquired.
-	 */
+	* it will return false.
+	* @return false if cannot be acquired, true if it was acquired.
+	*/
 	bool AttemptAcquire();
 
 protected:
@@ -38,7 +38,7 @@ protected:
 	std::recursive_mutex lock;
 #else
 	/** Critical section used for system calls
-	 */
+	*/
 	CRITICAL_SECTION cs;
 #endif
 };
@@ -60,7 +60,7 @@ public:
 	void Release();
 };
 #else // Windows functionality can provide a slightly faster lock.
-	  // For all other OS', the default Mutex implementation is sufficient.
+// For all other OS', the default Mutex implementation is sufficient.
 #	define FastMutex Mutex
 #endif
 

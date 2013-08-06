@@ -28,12 +28,12 @@ public:
 		if (pData == nullptr)
 			return true;
 		/**
-		 * byType list:
-		 * 1 = ???
-		 * 2 = elected senator to replace King?
-		 * 3 = ???
-		 * 4 = candidate for King
-		 **/
+		* byType list:
+		* 1 = ???
+		* 2 = elected senator to replace King?
+		* 3 = ???
+		* 4 = candidate for King
+		**/
 
 		_dbCommand->FetchByte(2, byType);
 

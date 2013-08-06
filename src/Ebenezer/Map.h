@@ -21,7 +21,7 @@ public:
 	_REGENE_EVENT * GetRegeneEvent(int objectindex);
 	_WARP_INFO * GetWarp(int warpID);
 	void GetWarpList(int warpGroup, std::set<_WARP_INFO *> & warpEntries);
-	
+
 	C3DMap();
 	bool Initialize(_ZONE_INFO *pZone);
 	CRegion * GetRegion(uint16 regionX, uint16 regionZ);

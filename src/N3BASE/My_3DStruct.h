@@ -11,22 +11,22 @@
 
 /* D3D8 structs */
 typedef struct _D3DVECTOR {
-    float x;
-    float y;
-    float z;
+	float x;
+	float y;
+	float z;
 } D3DVECTOR;
 
 typedef struct _D3DMATRIX {
-    union {
-        struct {
-            float        _11, _12, _13, _14;
-            float        _21, _22, _23, _24;
-            float        _31, _32, _33, _34;
-            float        _41, _42, _43, _44;
+	union {
+		struct {
+			float        _11, _12, _13, _14;
+			float        _21, _22, _23, _24;
+			float        _31, _32, _33, _34;
+			float        _41, _42, _43, _44;
 
-        };
-        float m[4][4];
-    };
+		};
+		float m[4][4];
+	};
 } D3DMATRIX;
 
 struct __Matrix44;
@@ -261,18 +261,18 @@ INLINE void __Matrix44::RotationY(float fDelta)
 }
 
 INLINE bool _IntersectTriangle(const __Vector3& vOrig, const __Vector3& vDir,
-							  const __Vector3& v0, const __Vector3& v1, const __Vector3& v2,
-							  float& fT, float& fU, float& fV, __Vector3* pVCol = nullptr)
+							   const __Vector3& v0, const __Vector3& v1, const __Vector3& v2,
+							   float& fT, float& fU, float& fV, __Vector3* pVCol = nullptr)
 {
-    // Find vectors for two edges sharing vert0
-    static __Vector3 vEdge1, vEdge2;
-	
-	vEdge1 = v1 - v0;
-    vEdge2 = v2 - v0;
+	// Find vectors for two edges sharing vert0
+	static __Vector3 vEdge1, vEdge2;
 
-    // Begin calculating determinant - also used to calculate U parameter
-    __Vector3 pVec;	float fDet;
-	
+	vEdge1 = v1 - v0;
+	vEdge2 = v2 - v0;
+
+	// Begin calculating determinant - also used to calculate U parameter
+	__Vector3 pVec;	float fDet;
+
 	pVec.Cross(vEdge1, vEdge2);
 	fDet = pVec.Dot(vDir);
 	if ( fDet > -0.0001f )
@@ -280,34 +280,34 @@ INLINE bool _IntersectTriangle(const __Vector3& vOrig, const __Vector3& vDir,
 
 	pVec.Cross(vDir, vEdge2);
 
-    // If determinant is near zero, ray lies in plane of triangle
-    fDet = vEdge1.Dot(pVec);
-    if( fDet < 0.0001f )
-        return false;
+	// If determinant is near zero, ray lies in plane of triangle
+	fDet = vEdge1.Dot(pVec);
+	if( fDet < 0.0001f )
+		return false;
 
-    // Calculate distance from vert0 to ray origin
-    __Vector3 tVec = vOrig - v0;
+	// Calculate distance from vert0 to ray origin
+	__Vector3 tVec = vOrig - v0;
 
-    // Calculate U parameter and test bounds
-    fU = tVec.Dot(pVec);
-    if( fU < 0.0f || fU > fDet )
-        return false;
+	// Calculate U parameter and test bounds
+	fU = tVec.Dot(pVec);
+	if( fU < 0.0f || fU > fDet )
+		return false;
 
-    // Prepare to test V parameter
-    __Vector3 qVec;
-    qVec.Cross(tVec, vEdge1);
+	// Prepare to test V parameter
+	__Vector3 qVec;
+	qVec.Cross(tVec, vEdge1);
 
-    // Calculate V parameter and test bounds
-    fV = vDir.Dot(qVec);
-    if( fV < 0.0f || fU + fV > fDet )
-        return false;
+	// Calculate V parameter and test bounds
+	fV = vDir.Dot(qVec);
+	if( fV < 0.0f || fU + fV > fDet )
+		return false;
 
-    // Calculate t, scale parameters, ray intersects triangle
+	// Calculate t, scale parameters, ray intersects triangle
 	fT = vEdge2.Dot(qVec);
-    float fInvDet = 1.0f / fDet;
-    fT *= fInvDet;
-    fU *= fInvDet;
-    fV *= fInvDet;
+	float fInvDet = 1.0f / fDet;
+	fT *= fInvDet;
+	fU *= fInvDet;
+	fV *= fInvDet;
 
 	if(pVCol) (*pVCol) = vOrig + (vDir * fT);
 	return (fT >= 0.0f);
@@ -315,13 +315,13 @@ INLINE bool _IntersectTriangle(const __Vector3& vOrig, const __Vector3& vDir,
 
 INLINE bool _IntersectTriangle(const __Vector3& vOrig, const __Vector3& vDir, const __Vector3& v0, const __Vector3& v1, const __Vector3& v2)
 {
-    // Find vectors for two edges sharing vert0
-    // Begin calculating determinant - also used to calculate U parameter
-    static float fDet, fT, fU, fV;
-    static __Vector3 vEdge1, vEdge2, tVec, pVec, qVec;
-	
+	// Find vectors for two edges sharing vert0
+	// Begin calculating determinant - also used to calculate U parameter
+	static float fDet, fT, fU, fV;
+	static __Vector3 vEdge1, vEdge2, tVec, pVec, qVec;
+
 	vEdge1 = v1 - v0;
-    vEdge2 = v2 - v0;
+	vEdge2 = v2 - v0;
 
 	pVec.Cross(vEdge1, vEdge2);
 	fDet = pVec.Dot(vDir);
@@ -330,28 +330,28 @@ INLINE bool _IntersectTriangle(const __Vector3& vOrig, const __Vector3& vDir, co
 
 	pVec.Cross(vDir, vEdge2);
 
-    // If determinant is near zero, ray lies in plane of triangle
-    fDet = vEdge1.Dot(pVec);
-    if( fDet < 0.0001f )
-        return false;
+	// If determinant is near zero, ray lies in plane of triangle
+	fDet = vEdge1.Dot(pVec);
+	if( fDet < 0.0001f )
+		return false;
 
-    // Calculate distance from vert0 to ray origin
-    tVec = vOrig - v0;
+	// Calculate distance from vert0 to ray origin
+	tVec = vOrig - v0;
 
-    // Calculate U parameter and test bounds
-    fU = tVec.Dot(pVec);
-    if( fU < 0.0f || fU > fDet )
-        return false;
+	// Calculate U parameter and test bounds
+	fU = tVec.Dot(pVec);
+	if( fU < 0.0f || fU > fDet )
+		return false;
 
-    // Prepare to test V parameter
-    qVec.Cross(tVec, vEdge1);
+	// Prepare to test V parameter
+	qVec.Cross(tVec, vEdge1);
 
-    // Calculate V parameter and test bounds
+	// Calculate V parameter and test bounds
 	fV = vDir.Dot(qVec);
-    if( fV < 0.0f || fU + fV > fDet )
-        return false;
+	if( fV < 0.0f || fU + fV > fDet )
+		return false;
 
-    // Calculate t, scale parameters, ray intersects triangle
-    fT = vEdge2.Dot(qVec) / fDet;
+	// Calculate t, scale parameters, ray intersects triangle
+	fT = vEdge2.Dot(qVec) / fDet;
 	return (fT >= 0.0f);
 }

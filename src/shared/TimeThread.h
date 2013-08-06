@@ -2,7 +2,7 @@
 
 void StartTimeThread();
 void CleanupTimeThread();
-	
+
 uint32 THREADCALL TimeThread(void * lpParam);
 
 extern time_t UNIXTIME;

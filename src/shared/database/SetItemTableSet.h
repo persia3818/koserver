@@ -10,9 +10,9 @@ public:
 	virtual tstring GetColumns() 
 	{
 		return _T("SetIndex, HPBonus, MPBonus, StrengthBonus, StaminaBonus, DexterityBonus, IntelBonus, CharismaBonus, "
-				"FlameResistance, GlacierResistance, LightningResistance, PoisonResistance, MagicResistance, CurseResistance, "
-				"XPBonusPercent, CoinBonusPercent, APBonusPercent, APBonusClassType, APBonusClassPercent, ACBonus, ACBonusClassType, ACBonusClassPercent, "
-				"MaxWeightBonus, NPBonus");
+			"FlameResistance, GlacierResistance, LightningResistance, PoisonResistance, MagicResistance, CurseResistance, "
+			"XPBonusPercent, CoinBonusPercent, APBonusPercent, APBonusClassType, APBonusClassPercent, ACBonus, ACBonusClassType, ACBonusClassPercent, "
+			"MaxWeightBonus, NPBonus");
 	}
 
 	virtual bool Fetch()
@@ -44,7 +44,7 @@ public:
 		_dbCommand->FetchUInt16(i++, pData->ACBonusClassPercent);
 		_dbCommand->FetchUInt16(i++, pData->MaxWeightBonus);
 		_dbCommand->FetchUInt16(i++, pData->NPBonus);
-		
+
 		if (!m_pMap->PutData(pData->SetIndex, pData))
 			delete pData;
 

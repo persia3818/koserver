@@ -69,7 +69,7 @@ void SMDFile::OnInvalidMap()
 	printf("map size. Unfortunately, doing this means data after that (almost everything)\n");
 	printf("becomes corrupt, which is known to cause extremely 'unusual' buggy behaviour.\n\n");
 	printf("It is recommended you use a map built for this zone, or at the very least,\n");\
-	printf("you should use a map originally built for the same zone size.\n\n");
+		printf("you should use a map originally built for the same zone size.\n\n");
 	ASSERT(0);
 }
 
@@ -218,7 +218,7 @@ float SMDFile::GetHeight(float x, float y, float z)
 	dX = (x - iX*m_fUnitDist)/m_fUnitDist;
 	dZ = (z - iZ*m_fUnitDist)/m_fUnitDist;
 
-//	_ASSERT(dX>=0.0f && dZ>=0.0f && dX<1.0f && dZ<1.0f);
+	//	_ASSERT(dX>=0.0f && dZ>=0.0f && dX<1.0f && dZ<1.0f);
 	if( !(dX>=0.0f && dZ>=0.0f && dX<1.0f && dZ<1.0f) )
 		return FLT_MIN;
 
@@ -297,7 +297,7 @@ bool SMDFile::ObjectCollision(float x1, float z1, float y1, float x2, float z2, 
 	__Vector3	vDir = vec2 - vec1;
 	float fSpeed = 	vDir.Magnitude();
 	vDir.Normalize();
-	
+
 	return m_N3ShapeMgr->CheckCollision(vec1, vDir, fSpeed);
 }
 

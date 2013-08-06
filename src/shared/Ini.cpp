@@ -48,7 +48,7 @@ bool CIni::Load(const char * lpFilename /*= nullptr*/)
 				continue;
 
 			std::string key = line.substr(0, keySeparatorPos),
-						value = line.substr(keySeparatorPos + 1);
+				value = line.substr(keySeparatorPos + 1);
 
 			// Clean up key/value to allow for 'key = value'
 			rtrim(key);   /* remove trailing whitespace from keys */
@@ -67,7 +67,7 @@ bool CIni::Load(const char * lpFilename /*= nullptr*/)
 
 		// Not a value, so assume it's a section
 		size_t sectionStart = line.find_first_of(INI_SECTION_START),
-				sectionEnd = line.find_last_of(INI_SECTION_END);
+			sectionEnd = line.find_last_of(INI_SECTION_END);
 
 		if (sectionStart == std::string::npos
 			|| sectionEnd == std::string::npos

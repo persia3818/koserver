@@ -41,11 +41,11 @@ protected:
 
 #define _HANDLE_DB_ERROR(err) \
 	if (err != nullptr) \
-		_DISPLAY_DB_ERROR(err); \
+	_DISPLAY_DB_ERROR(err); \
 	return (err == nullptr)
 
 #define _HANDLE_DB_ERROR_ONLY(err) \
 	if (err != nullptr) { \
-		_DISPLAY_DB_ERROR(err); \
-		return false; \
+	_DISPLAY_DB_ERROR(err); \
+	return false; \
 	}

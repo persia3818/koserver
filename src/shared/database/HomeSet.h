@@ -33,7 +33,7 @@ public:
 
 		if (!m_pMap->PutData(pData->bNation, pData))
 			delete pData;
-	
+
 		return true;
 	}
 

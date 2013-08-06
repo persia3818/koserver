@@ -82,7 +82,7 @@ public:
 	INLINE uint16 GetClanID() { return 0; }
 	INLINE uint8 GetStat(StatType type) { return 0; }
 	INLINE void SetStatBuff(StatType type, uint8 val) {}
-		
+
 	void RemoveSavedMagic(uint32 nSkillID) {}
 	void SendUserStatusUpdate(UserStatus type, UserStatusBehaviour status) {}
 	void SetUserAbility(bool bSendPacket = true) {}
@@ -92,8 +92,8 @@ public:
 	uint32	m_nOldAbnormalType;
 	uint16	m_sExpGainAmount;
 	uint8	m_bMaxWeightAmount, m_bNPGainAmount, m_bNoahGainAmount, 
-			m_bPlayerAttackAmount, m_bSkillNPBonus,
-			m_bAddWeaponDamage;
+		m_bPlayerAttackAmount, m_bSkillNPBonus,
+		m_bAddWeaponDamage;
 	uint16	m_sAddArmourAc;
 	uint8	m_bPctArmourAc;
 	bool	m_bPremiumMerchant;

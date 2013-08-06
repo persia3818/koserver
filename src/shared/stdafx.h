@@ -59,7 +59,7 @@
 #		define PLATFORM PLATFORM_UNIX
 #	endif
 
-	/* Define the Unix flavour */
+/* Define the Unix flavour */
 #	if defined(HAVE_DARWIN)
 #		define UNIX_FLAVOUR UNIX_FLAVOUR_OSX
 #		define PLATFORM_TEXT "MacOSX"

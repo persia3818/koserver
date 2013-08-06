@@ -53,7 +53,7 @@ private:
 	bool GetServerResourceTable();
 	bool MapFileLoad();
 	void GetServerInfoIni();
-	
+
 public:
 	CServerDlg();
 	bool Startup();

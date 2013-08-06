@@ -4,7 +4,7 @@
 void CUser::ShoppingMall(Packet & pkt)
 {
 	uint8 opcode = pkt.read<uint8>();
-		
+
 	switch (opcode)
 	{
 	case STORE_OPEN:
@@ -50,7 +50,7 @@ void CUser::HandleStoreOpen(Packet & pkt)
 
 	if (sErrorCode != 1)
 		goto fail_return;
-	
+
 	for (int i = SLOT_MAX; i < INVENTORY_TOTAL; i++)
 	{
 		if (GetItem(i)->nNum == 0)
@@ -99,10 +99,10 @@ void CUser::ReqLoadWebItemMall()
 	{
 		_ITEM_DATA * pItem = GetItem(i);
 		result	<< pItem->nNum
-				<< pItem->sDuration
-				<< pItem->sCount
-				<< pItem->bFlag // item type flag (e.g. rented)
-				<< pItem->sRemainingRentalTime; // remaining time
+			<< pItem->sDuration
+			<< pItem->sCount
+			<< pItem->bFlag // item type flag (e.g. rented)
+			<< pItem->sRemainingRentalTime; // remaining time
 	}
 
 	Send(&result);

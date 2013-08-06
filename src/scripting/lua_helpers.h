@@ -26,21 +26,21 @@
 //      const char * Class ## ::LUA_CLASS_METATABLE = "luaL_" STR(Class); \
 //      DEFINE_LUA_FUNCTION_TABLE(Class::LUA_CLASS_METHOD_TABLE, methods)
 #define DEFINE_LUA_CLASS(...) \
-        const char * LUA_CLASS::LUA_CLASS_METATABLE = STRINGIFY(CONCAT(luaL_, LUA_CLASS)); \
-        DEFINE_LUA_FUNCTION_TABLE(LUA_CLASS::LUA_CLASS_METHOD_TABLE, __VA_ARGS__)
+	const char * LUA_CLASS::LUA_CLASS_METATABLE = STRINGIFY(CONCAT(luaL_, LUA_CLASS)); \
+	DEFINE_LUA_FUNCTION_TABLE(LUA_CLASS::LUA_CLASS_METHOD_TABLE, __VA_ARGS__)
 
 // Helper macro to build a Lua function table.
 // Should look something like:
 /*
-	const struct luaL_Reg gFuncs[] =
-	{
-		{ "Function", Function },
-		{ nullptr, nullptr }
-	};
+const struct luaL_Reg gFuncs[] =
+{
+{ "Function", Function },
+{ nullptr, nullptr }
+};
 */
 #define DEFINE_LUA_FUNCTION_TABLE(name, ...) const struct luaL_Reg name[] = \
 	 { \
-		__VA_ARGS__ \
+	 __VA_ARGS__ \
 		{ nullptr, nullptr } \
 	 }
 
@@ -57,8 +57,8 @@
 #define DECLARE_LUA_GETTER(name) DECLARE_LUA_FUNCTION(name) { LUA_RETURN(LUA_GET_INSTANCE()->name()); }
 
 /**
- * Start of helper template functions 
- **/
+* Start of helper template functions 
+**/
 
 // Creates Lua userdata & assigns it to the predefined class's metatable
 // so that we can use the object directly within Lua.

@@ -8,8 +8,8 @@ public:
 
 	virtual tstring GetTableName() { return _T("ITEM_UPGRADE"); }
 	virtual tstring GetColumns() { return _T("nIndex, nNPCNum, nOriginType, nOriginItem, "
-											"nReqItem1, nReqItem2, nReqItem3, nReqItem4, nReqItem5, nReqItem6, nReqItem7, nReqItem8, "
-											"nReqNoah, bRateType, nGenRate, nGiveItem"); }
+		"nReqItem1, nReqItem2, nReqItem3, nReqItem4, nReqItem5, nReqItem6, nReqItem7, nReqItem8, "
+		"nReqNoah, bRateType, nGenRate, nGiveItem"); }
 
 	virtual bool Fetch()
 	{

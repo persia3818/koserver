@@ -46,7 +46,7 @@ struct _NpcPosition
 //
 #define NPC_NUM					20
 #define MAX_DUNGEON_BOSS_MONSTER	20
-	
+
 #define NPC_PASSIVE				150
 #define NPC_MAX_MOVE_RANGE		100
 

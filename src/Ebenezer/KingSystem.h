@@ -134,22 +134,22 @@ public:
 	KingCandidacyNoticeBoardMap m_noticeBoardMap;
 
 	/**
-	 * @brief	List of senators.
-	 * 			Senators are the top 10 clan leaders and are
-	 * 			able to nominate a King or propose impeachment.
-	 */
+	* @brief	List of senators.
+	* 			Senators are the top 10 clan leaders and are
+	* 			able to nominate a King or propose impeachment.
+	*/
 	KingElectionList m_senatorList;
 
 	/**
-	 * @brief	List of candidates still in the running for King.
-	 * 			Candidates for election must be senators,
-	 * 			so this data just refers to the above senator list.
-	 */
+	* @brief	List of candidates still in the running for King.
+	* 			Candidates for election must be senators,
+	* 			so this data just refers to the above senator list.
+	*/
 	KingElectionList m_candidateList;
 
 	/**
-	 * @brief	List of resigned candidates.
-	 */
+	* @brief	List of resigned candidates.
+	*/
 	ResignedCandidateList m_resignedCandidateList;
 
 	// TO-DO: Give this a more appropriate name.

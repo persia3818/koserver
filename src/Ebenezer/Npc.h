@@ -21,10 +21,10 @@ public:
 	int		m_iHP;				// 현재 HP
 	uint8	m_byState;			// 몬스터 (NPC) 상태
 	uint8	m_tNpcType;			// NPC Type
-								// 0 : Normal Monster
-								// 1 : NPC
-								// 2 : 각 입구,출구 NPC
-								// 3 : 경비병
+	// 0 : Normal Monster
+	// 1 : NPC
+	// 2 : 각 입구,출구 NPC
+	// 3 : 경비병
 	int   m_iSellingGroup;		// ItemGroup
 
 	uint8	m_NpcState;			// NPC의 상태 - 살았다, 죽었다, 서있다 등등...
@@ -100,8 +100,8 @@ public:
 
 	DECLARE_LUA_FUNCTION(CastSkill) {
 		LUA_RETURN(LUA_GET_INSTANCE()->CastSkill(
-				reinterpret_cast<Unit *>(LUA_ARG(CUser *, 2)),
-				LUA_ARG(uint32, 3)
-		));
+			reinterpret_cast<Unit *>(LUA_ARG(CUser *, 2)),
+			LUA_ARG(uint32, 3)
+			));
 	}
 };

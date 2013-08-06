@@ -34,7 +34,7 @@ public:
 		{
 			if (nKarusCount == 5)
 				return true;
-			
+
 			CUser *pUser = g_pMain->GetUserPtr(pKnights->m_strChief, TYPE_CHARACTER);
 			if (pUser == nullptr || !pUser->GetMap()->isWarZone())
 				return true;

@@ -3,7 +3,7 @@
 #define MAX_ZONE_ID 255 /* maximum size of a byte */
 
 typedef std::map<uint16, _ZONE_INFO *> ZoneInfoMap;
-	
+
 class CZoneInfoSet : public OdbcRecordset
 {
 public:
@@ -21,7 +21,7 @@ public:
 	virtual bool Fetch()
 	{
 		_ZONE_INFO * pData = new _ZONE_INFO;
-		
+
 		int i = 1;
 		_dbCommand->FetchUInt16(i++, pData->m_nServerNo);
 		_dbCommand->FetchUInt16(i++, pData->m_nZoneNumber);
