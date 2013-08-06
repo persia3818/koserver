@@ -4511,7 +4511,7 @@ void CUser::RecastSavedMagic()
 
 	foreach (itr, castSet)
 	{
-		MagicInstance instance;
+		MagicInstance instance;			
 
 		instance.sCasterID = GetID();
 		instance.sTargetID = GetID();
@@ -4519,6 +4519,19 @@ void CUser::RecastSavedMagic()
 		instance.bIsRecastingSavedMagic = true;
 
 		instance.Run();
+
+		_MAGIC_TABLE * pSkill = g_pMain->m_MagictableArray.GetData(itr->first);
+		if (pSkill != nullptr)
+		{
+			if (pSkill->bType[0] == 4 || pSkill->bType[1] == 4)
+			{
+				_MAGIC_TYPE4 * pType =  g_pMain->m_Magictype4Array.GetData(itr->first);
+				if (pType != nullptr) {
+					if (pType->bBuffType == BUFF_TYPE_HP_MP)
+						HpChange(GetMaxHealth());
+				}
+			}
+		}
 	}
 
 }

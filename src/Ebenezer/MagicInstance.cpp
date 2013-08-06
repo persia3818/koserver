@@ -916,7 +916,7 @@ bool MagicInstance::ExecuteType1()
 
 	// This should only be sent once. I don't think there's reason to enforce this, as no skills behave otherwise
 	sData[3] = (damage == 0 ? SKILLMAGIC_FAIL_ATTACKZERO : 0);
-
+	
 	// Send the skill data in the current context to the caster's region
 	SendSkill();
 

@@ -890,7 +890,7 @@ FriendRemoveResult CDBAgent::RemoveFriend(string & strCharID, CUser *pUser)
 	dbCommand->AddParameter(SQL_PARAM_INPUT, strCharID.c_str(), strCharID.length());
 	dbCommand->AddParameter(SQL_PARAM_OUTPUT, &nRet);
 
-	if (!dbCommand->Execute(_T("{CALL DELETE_FRIEND_LIST(?, ?, ?)")))
+	if (!dbCommand->Execute(_T("{CALL DELETE_FRIEND_LIST(?, ?, ?)}")))
 		ReportSQLError(m_GameDB->GetError());
 
 	if (nRet < 0 || nRet >= FRIEND_REMOVE_MAX)
