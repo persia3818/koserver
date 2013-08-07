@@ -43,7 +43,11 @@
 #define KARUS_ARRAY (KARUS - 1)
 #define ELMORAD_ARRAY (ELMORAD - 1)
 
-#define BATTLE_ZONE			101
+#define BATTLE_ZONE1			61 // Napies Gorge - Lunar War
+#define BATTLE_ZONE2			62 // Alseids Prairie - Lunar War
+#define BATTLE_ZONE3			63 // Nieds Triangle - Dark Lunar War
+#define BATTLE_ZONE4			64 // Nereid's Island - Lunar War
+#define BATTLE_ZONE5			66 // Oreads - Lunar War
 
 ////////////////////////////////////////////////////////////
 
