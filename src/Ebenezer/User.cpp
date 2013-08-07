@@ -4546,6 +4546,9 @@ void CUser::RecastSavedMagic()
 */
 void CUser::HandlePlayerRankings(Packet & pkt)
 {
+	//TODO Geçici Devredýþý...
+	return;
+
 	/* 
 	NOTE: This is a mockup. 
 	It should not be used in its current state for anything
