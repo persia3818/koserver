@@ -319,21 +319,6 @@ void CNpc::OnDeath(Unit *pKiller)
 
 	Unit::OnDeath(pKiller);
 
-	CNpc * pNpc = TO_NPC(this);
-	CUser * pUser = TO_USER(pKiller);
-
-	if (pNpc != nullptr && pUser != nullptr)
-	{
-		if (pNpc->isMonster() && pUser->isPlayer())
-		{
-			if (pNpc->m_sSid == 700 || pNpc->m_sSid == 750)
-			{
-				if (pUser->CheckExistEvent(STARTER_SEED_QUEST, 0) || pUser->CheckExistEvent(STARTER_SEED_QUEST, 1))
-					pUser->SaveEvent(STARTER_SEED_QUEST, 2);
-			}
-		}
-	}
-
 	GetRegion()->Remove(TO_NPC(this));
 	SetRegion();
 }
