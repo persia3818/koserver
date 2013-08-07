@@ -245,6 +245,7 @@
     <ClCompile Include="TradeHandler.cpp" />
     <ClCompile Include="Unit.cpp" />
     <ClCompile Include="UpgradeHandler.cpp" />
+    <ClCompile Include="EventHandler.cpp" />
     <ClCompile Include="User.cpp">
       <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">%(PreprocessorDefinitions)</PreprocessorDefinitions>
