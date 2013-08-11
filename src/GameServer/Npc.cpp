@@ -375,8 +375,6 @@ void CNpc::ChaosStone(CNpc *pNpc, CUser *pUser, uint16 MonsterCount)
 	g_pMain->SendNotice<ANNOUNCEMENT_WHITE_CHAT>(string_format("- ## %s Chaos Stone'yi Kesti ## -",pUser->GetName().c_str()).c_str(),ZoneID,pUser->GetNation());
 
 	uint16 CurrentMonsterCountRepawned = 0;
-	float RandSpawnX = pNpc->GetX();
-	float RandSpawnZ = pNpc->GetZ();
 
 	foreach_stlmap_nolock(itr, g_pMain->m_MonsterSummonListZoneArray) {
 		_MONSTER_SUMMON_LIST_ZONE * pMonsterSummonListZone = g_pMain->m_MonsterSummonListZoneArray.GetData(itr->first);
