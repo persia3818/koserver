@@ -165,7 +165,8 @@ enum ChatType
 	CLAN_NOTICE					= 24,
 	KROWAZ_NOTICE				= 25,
 	DEATH_NOTICE				= 26,
-	CHAOS_STONE_NOTICE			= 27,	// The enemy has destroyed the Chaos stone something (Red text, middle of screen)
+	CHAOS_STONE_ENEMY_NOTICE	= 27,	// The enemy has destroyed the Chaos stone something (Red text, middle of screen)
+	CHAOS_STONE_NOTICE			= 28,	
 	ANNOUNCEMENT_WHITE_CHAT		= 29	// what's it used for?
 };
 
@@ -549,8 +550,8 @@ enum
 // Server to DB Agnent Communication
 ////////////////////////////////////////////////////////////////
 #define DB_COUPON_EVENT			0x10	// coupon event
-		#define CHECK_COUPON_EVENT		0x01
-		#define UPDATE_COUPON_EVENT		0x02
+#define CHECK_COUPON_EVENT		0x01
+#define UPDATE_COUPON_EVENT		0x02
 ////////////////////////////////////////////////////////////////
 
 

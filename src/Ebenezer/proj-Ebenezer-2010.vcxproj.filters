@@ -503,6 +503,9 @@
     <ClInclude Include="..\shared\database\PremiumItemSet.h">
       <Filter>Database</Filter>
     </ClInclude>
+    <ClInclude Include="..\shared\database\MonsterSummonListZoneSet.h">
+      <Filter>Database</Filter>
+    </ClInclude>
     <ClInclude Include="..\shared\ListenSocketWin32.h">
       <Filter>Shared\Networking</Filter>
     </ClInclude>

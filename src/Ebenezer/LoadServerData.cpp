@@ -45,6 +45,7 @@
 #include "../shared/database/KingCandidacyNoticeBoardSet.h"
 #include "../shared/database/KingElectionListSet.h"
 #include "../shared/database/MonsterSummonListSet.h"
+#include "../shared/database/MonsterSummonListZoneSet.h"
 #include "../shared/database/PremiumItemSet.h"
 #include "../shared/database/PremiumItemExpSet.h"
 
@@ -303,6 +304,11 @@ bool CEbenezerDlg::LoadKingSystem()
 bool CEbenezerDlg::LoadMonsterSummonListTable()
 {
 	LOAD_TABLE(CMonsterSummonListSet, g_DBAgent.m_GameDB, &m_MonsterSummonList, true);
+}
+
+bool CEbenezerDlg::LoadMonsterSummonListZoneTable()
+{
+	LOAD_TABLE(CMonsterSummonListZoneSet, g_DBAgent.m_GameDB, &m_MonsterSummonListZoneArray, true);
 }
 
 bool CEbenezerDlg::LoadPremiumItemTable()

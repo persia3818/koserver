@@ -60,6 +60,7 @@ public:
 	bool LoadBattleTable();
 	bool LoadKingSystem();
 	bool LoadMonsterSummonListTable();
+	bool LoadMonsterSummonListZoneTable();
 	bool LoadPremiumItemTable();
 	bool LoadPremiumItemExpTable();
 
@@ -160,6 +161,21 @@ public:
 	}
 
 	template <ChatType chatType>
+	INLINE void SendChatToZone(const char * msg, uint8 ZoneID, uint8 byNation = Nation::ALL, bool bFormatNotice = false)
+	{
+		Packet result;
+		std::string buffer;
+
+		if (bFormatNotice)
+			GetServerResource(IDP_ANNOUNCEMENT, &buffer, msg);
+		else
+			buffer = msg;
+
+		ChatPacket::Construct(&result, (uint8) chatType, &buffer);
+		Send_Zone(&result, ZoneID, nullptr, byNation);
+	}
+
+	template <ChatType chatType>
 	INLINE void SendFormattedChat(const char * msg, uint8 byNation = Nation::ALL, bool bFormatNotice = false, va_list args = nullptr)
 	{
 		char buffer[512];
@@ -182,6 +198,12 @@ public:
 	INLINE void SendNotice(const char *msg, uint8 byNation = Nation::ALL) 
 	{
 		SendChat<PUBLIC_CHAT>(msg, byNation, true);
+	}
+
+	template <ChatType chatType>
+	INLINE void SendNotice(const char *msg, uint8 ZoneID, uint8 byNation = Nation::ALL) 
+	{
+		SendChatToZone<chatType>(msg, ZoneID, byNation, false);
 	}
 
 	void SendFormattedNotice(const char *msg, uint8 byNation = Nation::ALL, ...)
@@ -262,48 +284,49 @@ public:
 	char	m_ppNotice[20][128];
 	std::string	m_AIServerIP;
 
-	NpcArray				m_arNpcArray;
-	ZoneArray				m_ZoneArray;
-	ItemtableArray			m_ItemtableArray;
-	SetItemArray			m_SetItemArray;
-	MagictableArray			m_MagictableArray;
-	Magictype1Array			m_Magictype1Array;
-	Magictype2Array         m_Magictype2Array;
-	Magictype3Array			m_Magictype3Array;
-	Magictype4Array			m_Magictype4Array;
-	Magictype5Array         m_Magictype5Array;
-	Magictype6Array         m_Magictype6Array;
-	Magictype7Array         m_Magictype7Array;
-	Magictype8Array         m_Magictype8Array;
-	Magictype9Array         m_Magictype9Array;
-	CoefficientArray		m_CoefficientArray;
-	LevelUpArray			m_LevelUpArray;
-	PartyArray				m_PartyArray;
-	KnightsArray			m_KnightsArray;
-	KnightsRatingArray		m_KnightsRatingArray[2]; // one for both nations
-	KnightsAllianceArray	m_KnightsAllianceArray;
-	KnightsCapeArray		m_KnightsCapeArray;
-	UserNameRankMap			m_UserPersonalRankMap;
-	UserNameRankMap			m_UserKnightsRankMap;
-	UserRankMap				m_playerRankings[2]; // one for both nations
-	FastMutex				m_userRankingsLock;
-	HomeArray				m_HomeArray;
-	StartPositionArray		m_StartPositionArray;
-	ServerResourceArray		m_ServerResourceArray;
-	QuestHelperArray		m_QuestHelperArray;
-	QuestNpcList			m_QuestNpcList;
-	QuestMonsterArray		m_QuestMonsterArray;
-	RentalItemArray			m_RentalItemArray;
-	ItemExchangeArray		m_ItemExchangeArray;
-	ItemUpgradeArray		m_ItemUpgradeArray;
-	ItemOpArray				m_ItemOpArray;
-	KingSystemArray			m_KingSystemArray;
-	MonsterSummonListArray	m_MonsterSummonList;
-	PremiumItemArray		m_PremiumItemArray;
-	PremiumItemExpArray		m_PremiumItemExpArray;
+	NpcArray					m_arNpcArray;
+	ZoneArray					m_ZoneArray;
+	ItemtableArray				m_ItemtableArray;
+	SetItemArray				m_SetItemArray;
+	MagictableArray				m_MagictableArray;
+	Magictype1Array				m_Magictype1Array;
+	Magictype2Array				m_Magictype2Array;
+	Magictype3Array				m_Magictype3Array;
+	Magictype4Array				m_Magictype4Array;
+	Magictype5Array				m_Magictype5Array;
+	Magictype6Array				m_Magictype6Array;
+	Magictype7Array				m_Magictype7Array;
+	Magictype8Array				m_Magictype8Array;
+	Magictype9Array				m_Magictype9Array;
+	CoefficientArray			m_CoefficientArray;
+	LevelUpArray				m_LevelUpArray;
+	PartyArray					m_PartyArray;
+	KnightsArray				m_KnightsArray;
+	KnightsRatingArray			m_KnightsRatingArray[2]; // one for both nations
+	KnightsAllianceArray		m_KnightsAllianceArray;
+	KnightsCapeArray			m_KnightsCapeArray;
+	UserNameRankMap				m_UserPersonalRankMap;
+	UserNameRankMap				m_UserKnightsRankMap;
+	UserRankMap					m_playerRankings[2]; // one for both nations
+	FastMutex					m_userRankingsLock;
+	HomeArray					m_HomeArray;
+	StartPositionArray			m_StartPositionArray;
+	ServerResourceArray			m_ServerResourceArray;
+	QuestHelperArray			m_QuestHelperArray;
+	QuestNpcList				m_QuestNpcList;
+	QuestMonsterArray			m_QuestMonsterArray;
+	RentalItemArray				m_RentalItemArray;
+	ItemExchangeArray			m_ItemExchangeArray;
+	ItemUpgradeArray			m_ItemUpgradeArray;
+	ItemOpArray					m_ItemOpArray;
+	KingSystemArray				m_KingSystemArray;
+	MonsterSummonListArray		m_MonsterSummonList;
+	MonsterSummonListZoneArray	m_MonsterSummonListZoneArray;
+	PremiumItemArray			m_PremiumItemArray;
+	PremiumItemExpArray			m_PremiumItemExpArray;
 	_PVP_RANKINGS				m_PVPRankings[MAX_USER];
 
-	Atomic<uint16>			m_sPartyIndex;
+	Atomic<uint16>				m_sPartyIndex;
 	short	m_sZoneCount;							// AI Server 재접속시 사용
 
 	bool	m_bFirstServerFlag;		// 서버가 처음시작한 후 게임서버가 붙은 경우에는 1, 붙지 않은 경우 0

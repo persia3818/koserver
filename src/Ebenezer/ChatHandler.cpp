@@ -61,6 +61,7 @@ void CUser::InitChatCommands()
 		{ "exp_add",			&CUser::HandleExpAddCommand,					"Sets the server-wide XP event. If bonusPercent is set to 0, the event is ended. Arguments: bonusPercent" },
 		{ "money_add",			&CUser::HandleMoneyAddCommand,					"Sets the server-wide coin event. If bonusPercent is set to 0, the event is ended. Arguments: bonusPercent" },
 		{ "permitconnect",		&CUser::HandlePermitConnectCommand,				"Player unban" },
+
 	};
 
 	init_command_table(CUser, commandTable, s_commandTable);
@@ -789,6 +790,8 @@ COMMAND_HANDLER(CEbenezerDlg::HandleReloadTablesCommand)
 	g_pMain->m_UserPersonalRankMap.clear();
 	g_pMain->m_UserKnightsRankMap.clear();
 	g_pMain->LoadUserRankings();
+	g_pMain->m_MonsterSummonListZoneArray.DeleteAllData();
+	g_pMain->LoadMonsterSummonListZoneTable();
 	g_pMain->m_PremiumItemArray.DeleteAllData();
 	g_pMain->LoadPremiumItemTable();
 	g_pMain->m_PremiumItemExpArray.DeleteAllData();

@@ -148,6 +148,7 @@ bool CEbenezerDlg::Startup()
 		|| !MapFileLoad()
 		|| !LoadKingSystem()
 		|| !LoadMonsterSummonListTable()
+		|| !LoadMonsterSummonListZoneTable()
 		|| !LoadPremiumItemTable()
 		|| !LoadPremiumItemExpTable())
 		return false;
@@ -641,11 +642,17 @@ void CEbenezerDlg::Send_Zone(Packet *pkt, uint8 bZoneID, CUser* pExceptUser /*= 
 	foreach (itr, sessMap)
 	{
 		CUser * pUser = TO_USER(itr->second);
-		if (pUser == pExceptUser 
-			|| !pUser->isInGame()
+
+		if (!pUser->isInGame()
 			|| pUser->GetZoneID() != bZoneID
 			|| (nation != Nation::ALL && nation != pUser->GetNation()))
+		{
+			if (pExceptUser != nullptr)
+				if (pUser == pExceptUser)
+					continue;
+
 			continue;
+		}
 
 		pUser->Send(pkt);
 	}

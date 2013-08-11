@@ -318,22 +318,84 @@ void CNpc::OnDeath(Unit *pKiller)
 	}
 
 	Unit::OnDeath(pKiller);
+	OnDeathProcess(pKiller);
 
+	GetRegion()->Remove(TO_NPC(this));
+	SetRegion();
+}
+
+/**
+* @brief	Executes the death process.
+*
+* @param	pKiller	The killer.
+*/
+void CNpc::OnDeathProcess(Unit *pKiller)
+{
 	CNpc * pNpc = TO_NPC(this);
 	CUser * pUser = TO_USER(pKiller);
 
 	if (pNpc != nullptr && pUser != nullptr)
 	{
-		if (pNpc->isMonster() && pUser->isPlayer())
+		if (pUser->isPlayer())
 		{
-			if (pNpc->m_sSid == 700 || pNpc->m_sSid == 750)
+			if (pNpc->isNPC())
 			{
-				if (pUser->CheckExistEvent(STARTER_SEED_QUEST, 0) || pUser->CheckExistEvent(STARTER_SEED_QUEST, 1))
-					pUser->SaveEvent(STARTER_SEED_QUEST, 2);
+				if (pNpc->m_sSid == 24100) // Chaos Stone
+				{
+					ChaosStone(pUser,5);
+				}
+			}
+			else if (pNpc->isMonster()) // Seed Quest
+			{
+				if (pNpc->m_sSid == 700 || pNpc->m_sSid == 750)
+				{
+					if (pUser->CheckExistEvent(STARTER_SEED_QUEST, 0) || pUser->CheckExistEvent(STARTER_SEED_QUEST, 1))
+						pUser->SaveEvent(STARTER_SEED_QUEST, 2);
+				}
 			}
 		}
 	}
+}
 
-	GetRegion()->Remove(TO_NPC(this));
-	SetRegion();
+/**
+* @brief	Executes the death process.
+*
+* @param	pUser	The User.
+* @param	MonsterCount The Respawn boss count.
+*/
+void CNpc::ChaosStone(CUser *pUser, uint16 MonsterCount)
+{
+	if (pUser == nullptr)
+		return;
+
+	uint8 ZoneID = pUser->GetZoneID();
+
+	g_pMain->SendNotice<CHAOS_STONE_ENEMY_NOTICE>("",ZoneID,pUser->GetNation() == ELMORAD ? Nation::KARUS : Nation::ELMORAD);
+	g_pMain->SendNotice<PUBLIC_CHAT>(string_format("- ## %s Chaos Stone'yi Kesti ## -",pUser->GetName().c_str()).c_str(),ZoneID,pUser->GetNation());
+
+	uint16 CurrentMonsterCountRepawned = 0;
+	float SpawnX;
+	float SpawnZ;
+
+	foreach_stlmap_nolock(itr, g_pMain->m_MonsterSummonListZoneArray) {
+		_MONSTER_SUMMON_LIST_ZONE * pMonsterSummonListZone = g_pMain->m_MonsterSummonListZoneArray.GetData(itr->first);
+
+		if (pMonsterSummonListZone != nullptr)
+		{
+			if (pMonsterSummonListZone->ZoneID != ZoneID)
+				continue;
+
+			if (pMonsterSummonListZone->ZoneID == ZoneID)
+			{
+				if (CurrentMonsterCountRepawned > MonsterCount)
+					break;
+
+				SpawnX = (float)(CHAOS_STONE_MONSTER_RONARK_LAND_RESPAWN_X + myrand(-CHAOS_STONE_MONSTER_RONARK_LAND_RESPAWN_RADIUS, CHAOS_STONE_MONSTER_RONARK_LAND_RESPAWN_RADIUS));
+				SpawnZ = (float)(CHAOS_STONE_MONSTER_RONARK_LAND_RESPAWN_Z + myrand(-CHAOS_STONE_MONSTER_RONARK_LAND_RESPAWN_RADIUS, CHAOS_STONE_MONSTER_RONARK_LAND_RESPAWN_RADIUS));
+				g_pMain->SpawnEventNpc(pMonsterSummonListZone->sSid, true, ZoneID, SpawnX,0.0f, SpawnZ);
+
+				CurrentMonsterCountRepawned ++;
+			}
+		}
+	}
 }

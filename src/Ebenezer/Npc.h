@@ -58,6 +58,8 @@ public:
 	bool CastSkill(Unit * pTarget, uint32 nSkillID);
 
 	void OnDeath(Unit *pKiller);
+	void OnDeathProcess(Unit *pKiller);
+	void ChaosStone(CUser *pUser, uint16 MonsterCount);
 
 	bool isDead() { return m_NpcState == NPC_DEAD || m_iHP <= 0; };
 

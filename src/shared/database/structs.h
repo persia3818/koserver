@@ -257,6 +257,14 @@ struct _MONSTER_SUMMON_LIST
 	uint8	bType;
 };
 
+struct _MONSTER_SUMMON_LIST_ZONE
+{
+	uint32	nIndex;
+	uint16	ZoneID;
+	uint16	sSid;
+	uint8	bType;
+};
+
 #define MAX_PARTY_USERS		8
 struct	_PARTY_GROUP
 {
