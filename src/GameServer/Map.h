@@ -8,7 +8,7 @@ class CGameEvent;
 typedef CSTLMap <CGameEvent>		EventArray;
 
 class CUser;
-class CEbenezerDlg;
+class CGameServerDlg;
 class SMDFile;
 class C3DMap
 {

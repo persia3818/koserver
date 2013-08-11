@@ -129,7 +129,7 @@ private:
 	OdbcConnection *m_GameDB, *m_AccountDB;
 	FastMutex m_lock;
 
-	friend class CEbenezerDlg;
+	friend class CGameServerDlg;
 };
 
 extern CDBAgent g_DBAgent;

@@ -3,7 +3,7 @@
 #include "Extern.h"
 
 #include "../shared/STLMap.h"
-#include "../Ebenezer/Unit.h"
+#include "../GameServer/Unit.h"
 
 class MAP;
 

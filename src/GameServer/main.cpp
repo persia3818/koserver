@@ -3,7 +3,7 @@
 #include "ConsoleInputThread.h"
 #include "../shared/signal_handler.h"
 
-CEbenezerDlg * g_pMain;
+CGameServerDlg * g_pMain;
 static Condition s_hEvent;
 
 #ifdef WIN32
@@ -14,7 +14,7 @@ bool g_bRunning = true;
 
 int main()
 {
-	SetConsoleTitle("Game server for Knight Online v" STRINGIFY(__VERSION));
+	SetConsoleTitle("Game Server for Knight Online v" STRINGIFY(__VERSION));
 
 #ifdef WIN32
 	// Override the console handler
@@ -29,7 +29,7 @@ int main()
 	// Start up the console input thread
 	StartConsoleInputThread();
 
-	g_pMain = new CEbenezerDlg();
+	g_pMain = new CGameServerDlg();
 
 	// Start up server
 	if (g_pMain->Startup())

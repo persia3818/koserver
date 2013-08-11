@@ -1,7 +1,7 @@
 #pragma once
 
 class CUser;
-class CEbenezerDlg;
+class CGameServerDlg;
 class CKnights;
 class Packet;
 

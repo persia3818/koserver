@@ -98,7 +98,7 @@ typedef std::vector<Arrow> ArrowList;
 
 #include "GameDefine.h"
 
-class CEbenezerDlg;
+class CGameServerDlg;
 class CUser : public Unit, public KOSocket
 {
 public:

@@ -137,10 +137,10 @@
     <ClCompile Include="..\shared\SocketWin32.cpp">
       <Filter>shared\Networking</Filter>
     </ClCompile>
-    <ClCompile Include="..\Ebenezer\Unit.cpp">
+    <ClCompile Include="..\GameServer\Unit.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\Ebenezer\MagicProcess.cpp">
+    <ClCompile Include="..\GameServer\MagicProcess.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

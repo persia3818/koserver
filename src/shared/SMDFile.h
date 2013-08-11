@@ -68,7 +68,7 @@ private:
 	typedef std::map<std::string, SMDFile *> SMDMap;
 	static SMDMap s_loadedMaps;
 
-#if defined(EBENEZER)
+#if defined(GAMESERVER)
 	friend class C3DMap;
 #elif defined(AI_SERVER)
 	friend class MAP;

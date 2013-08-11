@@ -4,7 +4,7 @@
 #include "MAP.h"
 #include "Region.h"
 #include "../shared/globals.h"
-#include "../Ebenezer/MagicProcess.h"
+#include "../GameServer/MagicProcess.h"
 #include "Npc.h"
 
 CGameSocket::~CGameSocket() {}

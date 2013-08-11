@@ -83,9 +83,9 @@ static std::list<std::string> StrSplit(const std::string &src, const std::string
 }
 
 #include <map>
-class CEbenezerDlg;
+class CGameServerDlg;
 typedef std::map<std::string, Command<CUser> *> ChatCommandTable;
-typedef std::map<std::string, Command<CEbenezerDlg> *> ServerCommandTable;
+typedef std::map<std::string, Command<CGameServerDlg> *> ServerCommandTable;
 
 #define CHAT_COMMAND_PREFIX		'+'
 #define SERVER_COMMAND_PREFIX	'/'

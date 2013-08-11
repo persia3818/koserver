@@ -5,7 +5,7 @@
 #include "Npc.h"
 #include "User.h"
 #include "NpcThread.h"
-#include "../Ebenezer/MagicProcess.h"
+#include "../GameServer/MagicProcess.h"
 
 #include "../shared/database/OdbcRecordset.h"
 #include "../shared/database/MagicTableSet.h"
@@ -743,7 +743,7 @@ MAP * CServerDlg::GetZoneByID(int zonenumber)
 
 void CServerDlg::GetServerInfoIni()
 {
-	CIni ini("./server.ini");
+	CIni ini("./AIServer.ini");
 	ini.GetString("ODBC", "GAME_DSN", "KN_online", m_strGameDSN, false);
 	ini.GetString("ODBC", "GAME_UID", "knight", m_strGameUID, false);
 	ini.GetString("ODBC", "GAME_PWD", "knight", m_strGamePWD, false);

@@ -12,7 +12,7 @@ bool g_bRunning = true;
 
 int main()
 {
-	SetConsoleTitle("AI server for Knight Online v" STRINGIFY(__VERSION));
+	SetConsoleTitle("AI Server for Knight Online v" STRINGIFY(__VERSION));
 
 #ifdef WIN32
 	// Override the console handler

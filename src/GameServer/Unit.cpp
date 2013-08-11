@@ -1,7 +1,7 @@
 #include "stdafx.h"
 #include "Map.h"
-#ifdef EBENEZER
-#	include "EbenezerDlg.h"
+#ifdef GAMESERVER
+#	include "GameServerDlg.h"
 #	include "MagicInstance.h"
 #else
 #	include "../AIServer/ServerDlg.h"
@@ -147,7 +147,7 @@ bool Unit::isInRangeSlow(float fStartX, float fStartZ, float fEndX, float fEndZ,
 	return isInRange(fStartX, fStartZ, fEndX, fEndZ, pow(fNonSquaredRange, 2.0f));
 }
 
-#ifdef EBENEZER
+#ifdef GAMESERVER
 void Unit::SetRegion(uint16 x /*= -1*/, uint16 z /*= -1*/) 
 {
 	m_sRegionX = x; m_sRegionZ = z; 
@@ -237,7 +237,7 @@ short CUser::GetDamage(Unit *pTarget, _MAGIC_TABLE *pSkill /*= nullptr*/, bool b
 
 	temp_ap = m_sTotalHit * m_bAttackAmount;
 
-#ifdef EBENEZER
+#ifdef GAMESERVER
 	// Apply player vs player AC/AP bonuses.
 	if (pTarget->isPlayer())
 	{
@@ -332,7 +332,7 @@ short CUser::GetDamage(Unit *pTarget, _MAGIC_TABLE *pSkill /*= nullptr*/, bool b
 		else
 		{	// Normal Hit.
 
-#ifdef EBENEZER
+#ifdef GAMESERVER
 			if (isGM() && !pTarget->isPlayer())
 			{
 				damage = 30000;
@@ -351,7 +351,7 @@ short CUser::GetDamage(Unit *pTarget, _MAGIC_TABLE *pSkill /*= nullptr*/, bool b
 		{	 // Skill Hit.
 
 		} else { // Normal Hit.
-#ifdef EBENEZER
+#ifdef GAMESERVER
 			if (isGM() && !pTarget->isPlayer())
 			{
 				damage = 30000;
@@ -385,7 +385,7 @@ short CUser::GetDamage(Unit *pTarget, _MAGIC_TABLE *pSkill /*= nullptr*/, bool b
 	return damage;
 }
 
-#if EBENEZER
+#if GAMESERVER
 void CUser::OnAttack(Unit * pTarget, AttackType attackType)
 {
 	if (!pTarget->isPlayer()
@@ -658,7 +658,7 @@ short Unit::GetACDamage(int damage, Unit *pTarget)
 	if (!isPlayer() || !pTarget->isPlayer())
 		return damage;
 
-#ifdef EBENEZER
+#ifdef GAMESERVER
 	if (pTarget->isDead())
 		return 0;
 
@@ -780,7 +780,7 @@ uint8 Unit::GetHitRate(float rate)
 	return FAIL;
 }
 
-#ifdef EBENEZER
+#ifdef GAMESERVER
 void Unit::SendToRegion(Packet *result)
 {
 	g_pMain->Send_Region(result, GetMap(), GetRegionX(), GetRegionZ());
@@ -809,7 +809,7 @@ void Unit::InitType4(bool bRemoveSavedMagic /*= false*/)
 
 	for (auto itr = buffMap.begin(); itr != buffMap.end(); itr++)
 	{
-#ifdef EBENEZER
+#ifdef GAMESERVER
 		CMagicProcess::RemoveType4Buff(itr->first, this, bRemoveSavedMagic);
 #endif
 	}
@@ -850,14 +850,14 @@ bool Unit::CanAttack(Unit * pTarget)
 
 void Unit::OnDeath(Unit *pKiller)
 {
-#ifdef EBENEZER
+#ifdef GAMESERVER
 	SendDeathAnimation(pKiller);
 #endif
 }
 
 void Unit::SendDeathAnimation(Unit * pKiller /*= nullptr*/)
 {
-#ifdef EBENEZER
+#ifdef GAMESERVER
 	Packet result(WIZ_DEAD);
 	result << GetID();
 	SendToRegion(&result);
@@ -880,7 +880,7 @@ void Unit::AddType4Buff(uint8 bBuffType, _BUFF_TYPE4_INFO & pBuffInfo)
 
 /**************************************************************************
 * The following methods should not be here, but it's necessary to avoid
-* code duplication between AI and Ebenezer until they're better merged.
+* code duplication between AI and GameServer until they're better merged.
 **************************************************************************/ 
 
 /**
@@ -1084,7 +1084,7 @@ bool CUser::isInPVPZone()
 	if (GetMap()->canAttackOtherNation())
 		return true;
 
-#if defined(EBENEZER)
+#if defined(GAMESERVER)
 	// Native/home zones are classed as PVP zones during invasions.
 	if ((GetZoneID() == KARUS && g_pMain->m_byKarusOpenFlag) 
 		|| (GetZoneID() == ELMORAD && g_pMain->m_byElmoradOpenFlag))

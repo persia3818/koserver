@@ -3,14 +3,14 @@
 #include "MagicInstance.h"
 #include "Map.h"
 
-#if defined(EBENEZER)
-#	include "EbenezerDlg.h"
+#if defined(GAMESERVER)
+#	include "GameServerDlg.h"
 #else
 #	include "../AIServer/ServerDlg.h"
 #	include "../AIServer/User.h"
 #endif
 
-#if defined(EBENEZER)
+#if defined(GAMESERVER)
 void CMagicProcess::MagicPacket(Packet & pkt, Unit * pCaster /*= nullptr*/)
 {
 	MagicInstance instance;
@@ -196,7 +196,7 @@ final_test:
 	return (radius == 0 || pSkillTarget->isInRangeSlow(mousex, mousez, (float) radius));
 }
 
-#if defined(EBENEZER)
+#if defined(GAMESERVER)
 void CMagicProcess::CheckExpiredType6Skills(Unit * pTarget)
 {
 	if (!pTarget->isPlayer()
@@ -476,7 +476,7 @@ bool CMagicProcess::GrantType4Buff(_MAGIC_TABLE * pSkill, _MAGIC_TYPE4 *pType, U
 
 	case BUFF_TYPE_IGNORE_WEAPON:		// Weapon cancellation
 		// Disarms the opponent. (rendering them unable to attack)
-#if defined(EBENEZER)
+#if defined(GAMESERVER)
 		if (pTarget->isPlayer())
 		{
 			CUser * pTUser = TO_USER(pTarget);
@@ -600,7 +600,7 @@ bool CMagicProcess::GrantType4Buff(_MAGIC_TABLE * pSkill, _MAGIC_TYPE4 *pType, U
 		return false;
 	}
 
-#if defined(EBENEZER)		// update the target data in the AI server.
+#if defined(GAMESERVER)		// update the target data in the AI server.
 	UpdateAIServer(pSkill->iNum, AISkillOpcodeBuff, pCaster, pTarget, bIsRecastingSavedMagic);
 #elif defined(AI_SERVER)	// on the AI server's side, add the buff to the target's buff map.
 	_BUFF_TYPE4_INFO buffInfo;
@@ -806,7 +806,7 @@ bool CMagicProcess::RemoveType4Buff(uint8 byBuffType, Unit *pTarget, bool bRemov
 		break;
 
 	case BUFF_TYPE_IGNORE_WEAPON:		// Weapon cancellation
-#if defined(EBENEZER)
+#if defined(GAMESERVER)
 		if (pTarget->isPlayer())
 		{
 			CUser * pTUser = TO_USER(pTarget);
@@ -948,7 +948,7 @@ bool CMagicProcess::RemoveType4Buff(uint8 byBuffType, Unit *pTarget, bool bRemov
 		TO_USER(pTarget)->Send(&result);
 	}
 
-#if defined(EBENEZER) // update the target data in the AI server.
+#if defined(GAMESERVER) // update the target data in the AI server.
 	UpdateAIServer(pType->iNum, AISkillOpcodeRemoveBuff, pTarget);
 #endif
 

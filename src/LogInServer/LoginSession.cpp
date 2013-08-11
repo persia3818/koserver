@@ -84,6 +84,8 @@ void LoginSession::HandleLogin(Packet & pkt)
 	else
 		resultCode = g_pMain->m_DBProcess.AccountLogin(account, password);
 
+	printf("Login ID : %s / PW : %s\n", account.c_str(), password.c_str());
+
 	result << uint8(resultCode);
 	if (resultCode == AUTH_SUCCESS)
 	{

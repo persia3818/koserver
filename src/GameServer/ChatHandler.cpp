@@ -3,42 +3,42 @@
 
 using std::string;
 
-ServerCommandTable CEbenezerDlg::s_commandTable;
+ServerCommandTable CGameServerDlg::s_commandTable;
 ChatCommandTable CUser::s_commandTable;
 
-void CEbenezerDlg::InitServerCommands()
+void CGameServerDlg::InitServerCommands()
 {
-	static Command<CEbenezerDlg> commandTable[] = 
+	static Command<CGameServerDlg> commandTable[] = 
 	{
 		// Command				Handler											Help message
-		{ "notice",				&CEbenezerDlg::HandleNoticeCommand,				"Sends a server-wide chat notice." },
-		{ "kill",				&CEbenezerDlg::HandleKillUserCommand,			"Disconnects the specified player" },
-		{ "open1",				&CEbenezerDlg::HandleWar1OpenCommand,			"Opens war zone 1" },
-		{ "open2",				&CEbenezerDlg::HandleWar2OpenCommand,			"Opens war zone 2" },
-		{ "open3",				&CEbenezerDlg::HandleWar3OpenCommand,			"Opens war zone 3" },
-		{ "snowopen",			&CEbenezerDlg::HandleSnowWarOpenCommand,		"Opens the snow war zone" },
-		{ "close",				&CEbenezerDlg::HandleWarCloseCommand,			"Closes the active war zone" },
-		{ "down",				&CEbenezerDlg::HandleShutdownCommand,			"Shuts down the server" },
-		{ "pause",				&CEbenezerDlg::HandlePauseCommand,				"Prevents users from connecting to the server" },
-		{ "resume",				&CEbenezerDlg::HandleResumeCommand,				"Allows users to resume connecting to the server" },
-		{ "discount",			&CEbenezerDlg::HandleDiscountCommand,			"Enables server discounts for the winning nation of the last war" },
-		{ "alldiscount",		&CEbenezerDlg::HandleGlobalDiscountCommand,		"Enables server discounts for everyone" },
-		{ "offdiscount",		&CEbenezerDlg::HandleDiscountOffCommand,		"Disables server discounts" },
-		{ "captain",			&CEbenezerDlg::HandleCaptainCommand,			"Sets the captains/commanders for the war" },
-		{ "santa",				&CEbenezerDlg::HandleSantaCommand,				"Enables a flying Santa Claus." },
-		{ "offsanta",			&CEbenezerDlg::HandleSantaOffCommand,			"Disables a flying Santa Claus/angel." },
-		{ "angel",				&CEbenezerDlg::HandleAngelCommand,				"Enables a flying angel." },
-		{ "offangel",			&CEbenezerDlg::HandleSantaOffCommand,			"Disables a flying Santa Claus/angel." },
-		{ "permanent",			&CEbenezerDlg::HandlePermanentChatCommand,		"Sets the permanent chat bar to the specified text." },
-		{ "offpermanent",		&CEbenezerDlg::HandlePermanentChatOffCommand,	"Resets the permanent chat bar text." },
-		{ "reload_notice",		&CEbenezerDlg::HandleReloadNoticeCommand,		"Reloads the in-game notice list." },
-		{ "reload_tables",		&CEbenezerDlg::HandleReloadTablesCommand,	"Reloads the in-game tables." },
+		{ "notice",				&CGameServerDlg::HandleNoticeCommand,				"Sends a server-wide chat notice." },
+		{ "kill",				&CGameServerDlg::HandleKillUserCommand,			"Disconnects the specified player" },
+		{ "open1",				&CGameServerDlg::HandleWar1OpenCommand,			"Opens war zone 1" },
+		{ "open2",				&CGameServerDlg::HandleWar2OpenCommand,			"Opens war zone 2" },
+		{ "open3",				&CGameServerDlg::HandleWar3OpenCommand,			"Opens war zone 3" },
+		{ "snowopen",			&CGameServerDlg::HandleSnowWarOpenCommand,		"Opens the snow war zone" },
+		{ "close",				&CGameServerDlg::HandleWarCloseCommand,			"Closes the active war zone" },
+		{ "down",				&CGameServerDlg::HandleShutdownCommand,			"Shuts down the server" },
+		{ "pause",				&CGameServerDlg::HandlePauseCommand,				"Prevents users from connecting to the server" },
+		{ "resume",				&CGameServerDlg::HandleResumeCommand,				"Allows users to resume connecting to the server" },
+		{ "discount",			&CGameServerDlg::HandleDiscountCommand,			"Enables server discounts for the winning nation of the last war" },
+		{ "alldiscount",		&CGameServerDlg::HandleGlobalDiscountCommand,		"Enables server discounts for everyone" },
+		{ "offdiscount",		&CGameServerDlg::HandleDiscountOffCommand,		"Disables server discounts" },
+		{ "captain",			&CGameServerDlg::HandleCaptainCommand,			"Sets the captains/commanders for the war" },
+		{ "santa",				&CGameServerDlg::HandleSantaCommand,				"Enables a flying Santa Claus." },
+		{ "offsanta",			&CGameServerDlg::HandleSantaOffCommand,			"Disables a flying Santa Claus/angel." },
+		{ "angel",				&CGameServerDlg::HandleAngelCommand,				"Enables a flying angel." },
+		{ "offangel",			&CGameServerDlg::HandleSantaOffCommand,			"Disables a flying Santa Claus/angel." },
+		{ "permanent",			&CGameServerDlg::HandlePermanentChatCommand,		"Sets the permanent chat bar to the specified text." },
+		{ "offpermanent",		&CGameServerDlg::HandlePermanentChatOffCommand,	"Resets the permanent chat bar text." },
+		{ "reload_notice",		&CGameServerDlg::HandleReloadNoticeCommand,		"Reloads the in-game notice list." },
+		{ "reload_tables",		&CGameServerDlg::HandleReloadTablesCommand,	"Reloads the in-game tables." },
 	};
 
-	init_command_table(CEbenezerDlg, commandTable, s_commandTable);
+	init_command_table(CGameServerDlg, commandTable, s_commandTable);
 }
 
-void CEbenezerDlg::CleanupServerCommands() { free_command_table(s_commandTable); }
+void CGameServerDlg::CleanupServerCommands() { free_command_table(s_commandTable); }
 
 void CUser::InitChatCommands()
 {
@@ -403,7 +403,7 @@ COMMAND_HANDLER(CUser::HandleNPCSummonCommand)
 	return true;
 }
 
-bool CEbenezerDlg::ProcessServerCommand(std::string & message)
+bool CGameServerDlg::ProcessServerCommand(std::string & message)
 {
 	// Commands require at least 2 characters
 	if (message.size() <= 1
@@ -429,7 +429,7 @@ bool CEbenezerDlg::ProcessServerCommand(std::string & message)
 	return (this->*(itr->second->Handler))(vargs, message.c_str() + command.size() + 1, itr->second->Help);
 }
 
-COMMAND_HANDLER(CEbenezerDlg::HandleNoticeCommand)
+COMMAND_HANDLER(CGameServerDlg::HandleNoticeCommand)
 {
 	if (vargs.empty())
 		return true;
@@ -438,7 +438,7 @@ COMMAND_HANDLER(CEbenezerDlg::HandleNoticeCommand)
 	return true;
 }
 
-COMMAND_HANDLER(CEbenezerDlg::HandleKillUserCommand)
+COMMAND_HANDLER(CGameServerDlg::HandleKillUserCommand)
 {
 	if (vargs.empty())
 	{
@@ -462,35 +462,35 @@ COMMAND_HANDLER(CEbenezerDlg::HandleKillUserCommand)
 }
 
 COMMAND_HANDLER(CUser::HandleWar1OpenCommand) { return g_pMain->HandleWar1OpenCommand(vargs, args, description); }
-COMMAND_HANDLER(CEbenezerDlg::HandleWar1OpenCommand)
+COMMAND_HANDLER(CGameServerDlg::HandleWar1OpenCommand)
 {
 	BattleZoneOpen(BATTLEZONE_OPEN, 1);
 	return true;
 }
 
 COMMAND_HANDLER(CUser::HandleWar2OpenCommand) { return g_pMain->HandleWar2OpenCommand(vargs, args, description); }
-COMMAND_HANDLER(CEbenezerDlg::HandleWar2OpenCommand)
+COMMAND_HANDLER(CGameServerDlg::HandleWar2OpenCommand)
 {
 	BattleZoneOpen(BATTLEZONE_OPEN, 2);
 	return true;
 }
 
 COMMAND_HANDLER(CUser::HandleWar3OpenCommand) { return g_pMain->HandleWar3OpenCommand(vargs, args, description); }
-COMMAND_HANDLER(CEbenezerDlg::HandleWar3OpenCommand)
+COMMAND_HANDLER(CGameServerDlg::HandleWar3OpenCommand)
 {
 	BattleZoneOpen(BATTLEZONE_OPEN, 3);
 	return true;
 }
 
 COMMAND_HANDLER(CUser::HandleSnowWarOpenCommand) { return g_pMain->HandleSnowWarOpenCommand(vargs, args, description); }
-COMMAND_HANDLER(CEbenezerDlg::HandleSnowWarOpenCommand)
+COMMAND_HANDLER(CGameServerDlg::HandleSnowWarOpenCommand)
 {
 	BattleZoneOpen(SNOW_BATTLEZONE_OPEN);
 	return true;
 }
 
 COMMAND_HANDLER(CUser::HandleWarCloseCommand) { return g_pMain->HandleWarCloseCommand(vargs, args, description); }
-COMMAND_HANDLER(CEbenezerDlg::HandleWarCloseCommand)
+COMMAND_HANDLER(CGameServerDlg::HandleWarCloseCommand)
 {
 	m_byBanishFlag = true;
 	return true;
@@ -645,70 +645,70 @@ COMMAND_HANDLER(CUser::HandlePermitConnectCommand)
 }
 
 
-COMMAND_HANDLER(CEbenezerDlg::HandleShutdownCommand)
+COMMAND_HANDLER(CGameServerDlg::HandleShutdownCommand)
 {
 	g_pMain->m_socketMgr.SuspendServer();
 	printf("Server shutdown, %d users kicked out.\n", KickOutAllUsers());
 	return true;
 }
 
-COMMAND_HANDLER(CEbenezerDlg::HandlePauseCommand)
+COMMAND_HANDLER(CGameServerDlg::HandlePauseCommand)
 {
 	g_pMain->m_socketMgr.SuspendServer();
 	printf("Server no longer accepting connections.\n");
 	return true;
 }
 
-COMMAND_HANDLER(CEbenezerDlg::HandleResumeCommand)
+COMMAND_HANDLER(CGameServerDlg::HandleResumeCommand)
 {
 	g_pMain->m_socketMgr.ResumeServer();
 	printf("Server accepting connections.\n");
 	return true;
 }
 
-COMMAND_HANDLER(CEbenezerDlg::HandleDiscountCommand)
+COMMAND_HANDLER(CGameServerDlg::HandleDiscountCommand)
 {
 	m_sDiscount = 1;
 	return true;
 }
 
-COMMAND_HANDLER(CEbenezerDlg::HandleGlobalDiscountCommand)
+COMMAND_HANDLER(CGameServerDlg::HandleGlobalDiscountCommand)
 {
 	m_sDiscount = 2;
 	return true;
 }
 
-COMMAND_HANDLER(CEbenezerDlg::HandleDiscountOffCommand)
+COMMAND_HANDLER(CGameServerDlg::HandleDiscountOffCommand)
 {
 	m_sDiscount = 0;
 	return true;
 }
 
-COMMAND_HANDLER(CEbenezerDlg::HandleCaptainCommand)
+COMMAND_HANDLER(CGameServerDlg::HandleCaptainCommand)
 {
 	LoadKnightsRankTable();
 	return true;
 }
 
-COMMAND_HANDLER(CEbenezerDlg::HandleSantaCommand)
+COMMAND_HANDLER(CGameServerDlg::HandleSantaCommand)
 {
 	m_bSantaOrAngel = FLYING_SANTA;
 	return true;
 }
 
-COMMAND_HANDLER(CEbenezerDlg::HandleSantaOffCommand)
+COMMAND_HANDLER(CGameServerDlg::HandleSantaOffCommand)
 {
 	m_bSantaOrAngel = FLYING_NONE;
 	return true;
 }
 
-COMMAND_HANDLER(CEbenezerDlg::HandleAngelCommand)
+COMMAND_HANDLER(CGameServerDlg::HandleAngelCommand)
 {
 	m_bSantaOrAngel = FLYING_ANGEL;
 	return true;
 }
 
-COMMAND_HANDLER(CEbenezerDlg::HandlePermanentChatCommand)
+COMMAND_HANDLER(CGameServerDlg::HandlePermanentChatCommand)
 {
 	if (vargs.empty())
 	{
@@ -720,7 +720,7 @@ COMMAND_HANDLER(CEbenezerDlg::HandlePermanentChatCommand)
 	return true;
 }
 
-void CEbenezerDlg::SetPermanentMessage(const char * format, ...)
+void CGameServerDlg::SetPermanentMessage(const char * format, ...)
 {
 	char buffer[128];
 	va_list ap;
@@ -736,7 +736,7 @@ void CEbenezerDlg::SetPermanentMessage(const char * format, ...)
 	Send_All(&result);
 }
 
-COMMAND_HANDLER(CEbenezerDlg::HandlePermanentChatOffCommand)
+COMMAND_HANDLER(CGameServerDlg::HandlePermanentChatOffCommand)
 {
 	Packet result;
 	ChatPacket::Construct(&result, END_PERMANENT_CHAT);
@@ -745,7 +745,7 @@ COMMAND_HANDLER(CEbenezerDlg::HandlePermanentChatOffCommand)
 	return true;
 }
 
-COMMAND_HANDLER(CEbenezerDlg::HandleReloadNoticeCommand)
+COMMAND_HANDLER(CGameServerDlg::HandleReloadNoticeCommand)
 {
 	// Reload the notice data
 	LoadNoticeData();
@@ -765,7 +765,7 @@ COMMAND_HANDLER(CEbenezerDlg::HandleReloadNoticeCommand)
 	return true;
 }
 
-COMMAND_HANDLER(CEbenezerDlg::HandleReloadTablesCommand)
+COMMAND_HANDLER(CGameServerDlg::HandleReloadTablesCommand)
 {
 	printf("Reloads the in-game tables.\n");
 	g_pMain->m_MagictableArray.DeleteAllData();
@@ -800,7 +800,7 @@ COMMAND_HANDLER(CEbenezerDlg::HandleReloadTablesCommand)
 	return true;
 }
 
-void CEbenezerDlg::SendFormattedResource(uint32 nResourceID, uint8 byNation, bool bIsNotice, ...)
+void CGameServerDlg::SendFormattedResource(uint32 nResourceID, uint8 byNation, bool bIsNotice, ...)
 {
 	_SERVER_RESOURCE *pResource = m_ServerResourceArray.GetData(nResourceID);
 	if (pResource == nullptr)

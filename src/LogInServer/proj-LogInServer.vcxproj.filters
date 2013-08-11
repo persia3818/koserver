@@ -12,6 +12,9 @@
     <Filter Include="Database">
       <UniqueIdentifier>{4fef33e7-0850-4a21-8150-8feb10b1693d}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Resource Files">
+      <UniqueIdentifier>{0b2bff93-2f89-4f20-9310-b323ce1a05c9}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="DBProcess.cpp">
@@ -51,11 +54,13 @@
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ResourceCompile Include="VersionManager.rc">
-      <Filter>Source Files</Filter>
-    </ResourceCompile>
+    <Image Include="Res\LogInServer.ico">
+      <Filter>Resource Files</Filter>
+    </Image>
   </ItemGroup>
   <ItemGroup>
-    <Image Include="Res\VersionManager.ico" />
+    <ResourceCompile Include="Res\LogInServer.rc">
+      <Filter>Resource Files</Filter>
+    </ResourceCompile>
   </ItemGroup>
 </Project>

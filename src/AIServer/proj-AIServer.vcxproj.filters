@@ -59,10 +59,10 @@
     <ClCompile Include="AIUser.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\Ebenezer\Unit.cpp">
+    <ClCompile Include="..\GameServer\Unit.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\Ebenezer\MagicProcess.cpp">
+    <ClCompile Include="..\GameServer\MagicProcess.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -159,13 +159,13 @@
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <None Include="res\Server.ico">
-      <Filter>Resource Files</Filter>
-    </None>
-  </ItemGroup>
-  <ItemGroup>
     <ResourceCompile Include="RES\AIServer.rc">
       <Filter>Resource Files</Filter>
     </ResourceCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="RES\AIServer.ico">
+      <Filter>Resource Files</Filter>
+    </Image>
   </ItemGroup>
 </Project>

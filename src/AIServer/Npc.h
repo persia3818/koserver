@@ -68,7 +68,7 @@ struct _TargetHealer
 
 class MAP;
 
-#include "../Ebenezer/Unit.h"
+#include "../GameServer/Unit.h"
 
 enum MonSearchType
 {
@@ -113,7 +113,7 @@ public:
 	void GetInOut(Packet &, uint8) {}
 	void AddToRegion(int16 sRegionX, int16 sRegionZ) {}
 
-	void HpChange(int amount, Unit *pAttacker = nullptr, bool bSendToEbenezer = true);
+	void HpChange(int amount, Unit *pAttacker = nullptr, bool bSendToGameServer = true);
 	void MSpChange(int amount) {}
 
 	INLINE CNpcTable * GetProto() { return m_proto; }

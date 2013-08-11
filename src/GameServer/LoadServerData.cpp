@@ -49,130 +49,130 @@
 #include "../shared/database/PremiumItemSet.h"
 #include "../shared/database/PremiumItemExpSet.h"
 
-bool CEbenezerDlg::LoadItemTable()
+bool CGameServerDlg::LoadItemTable()
 {
 	LOAD_TABLE(CItemTableSet, g_DBAgent.m_GameDB, &m_ItemtableArray, false);
 }
 
-bool CEbenezerDlg::LoadSetItemTable()
+bool CGameServerDlg::LoadSetItemTable()
 {
 	LOAD_TABLE(CSetItemTableSet, g_DBAgent.m_GameDB, &m_SetItemArray, true);
 }
 
-bool CEbenezerDlg::LoadItemExchangeTable()
+bool CGameServerDlg::LoadItemExchangeTable()
 {
 	LOAD_TABLE(CItemExchangeSet, g_DBAgent.m_GameDB, &m_ItemExchangeArray, true);
 }
 
-bool CEbenezerDlg::LoadItemUpgradeTable()
+bool CGameServerDlg::LoadItemUpgradeTable()
 {
 	LOAD_TABLE(CItemUpgradeSet, g_DBAgent.m_GameDB, &m_ItemUpgradeArray, false);
 }
 
-bool CEbenezerDlg::LoadItemOpTable()
+bool CGameServerDlg::LoadItemOpTable()
 {
 	LOAD_TABLE(CItemOpSet, g_DBAgent.m_GameDB, &m_ItemOpArray, true);
 }
 
-bool CEbenezerDlg::LoadServerResourceTable()
+bool CGameServerDlg::LoadServerResourceTable()
 {
 	LOAD_TABLE(CServerResourceSet, g_DBAgent.m_GameDB, &m_ServerResourceArray, false);
 }
 
-bool CEbenezerDlg::LoadQuestHelperTable()
+bool CGameServerDlg::LoadQuestHelperTable()
 {
 	FastGuard lock(m_questNpcLock);
 	m_QuestNpcList.clear();
 	LOAD_TABLE(CQuestHelperSet, g_DBAgent.m_GameDB, &m_QuestHelperArray, true);
 }
 
-bool CEbenezerDlg::LoadQuestMonsterTable()
+bool CGameServerDlg::LoadQuestMonsterTable()
 {
 	LOAD_TABLE(CQuestMonsterSet, g_DBAgent.m_GameDB, &m_QuestMonsterArray, true);
 }
 
-bool CEbenezerDlg::LoadMagicTable()
+bool CGameServerDlg::LoadMagicTable()
 {
 	LOAD_TABLE(CMagicTableSet, g_DBAgent.m_GameDB, &m_MagictableArray, false);
 }
 
-bool CEbenezerDlg::LoadMagicType1()
+bool CGameServerDlg::LoadMagicType1()
 {
 	LOAD_TABLE(CMagicType1Set, g_DBAgent.m_GameDB, &m_Magictype1Array, false);
 }
 
-bool CEbenezerDlg::LoadMagicType2()
+bool CGameServerDlg::LoadMagicType2()
 {
 	LOAD_TABLE(CMagicType2Set, g_DBAgent.m_GameDB, &m_Magictype2Array, false);
 }
 
-bool CEbenezerDlg::LoadMagicType3()
+bool CGameServerDlg::LoadMagicType3()
 {
 	LOAD_TABLE(CMagicType3Set, g_DBAgent.m_GameDB, &m_Magictype3Array, false);
 }
 
-bool CEbenezerDlg::LoadMagicType4()
+bool CGameServerDlg::LoadMagicType4()
 {
 	LOAD_TABLE(CMagicType4Set, g_DBAgent.m_GameDB, &m_Magictype4Array, false);
 }
 
-bool CEbenezerDlg::LoadMagicType5()
+bool CGameServerDlg::LoadMagicType5()
 {
 	LOAD_TABLE(CMagicType5Set, g_DBAgent.m_GameDB, &m_Magictype5Array, false);
 }
 
-bool CEbenezerDlg::LoadMagicType6()
+bool CGameServerDlg::LoadMagicType6()
 {
 	LOAD_TABLE(CMagicType6Set, g_DBAgent.m_GameDB, &m_Magictype6Array, false);
 }
 
-bool CEbenezerDlg::LoadMagicType7()
+bool CGameServerDlg::LoadMagicType7()
 {
 	LOAD_TABLE(CMagicType7Set, g_DBAgent.m_GameDB, &m_Magictype7Array, false);
 }
 
-bool CEbenezerDlg::LoadMagicType8()
+bool CGameServerDlg::LoadMagicType8()
 {
 	LOAD_TABLE(CMagicType8Set, g_DBAgent.m_GameDB, &m_Magictype8Array, false);
 }
 
-bool CEbenezerDlg::LoadMagicType9()
+bool CGameServerDlg::LoadMagicType9()
 {
 	LOAD_TABLE(CMagicType9Set, g_DBAgent.m_GameDB, &m_Magictype9Array, false);
 }
 
-bool CEbenezerDlg::LoadRentalList()
+bool CGameServerDlg::LoadRentalList()
 {
 	LOAD_TABLE(CRentalItemSet, g_DBAgent.m_GameDB, &m_RentalItemArray, true);
 }
 
-bool CEbenezerDlg::LoadCoefficientTable()
+bool CGameServerDlg::LoadCoefficientTable()
 {
 	LOAD_TABLE(CCoefficientSet, g_DBAgent.m_GameDB, &m_CoefficientArray, false);
 }
 
-bool CEbenezerDlg::LoadLevelUpTable()
+bool CGameServerDlg::LoadLevelUpTable()
 {
 	LOAD_TABLE(CLevelUpTableSet, g_DBAgent.m_GameDB, &m_LevelUpArray, false);
 }
 
-bool CEbenezerDlg::LoadAllKnights()
+bool CGameServerDlg::LoadAllKnights()
 {
 	FastGuard lock(m_KnightsArray.m_lock);
 	LOAD_TABLE(CKnightsSet, g_DBAgent.m_GameDB, &m_KnightsArray, true);
 }
 
-bool CEbenezerDlg::LoadAllKnightsUserData()
+bool CGameServerDlg::LoadAllKnightsUserData()
 {
 	LOAD_TABLE(CKnightsUserSet, g_DBAgent.m_GameDB, nullptr, true);
 }
 
-bool CEbenezerDlg::LoadKnightsAllianceTable()
+bool CGameServerDlg::LoadKnightsAllianceTable()
 {
 	LOAD_TABLE(CKnightsAllianceSet, g_DBAgent.m_GameDB, &m_KnightsAllianceArray, true);
 }
 
-bool CEbenezerDlg::LoadUserRankings()
+bool CGameServerDlg::LoadUserRankings()
 {
 	CUserPersonalRankSet UserPersonalRankSet(g_DBAgent.m_GameDB, &m_UserPersonalRankMap);
 	CUserKnightsRankSet  UserKnightsRankSet(g_DBAgent.m_GameDB, &m_UserKnightsRankMap);
@@ -201,7 +201,7 @@ bool CEbenezerDlg::LoadUserRankings()
 	return true;
 }
 
-void CEbenezerDlg::CleanupUserRankings()
+void CGameServerDlg::CleanupUserRankings()
 {
 	std::set<_USER_RANK *> deleteSet;
 	FastGuard lock(m_userRankingsLock);
@@ -241,12 +241,12 @@ void CEbenezerDlg::CleanupUserRankings()
 	m_playerRankings[ELMORAD_ARRAY].clear();
 }
 
-bool CEbenezerDlg::LoadKnightsCapeTable()
+bool CGameServerDlg::LoadKnightsCapeTable()
 {
 	LOAD_TABLE(CKnightsCapeSet, g_DBAgent.m_GameDB, &m_KnightsCapeArray, false);
 }
 
-bool CEbenezerDlg::LoadKnightsRankTable(bool bWarTime /*= false*/)
+bool CGameServerDlg::LoadKnightsRankTable(bool bWarTime /*= false*/)
 {
 	std::string strKarusCaptainNames, strElmoCaptainNames;
 	LOAD_TABLE_ERROR_ONLY(CKnightsRankSet, g_DBAgent.m_GameDB, nullptr, true);
@@ -279,49 +279,49 @@ bool CEbenezerDlg::LoadKnightsRankTable(bool bWarTime /*= false*/)
 	return true;
 }
 
-bool CEbenezerDlg::LoadHomeTable()
+bool CGameServerDlg::LoadHomeTable()
 {
 	LOAD_TABLE(CHomeSet, g_DBAgent.m_GameDB, &m_HomeArray, false);
 }
 
-bool CEbenezerDlg::LoadStartPositionTable()
+bool CGameServerDlg::LoadStartPositionTable()
 {
 	LOAD_TABLE(CStartPositionSet, g_DBAgent.m_GameDB, &m_StartPositionArray, false);
 }
 
-bool CEbenezerDlg::LoadBattleTable()
+bool CGameServerDlg::LoadBattleTable()
 {
 	LOAD_TABLE(CBattleSet, g_DBAgent.m_GameDB, &m_byOldVictory, true);
 }
 
-bool CEbenezerDlg::LoadKingSystem()
+bool CGameServerDlg::LoadKingSystem()
 {
 	LOAD_TABLE_ERROR_ONLY(CKingSystemSet, g_DBAgent.m_GameDB, &m_KingSystemArray, true);
 	LOAD_TABLE_ERROR_ONLY(CKingCandidacyNoticeBoardSet, g_DBAgent.m_GameDB, &m_KingSystemArray, true);
 	LOAD_TABLE(CKingElectionListSet, g_DBAgent.m_GameDB, &m_KingSystemArray, true);
 }
 
-bool CEbenezerDlg::LoadMonsterSummonListTable()
+bool CGameServerDlg::LoadMonsterSummonListTable()
 {
 	LOAD_TABLE(CMonsterSummonListSet, g_DBAgent.m_GameDB, &m_MonsterSummonList, true);
 }
 
-bool CEbenezerDlg::LoadMonsterSummonListZoneTable()
+bool CGameServerDlg::LoadMonsterSummonListZoneTable()
 {
 	LOAD_TABLE(CMonsterSummonListZoneSet, g_DBAgent.m_GameDB, &m_MonsterSummonListZoneArray, true);
 }
 
-bool CEbenezerDlg::LoadPremiumItemTable()
+bool CGameServerDlg::LoadPremiumItemTable()
 {
 	LOAD_TABLE(CPremiumItemSet, g_DBAgent.m_GameDB, &m_PremiumItemArray, true);
 }
 
-bool CEbenezerDlg::LoadPremiumItemExpTable()
+bool CGameServerDlg::LoadPremiumItemExpTable()
 {
 	LOAD_TABLE(CPremiumItemExpSet, g_DBAgent.m_GameDB, &m_PremiumItemExpArray, true);
 }
 
-bool CEbenezerDlg::MapFileLoad()
+bool CGameServerDlg::MapFileLoad()
 {
 	ZoneInfoMap zoneMap;
 	LOAD_TABLE_ERROR_ONLY(CZoneInfoSet, g_DBAgent.m_GameDB, &zoneMap, false); 

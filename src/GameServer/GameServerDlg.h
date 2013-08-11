@@ -1,6 +1,6 @@
 #pragma once
 
-#ifdef EBENEZER
+#ifdef GAMESERVER
 
 #include "resource.h"
 #include "LuaEngine.h"
@@ -19,10 +19,10 @@ class CUser;
 
 typedef std::unordered_map<std::string, CUser *> NameMap;
 
-class CEbenezerDlg
+class CGameServerDlg
 {
 public:	
-	CEbenezerDlg();
+	CGameServerDlg();
 	bool Startup();
 
 	void GetTimeFromIni();
@@ -279,7 +279,7 @@ public:
 	_PARTY_GROUP * CreateParty(CUser *pLeader);
 	void DeleteParty(uint16 sIndex);
 
-	~CEbenezerDlg();
+	~CGameServerDlg();
 
 	char	m_ppNotice[20][128];
 	std::string	m_AIServerIP;
@@ -426,6 +426,6 @@ public:
 	COMMAND_HANDLER(HandleReloadTablesCommand);
 };
 
-extern CEbenezerDlg * g_pMain;
+extern CGameServerDlg * g_pMain;
 
 #endif

@@ -2678,7 +2678,7 @@ void CNpc::RecvAttackReq(int nDamage, uint16 sAttackerID, AttributeType attribut
 	}
 }
 
-void CNpc::HpChange(int amount, Unit *pAttacker /*= nullptr*/, bool bSendToEbenezer /*= true*/)
+void CNpc::HpChange(int amount, Unit *pAttacker /*= nullptr*/, bool bSendToGameServer /*= true*/)
 {
 	uint16 tid = (pAttacker != nullptr ? pAttacker->GetID() : -1);
 	int16 oldHP = m_iHP;
@@ -2696,7 +2696,7 @@ void CNpc::HpChange(int amount, Unit *pAttacker /*= nullptr*/, bool bSendToEbene
 	else
 		m_iHP += amount;
 
-	if (bSendToEbenezer)
+	if (bSendToGameServer)
 	{
 		Packet result(AG_NPC_HP_CHANGE);
 		result << GetID() << tid << m_iHP << amount;
@@ -2984,8 +2984,8 @@ void CNpc::FillNpcInfo(Packet & result)
 		<< m_byObjectType << m_byTrapNumber 
 		<< m_bMonster
 		// Include resistance data, note that we don't need to send modified amounts as 
-		// there's no skill handling here - it happens in Ebenezer.
-		// We will probably need to update the AI server (from Ebenezer) with this data.
+		// there's no skill handling here - it happens in GameServer.
+		// We will probably need to update the AI server (from GameServer) with this data.
 		<< m_sFireR << m_sColdR << m_sLightningR 
 		<< m_sMagicR << m_sDiseaseR << m_sPoisonR;
 }

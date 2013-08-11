@@ -271,7 +271,7 @@ struct	_PARTY_GROUP
 	WORD	wIndex;
 	short	uid		[MAX_PARTY_USERS];
 
-#ifdef EBENEZER
+#ifdef GAMESERVER
 	uint8	bItemRouting;
 	std::string	WantedMessage;
 	uint16	sWantedClass;
@@ -282,7 +282,7 @@ struct	_PARTY_GROUP
 		for (int i = 0; i < MAX_PARTY_USERS; i++)
 			uid[i] = -1; 
 
-#ifdef EBENEZER
+#ifdef GAMESERVER
 		bItemRouting = 0;
 #endif
 	}
