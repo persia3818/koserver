@@ -143,9 +143,7 @@ enum InOutType
 #define MINI_ARENA_RESPAWN_RADIUS	5
 
 // Where to respawn after dying in the Chaos Stone boss
-#define CHAOS_STONE_MONSTER_ARDREAM_RESPAWN_RADIUS			10
-#define CHAOS_STONE_MONSTER_RONARK_LAND_RESPAWN_RADIUS		20
-#define CHAOS_STONE_MONSTER_RONARK_LAND_BASE_RESPAWN_RADIUS	20
+#define CHAOS_STONE_MONSTER_RESPAWN_RADIUS		20
 
 // Standard (pre-squared) range used for party rewards and such.
 #define RANGE_50M					(50.0f * 50.0f)

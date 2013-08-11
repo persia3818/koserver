@@ -360,6 +360,7 @@ void CNpc::OnDeathProcess(Unit *pKiller)
 /**
 * @brief	Executes the death process.
 *
+* @param	pNpc	The NPC or Monster.
 * @param	pUser	The User.
 * @param	MonsterCount The Respawn boss count.
 */
@@ -390,18 +391,7 @@ void CNpc::ChaosStone(CNpc *pNpc, CUser *pUser, uint16 MonsterCount)
 				if (CurrentMonsterCountRepawned > MonsterCount)
 					break;
 
-				if (ZoneID == ZONE_ARDREAM) {
-					RandSpawnX = (float)myrand(-CHAOS_STONE_MONSTER_ARDREAM_RESPAWN_RADIUS, CHAOS_STONE_MONSTER_ARDREAM_RESPAWN_RADIUS);
-					RandSpawnZ = (float)myrand(-CHAOS_STONE_MONSTER_ARDREAM_RESPAWN_RADIUS, CHAOS_STONE_MONSTER_ARDREAM_RESPAWN_RADIUS);
-				} else if (ZoneID == ZONE_RONARK_LAND_BASE) {
-					RandSpawnX = (float)myrand(-CHAOS_STONE_MONSTER_RONARK_LAND_BASE_RESPAWN_RADIUS, CHAOS_STONE_MONSTER_RONARK_LAND_BASE_RESPAWN_RADIUS);
-					RandSpawnZ = (float)myrand(-CHAOS_STONE_MONSTER_RONARK_LAND_BASE_RESPAWN_RADIUS, CHAOS_STONE_MONSTER_RONARK_LAND_BASE_RESPAWN_RADIUS);
-				} else if (ZoneID == ZONE_RONARK_LAND) {
-					RandSpawnX = (float)myrand(-CHAOS_STONE_MONSTER_RONARK_LAND_RESPAWN_RADIUS, CHAOS_STONE_MONSTER_RONARK_LAND_RESPAWN_RADIUS);
-					RandSpawnZ = (float)myrand(-CHAOS_STONE_MONSTER_RONARK_LAND_RESPAWN_RADIUS, CHAOS_STONE_MONSTER_RONARK_LAND_RESPAWN_RADIUS);
-				}
-
-				g_pMain->SpawnEventNpc(pMonsterSummonListZone->sSid, true, ZoneID, (pNpc->GetX() + RandSpawnX),0.0f, (pNpc->GetZ() + RandSpawnZ));
+				g_pMain->SpawnEventNpc(pMonsterSummonListZone->sSid, true, ZoneID, pNpc->GetX(),pNpc->GetY(), pNpc->GetZ(),CHAOS_STONE_MONSTER_RESPAWN_RADIUS);
 
 				CurrentMonsterCountRepawned ++;
 			}
