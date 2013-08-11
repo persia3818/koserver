@@ -371,7 +371,7 @@ void CNpc::ChaosStone(CNpc *pNpc, CUser *pUser, uint16 MonsterCount)
 	uint8 ZoneID = pUser->GetZoneID();
 
 	g_pMain->SendNotice<CHAOS_STONE_ENEMY_NOTICE>("",ZoneID,pUser->GetNation() == ELMORAD ? Nation::KARUS : Nation::ELMORAD);
-	g_pMain->SendNotice<PUBLIC_CHAT>(string_format("- ## %s Chaos Stone'yi Kesti ## -",pUser->GetName().c_str()).c_str(),ZoneID,pUser->GetNation());
+	g_pMain->SendNotice<ANNOUNCEMENT_WHITE_CHAT>(string_format("- ## %s Chaos Stone'yi Kesti ## -",pUser->GetName().c_str()).c_str(),ZoneID,pUser->GetNation());
 
 	uint16 CurrentMonsterCountRepawned = 0;
 	float RandSpawnX = pNpc->GetX();
@@ -393,10 +393,10 @@ void CNpc::ChaosStone(CNpc *pNpc, CUser *pUser, uint16 MonsterCount)
 				if (ZoneID == ZONE_ARDREAM) {
 					RandSpawnX = (float)myrand(-CHAOS_STONE_MONSTER_ARDREAM_RESPAWN_RADIUS, CHAOS_STONE_MONSTER_ARDREAM_RESPAWN_RADIUS);
 					RandSpawnZ = (float)myrand(-CHAOS_STONE_MONSTER_ARDREAM_RESPAWN_RADIUS, CHAOS_STONE_MONSTER_ARDREAM_RESPAWN_RADIUS);
-				} else if (ZoneID == ZONE_RONARK_LAND) {
+				} else if (ZoneID == ZONE_RONARK_LAND_BASE) {
 					RandSpawnX = (float)myrand(-CHAOS_STONE_MONSTER_RONARK_LAND_BASE_RESPAWN_RADIUS, CHAOS_STONE_MONSTER_RONARK_LAND_BASE_RESPAWN_RADIUS);
 					RandSpawnZ = (float)myrand(-CHAOS_STONE_MONSTER_RONARK_LAND_BASE_RESPAWN_RADIUS, CHAOS_STONE_MONSTER_RONARK_LAND_BASE_RESPAWN_RADIUS);
-				} else if (ZoneID == ZONE_RONARK_LAND_BASE) {
+				} else if (ZoneID == ZONE_RONARK_LAND) {
 					RandSpawnX = (float)myrand(-CHAOS_STONE_MONSTER_RONARK_LAND_RESPAWN_RADIUS, CHAOS_STONE_MONSTER_RONARK_LAND_RESPAWN_RADIUS);
 					RandSpawnZ = (float)myrand(-CHAOS_STONE_MONSTER_RONARK_LAND_RESPAWN_RADIUS, CHAOS_STONE_MONSTER_RONARK_LAND_RESPAWN_RADIUS);
 				}
