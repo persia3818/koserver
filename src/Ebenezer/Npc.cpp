@@ -374,8 +374,8 @@ void CNpc::ChaosStone(CNpc *pNpc, CUser *pUser, uint16 MonsterCount)
 	g_pMain->SendNotice<PUBLIC_CHAT>(string_format("- ## %s Chaos Stone'yi Kesti ## -",pUser->GetName().c_str()).c_str(),ZoneID,pUser->GetNation());
 
 	uint16 CurrentMonsterCountRepawned = 0;
-	float SpawnX;
-	float SpawnZ;
+	float RandSpawnX = pNpc->GetX();
+	float RandSpawnZ = pNpc->GetZ();
 
 	foreach_stlmap_nolock(itr, g_pMain->m_MonsterSummonListZoneArray) {
 		_MONSTER_SUMMON_LIST_ZONE * pMonsterSummonListZone = g_pMain->m_MonsterSummonListZoneArray.GetData(itr->first);
@@ -391,17 +391,17 @@ void CNpc::ChaosStone(CNpc *pNpc, CUser *pUser, uint16 MonsterCount)
 					break;
 
 				if (ZoneID == ZONE_ARDREAM) {
-					SpawnX = (float)(pNpc->GetX() + myrand(-CHAOS_STONE_MONSTER_ARDREAM_RESPAWN_RADIUS, CHAOS_STONE_MONSTER_ARDREAM_RESPAWN_RADIUS));
-					SpawnZ = (float)(pNpc->GetZ() + myrand(-CHAOS_STONE_MONSTER_ARDREAM_RESPAWN_RADIUS, CHAOS_STONE_MONSTER_ARDREAM_RESPAWN_RADIUS));
+					RandSpawnX = (float)myrand(-CHAOS_STONE_MONSTER_ARDREAM_RESPAWN_RADIUS, CHAOS_STONE_MONSTER_ARDREAM_RESPAWN_RADIUS);
+					RandSpawnZ = (float)myrand(-CHAOS_STONE_MONSTER_ARDREAM_RESPAWN_RADIUS, CHAOS_STONE_MONSTER_ARDREAM_RESPAWN_RADIUS);
 				} else if (ZoneID == ZONE_RONARK_LAND) {
-					SpawnX = (float)(pNpc->GetX() + myrand(-CHAOS_STONE_MONSTER_RONARK_LAND_RESPAWN_RADIUS, CHAOS_STONE_MONSTER_RONARK_LAND_RESPAWN_RADIUS));
-					SpawnZ = (float)(pNpc->GetZ() + myrand(-CHAOS_STONE_MONSTER_RONARK_LAND_RESPAWN_RADIUS, CHAOS_STONE_MONSTER_RONARK_LAND_RESPAWN_RADIUS));
+					RandSpawnX = (float)myrand(-CHAOS_STONE_MONSTER_RONARK_LAND_BASE_RESPAWN_RADIUS, CHAOS_STONE_MONSTER_RONARK_LAND_BASE_RESPAWN_RADIUS);
+					RandSpawnZ = (float)myrand(-CHAOS_STONE_MONSTER_RONARK_LAND_BASE_RESPAWN_RADIUS, CHAOS_STONE_MONSTER_RONARK_LAND_BASE_RESPAWN_RADIUS);
 				} else if (ZoneID == ZONE_RONARK_LAND_BASE) {
-					SpawnX = (float)(pNpc->GetX()+ myrand(-CHAOS_STONE_MONSTER_RONARK_LAND_BASE_RESPAWN_RADIUS, CHAOS_STONE_MONSTER_RONARK_LAND_BASE_RESPAWN_RADIUS));
-					SpawnZ = (float)(pNpc->GetZ() + myrand(-CHAOS_STONE_MONSTER_RONARK_LAND_BASE_RESPAWN_RADIUS, CHAOS_STONE_MONSTER_RONARK_LAND_BASE_RESPAWN_RADIUS));
+					RandSpawnX = (float)myrand(-CHAOS_STONE_MONSTER_RONARK_LAND_RESPAWN_RADIUS, CHAOS_STONE_MONSTER_RONARK_LAND_RESPAWN_RADIUS);
+					RandSpawnZ = (float)myrand(-CHAOS_STONE_MONSTER_RONARK_LAND_RESPAWN_RADIUS, CHAOS_STONE_MONSTER_RONARK_LAND_RESPAWN_RADIUS);
 				}
 
-				g_pMain->SpawnEventNpc(pMonsterSummonListZone->sSid, true, ZoneID, SpawnX,0.0f, SpawnZ);
+				g_pMain->SpawnEventNpc(pMonsterSummonListZone->sSid, true, ZoneID, (pNpc->GetX() + RandSpawnX),0.0f, (pNpc->GetZ() + RandSpawnZ));
 
 				CurrentMonsterCountRepawned ++;
 			}
