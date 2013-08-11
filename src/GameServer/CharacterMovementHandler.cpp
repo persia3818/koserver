@@ -374,6 +374,9 @@ void CUser::ZoneChange(uint16 sNewZone, float x, float z)
 
 void CUser::PlayerRanking(uint16 ZoneID, bool RemoveInZone)
 {
+	if(m_bZoneChangeSameZone)
+		return;
+
 	bool bAddRanking = false;
 	bool bAddedSucessfull = false;
 
@@ -398,17 +401,16 @@ void CUser::PlayerRanking(uint16 ZoneID, bool RemoveInZone)
 AddRanking:
 	{
 		for( int i = 0; i < MAX_USER; i++) {
-			if( !m_bZoneChangeSameZone ) {
-				if( g_pMain->m_PVPRankings[i].s_SocketID == -1) {
-					g_pMain->m_PVPRankings[i].m_bZone = ZoneID;
-					g_pMain->m_PVPRankings[i].s_SocketID = GetSocketID();
-					g_pMain->m_PVPRankings[i].m_bNation = m_bNation;
-					g_pMain->m_PVPRankings[i].m_iLoyaltyDaily = 0;
-					g_pMain->m_PVPRankings[i].m_iLoyaltyPremiumBonus = 0;
-					g_pMain->m_sRankInfoIndex++;
-					break;
-				}
-			}
+			if( g_pMain->m_PVPRankings[i].s_SocketID != -1)
+				continue;
+
+			g_pMain->m_PVPRankings[i].m_bZone = ZoneID;
+			g_pMain->m_PVPRankings[i].s_SocketID = GetSocketID();
+			g_pMain->m_PVPRankings[i].m_bNation = m_bNation;
+			g_pMain->m_PVPRankings[i].m_iLoyaltyDaily = 0;
+			g_pMain->m_PVPRankings[i].m_iLoyaltyPremiumBonus = 0;
+			g_pMain->m_sRankInfoIndex++;
+			break;
 		}
 
 		bAddedSucessfull = true;
@@ -419,18 +421,17 @@ RemoveRanking:
 		if (!bAddedSucessfull)
 		{
 			for( int i = 0; i < MAX_USER; i++) {
-				if( !m_bZoneChangeSameZone ) {
-					if( g_pMain->m_PVPRankings[i].s_SocketID == GetSocketID() ) {
-						g_pMain->m_PVPRankings[i].m_bZone = 0;
-						g_pMain->m_PVPRankings[i].s_SocketID = -1;
-						g_pMain->m_PVPRankings[i].m_bNation = 0;
-						g_pMain->m_PVPRankings[i].m_iLoyaltyDaily = 0;
-						g_pMain->m_PVPRankings[i].m_iLoyaltyPremiumBonus = 0;
-						if (g_pMain->m_sRankInfoIndex > 0)
-							g_pMain->m_sRankInfoIndex--;
-						break;
-					}
-				}
+				if( g_pMain->m_PVPRankings[i].s_SocketID != GetSocketID())
+					continue;
+
+				g_pMain->m_PVPRankings[i].m_bZone = 0;
+				g_pMain->m_PVPRankings[i].s_SocketID = -1;
+				g_pMain->m_PVPRankings[i].m_bNation = 0;
+				g_pMain->m_PVPRankings[i].m_iLoyaltyDaily = 0;
+				g_pMain->m_PVPRankings[i].m_iLoyaltyPremiumBonus = 0;
+				if (g_pMain->m_sRankInfoIndex > 0)
+					g_pMain->m_sRankInfoIndex--;
+				break;
 			}
 
 			if (bAddRanking)

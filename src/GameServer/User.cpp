@@ -1598,9 +1598,6 @@ void CUser::PointChange(Packet & pkt)
 */
 void CUser::HpChange(int amount, Unit *pAttacker /*= nullptr*/, bool bSendToAI /*= true*/) 
 {
-	if (isGM())
-		return;
-
 	Packet result(WIZ_HP_CHANGE);
 	uint16 tid = (pAttacker != nullptr ? pAttacker->GetID() : -1);
 	int16 oldHP = m_sHp;
@@ -1721,9 +1718,6 @@ void CUser::HpChange(int amount, Unit *pAttacker /*= nullptr*/, bool bSendToAI /
 */
 void CUser::MSpChange(int amount)
 {
-	if (isGM())
-		return;
-
 	Packet result(WIZ_MSP_CHANGE);
 	int16 oldMP = m_sMp;
 
@@ -4546,14 +4540,12 @@ void CUser::RecastSavedMagic()
 */
 void CUser::HandlePlayerRankings(Packet & pkt)
 {
-	return;
-
 	/* 
 	NOTE: This is a mockup. 
 	It should not be used in its current state for anything
 	other than testing.
 	*/
-	uint16 OwnRank = 1;
+	uint16 OwnRank = 0;
 	uint8 RankType = 1;
 
 	if (isRankingPVPZone())
@@ -4579,14 +4571,14 @@ void CUser::HandlePlayerRankings(Packet & pkt)
 		result << sCount; 
 
 		if (nation == KARUS) {
-			for(int i = 0; i < g_pMain->m_sKarus; i++) 
+			for(int i = 0; i < g_pMain->m_sRankKarusCount; i++) 
 			{
 				CUser *pUser = g_pMain->GetUserPtr(PVPRankingKarus[i].s_SocketID);
 
 				if( pUser == nullptr )
 					continue;
 
-				if (pUser->GetSocketID() == GetSocketID())
+				if (pUser->GetSocketID() == GetSocketID() && OwnRank == 0)
 					OwnRank = i+1;
 
 				CKnights * pKnights = g_pMain->GetClanPtr(pUser->m_bKnights);
@@ -4614,14 +4606,14 @@ void CUser::HandlePlayerRankings(Packet & pkt)
 			}
 		} else if (nation == ELMORAD) {
 
-			for(int i = 0; i < g_pMain->m_sHuman; i++) 
+			for(int i = 0; i < g_pMain->m_sRankHumanCount; i++) 
 			{
 				CUser *pUser = g_pMain->GetUserPtr(PVPRankingHuman[i].s_SocketID);
 
 				if( pUser == nullptr )
 					continue;
 
-				if (pUser->GetSocketID() == GetSocketID())
+				if (pUser->GetSocketID() == GetSocketID() && OwnRank == 0)
 					OwnRank = i+1;
 
 				CKnights * pKnights = g_pMain->GetClanPtr(pUser->m_bKnights);

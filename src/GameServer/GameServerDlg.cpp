@@ -251,15 +251,16 @@ void CGameServerDlg::GetTimeFromIni()
 	ini.GetString("AI_SERVER", "IP", "127.0.0.1", m_AIServerIP);
 
 	m_sRankInfoIndex = 0;
-	m_sHuman = 0;
-	m_sKarus = 0;
-
-	for(int w = 0; w < MAX_USER; w++) {
-		m_PVPRankings[w].m_bZone = 0;
-		m_PVPRankings[w].s_SocketID = -1;
-		m_PVPRankings[w].m_bNation = 0;
-		m_PVPRankings[w].m_iLoyaltyDaily = 0;
-		m_PVPRankings[w].m_iLoyaltyPremiumBonus = 0;
+	m_sRankKarusCount = 0;
+	m_sRankHumanCount = 0;
+	m_sRankResetHour = 0;
+	
+	for(int i = 0; i < MAX_USER; i++) {
+		m_PVPRankings[i].m_bZone = 0;
+		m_PVPRankings[i].s_SocketID = -1;
+		m_PVPRankings[i].m_bNation = 0;
+		m_PVPRankings[i].m_iLoyaltyDaily = 0;
+		m_PVPRankings[i].m_iLoyaltyPremiumBonus = 0;
 	}
 
 	g_timerThreads.push_back(new Thread(Timer_UpdateGameTime));
@@ -873,6 +874,7 @@ void CGameServerDlg::UpdateGameTime()
 	// Every hour
 	if (m_sHour != now.GetHour())
 	{
+		SetPlayerRankings();
 		UpdateWeather();
 		SetGameTime();
 
@@ -994,6 +996,22 @@ void CGameServerDlg::SetGameTime()
 {
 	CIni ini(CONF_GAME_SERVER);
 	ini.SetInt( "TIMER", "WEATHER", m_byWeather );
+}
+
+void CGameServerDlg::SetPlayerRankings()
+{
+	if (m_sRankResetHour == 12) {
+		m_sRankResetHour = 0;
+		for(int i = 0; i < MAX_USER; i++) {
+			if (g_pMain->m_PVPRankings[i].s_SocketID == -1)
+				continue;
+
+			g_pMain->m_PVPRankings[i].m_iLoyaltyDaily = 0;
+			g_pMain->m_PVPRankings[i].m_iLoyaltyPremiumBonus = 0;
+		}
+	} else {
+		m_sRankResetHour++;
+	}
 }
 
 void CGameServerDlg::AddDatabaseRequest(Packet & pkt, CUser *pUser /*= nullptr*/)
@@ -1890,19 +1908,19 @@ _PVP_RANKINGS* CGameServerDlg::PVPRankInfo(_PVP_RANKINGS* m_PVPRankings, uint16 
 
 	for(int i = 0; i < m_sRankInfoIndex; i++) 
 	{
-		if( m_PVPRankings[i].m_bNation == sNation) {
-			if(m_PVPRankings[i].s_SocketID != -1) {
-				pPVPRankInfo[nRank] = m_PVPRankings[i];
-				nRank++;
-				if(nRank <= 10) {
-					if( sNation == KARUS )
-						m_sKarus = nRank;
-					else if( sNation == ELMORAD ) 
-						m_sHuman = nRank;
-				}
-			}
+		if(m_PVPRankings[i].s_SocketID == -1 || m_PVPRankings[i].m_bNation != sNation)
+			continue;
+		
+		pPVPRankInfo[nRank] = m_PVPRankings[i];
+		nRank++;
+		if (nRank <= 10) {
+			if( sNation == KARUS )
+				m_sRankKarusCount = nRank;
+			else if( sNation == ELMORAD ) 
+				m_sRankHumanCount = nRank;
 		}
 	}
+
 	return pPVPRankInfo;
 }
 

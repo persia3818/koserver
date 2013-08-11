@@ -98,6 +98,7 @@ public:
 	void Send_KnightsMember(int index, Packet *pkt);
 	void Send_KnightsAlliance(uint16 sAllianceID, Packet *pkt);
 	void SetGameTime();
+	void SetPlayerRankings();
 	void UpdateWeather();
 	void UpdateGameTime();
 	void ResetLoyaltyMonthly();
@@ -354,10 +355,11 @@ public:
 	bool	m_bPermanentChatMode;
 	std::string	m_strPermanentChat;
 
-	uint8 m_bSantaOrAngel;
+	uint8	m_bSantaOrAngel;
 	short	m_sRankInfoIndex;
-	short m_sKarus;
-	short m_sHuman;
+	short	m_sRankKarusCount;
+	short	m_sRankHumanCount;
+	uint8	m_sRankResetHour;
 
 	// zone server info
 	int					m_nServerNo, m_nServerGroupNo;
