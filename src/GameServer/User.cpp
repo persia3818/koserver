@@ -3107,6 +3107,7 @@ void CUser::OperatorCommand(Packet & pkt)
 		else
 			g_DBAgent.UpdateUserAuthority(strUserID,AUTHORITY_PLAYER);
 		sNoticeMessage = string_format("%s has been enabled attack..!", strUserID.c_str());
+		break;
 	case OPERATOR_UNMUTE:
 		if (bIsOnline)
 			pUser->m_bAuthority = AUTHORITY_PLAYER;
