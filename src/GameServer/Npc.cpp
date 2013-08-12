@@ -340,9 +340,11 @@ void CNpc::OnDeathProcess(Unit *pKiller)
 		{
 			if (pNpc->isNPC())
 			{
-				if (pNpc->m_sSid == 24100) // Chaos Stone
-				{
+				if (pNpc->m_tNpcType == 200)
 					ChaosStone(pNpc,pUser,5);
+				else if (pNpc->m_tNpcType == 201)
+				{
+
 				}
 			}
 			else if (pNpc->isMonster()) // Seed Quest
