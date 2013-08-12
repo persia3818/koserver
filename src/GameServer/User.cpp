@@ -1,4 +1,4 @@
-#include "stdafx.h"
+﻿#include "stdafx.h"
 #include "Map.h"
 #include "KnightsManager.h"
 #include "KingSystem.h"
@@ -204,6 +204,10 @@ bool CUser::HandlePacket(Packet & pkt)
 {
 	uint8 command = pkt.GetOpcode();
 	TRACE("[SID=%d] Packet: %X (len=%d)\n", GetSocketID(), command, pkt.size());
+
+	if (command == WIZ_MAGIC_PROCESS && !isAlive())
+		return false;
+
 	// If crypto's not been enabled yet, force the version packet to be sent.
 	if (!isCryptoEnabled())
 	{
@@ -950,7 +954,8 @@ void CUser::SetZoneAbilityChange(uint16 sNewZone)
 	if (pMap == nullptr)
 		return;
 
-	PlayerRanking(sNewZone,false);
+	if (!isGM())
+		PlayerRanking(sNewZone,false);
 
 	Packet result(WIZ_ZONEABILITY, uint8(1));
 
