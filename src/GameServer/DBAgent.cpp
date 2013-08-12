@@ -455,14 +455,14 @@ bool CDBAgent::LoadUserData(string & strAccountID, string & strCharID, CUser *pU
 		else if (sCount > ITEMCOUNT_MAX)
 			sCount = ITEMCOUNT_MAX;
 
+		if (nSerialNum == 0)
+			nSerialNum = g_pMain->GenerateItemSerial();
+
 		_ITEM_DATA *pItem = pUser->GetItem(i);
 		pItem->nNum = nItemID;
 		pItem->sDuration = sDurability;
 		pItem->sCount = sCount;
 		pItem->nSerialNum = nSerialNum;
-
-		if (nSerialNum == 0)
-			continue;
 
 		// If the serial was found in the rental data, mark as rented.
 		UserRentalMap::iterator itr = rentalData.find(nSerialNum);
