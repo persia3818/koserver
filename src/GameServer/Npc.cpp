@@ -389,7 +389,7 @@ void CNpc::ChaosStone(CNpc *pNpc, CUser *pUser, uint16 MonsterCount)
 				if (CurrentMonsterCountRepawned > MonsterCount)
 					break;
 
-				g_pMain->SpawnEventNpc(pMonsterSummonListZone->sSid, true, ZoneID, pNpc->GetX(),pNpc->GetY(), pNpc->GetZ(),CHAOS_STONE_MONSTER_RESPAWN_RADIUS);
+				g_pMain->SpawnEventNpc(pMonsterSummonListZone->sSid, true, ZoneID, pNpc->GetX(), pNpc->GetY(), pNpc->GetZ(), 1, CHAOS_STONE_MONSTER_RESPAWN_RADIUS);
 
 				CurrentMonsterCountRepawned ++;
 			}
