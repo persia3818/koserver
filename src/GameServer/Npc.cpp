@@ -331,30 +331,29 @@ void CNpc::OnDeath(Unit *pKiller)
 */
 void CNpc::OnDeathProcess(Unit *pKiller)
 {
-	CNpc * pNpc = TO_NPC(this);
 	CUser * pUser = TO_USER(pKiller);
 
-	if (pNpc != nullptr && pUser != nullptr)
+	if (TO_NPC(this) != nullptr && pUser != nullptr)
 	{
 		if (pUser->isPlayer())
 		{
-			if (!pNpc->m_bMonster)
+			if (!m_bMonster)
 			{
-				if (pNpc->m_tNpcType == 200)
-					ChaosStone(pNpc,pUser,5);
-				else if (pNpc->m_tNpcType == 201)
+				if (m_tNpcType == 200)
+					ChaosStone(pUser,5);
+				else if (m_tNpcType == 201)
 				{
 
 				}
 			}
-			else if (pNpc->m_bMonster) // Seed Quest
+			else if (m_bMonster) // Seed Quest
 			{
-				if (pNpc->m_sSid == 700 || pNpc->m_sSid == 750)
+				if (m_sSid == 700 || m_sSid == 750)
 				{
 					if (pUser->CheckExistEvent(STARTER_SEED_QUEST, 0) || pUser->CheckExistEvent(STARTER_SEED_QUEST, 1))
 						pUser->SaveEvent(STARTER_SEED_QUEST, 2);
-				} else if (g_pMain->m_MonsterRespawnListArray.GetData(pNpc->m_sSid) != nullptr) {
-					g_pMain->SpawnEventNpc(g_pMain->m_MonsterRespawnListArray.GetData(pNpc->m_sSid)->sSid, true, GetZoneID(), pNpc->GetX(), pNpc->GetY(), pNpc->GetZ(), 1);
+				} else if (g_pMain->m_MonsterRespawnListArray.GetData(m_sSid) != nullptr) {
+					g_pMain->SpawnEventNpc(g_pMain->m_MonsterRespawnListArray.GetData(m_sSid)->sSid, true, GetZoneID(), GetX(), GetY(), GetZ(), 1);
 				}
 			}
 		}
@@ -364,13 +363,12 @@ void CNpc::OnDeathProcess(Unit *pKiller)
 /**
 * @brief	Executes the death process.
 *
-* @param	pNpc	The NPC or Monster.
 * @param	pUser	The User.
 * @param	MonsterCount The Respawn boss count.
 */
-void CNpc::ChaosStone(CNpc *pNpc, CUser *pUser, uint16 MonsterCount)
+void CNpc::ChaosStone(CUser *pUser, uint16 MonsterCount)
 {
-	if (pNpc == nullptr || pUser == nullptr)
+	if (pUser == nullptr)
 		return;
 
 	g_pMain->SendNotice<CHAOS_STONE_ENEMY_NOTICE>("",GetZoneID(),pUser->GetNation() == ELMORAD ? Nation::KARUS : Nation::ELMORAD);
@@ -391,7 +389,7 @@ void CNpc::ChaosStone(CNpc *pNpc, CUser *pUser, uint16 MonsterCount)
 				if (CurrentMonsterCountRepawned > MonsterCount)
 					break;
 
-				g_pMain->SpawnEventNpc(pMonsterSummonListZone->sSid, true, GetZoneID(), pNpc->GetX(), pNpc->GetY(), pNpc->GetZ(), 1, CHAOS_STONE_MONSTER_RESPAWN_RADIUS);
+				g_pMain->SpawnEventNpc(pMonsterSummonListZone->sSid, true, GetZoneID(), GetX(), GetY(), GetZ(), 1, CHAOS_STONE_MONSTER_RESPAWN_RADIUS);
 
 				CurrentMonsterCountRepawned ++;
 			}
