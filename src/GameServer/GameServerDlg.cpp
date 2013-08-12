@@ -149,6 +149,7 @@ bool CGameServerDlg::Startup()
 		|| !LoadKingSystem()
 		|| !LoadMonsterSummonListTable()
 		|| !LoadMonsterSummonListZoneTable()
+		|| !LoadMonsterRespawnListTable()
 		|| !LoadPremiumItemTable()
 		|| !LoadPremiumItemExpTable())
 		return false;

@@ -792,6 +792,8 @@ COMMAND_HANDLER(CGameServerDlg::HandleReloadTablesCommand)
 	g_pMain->LoadUserRankings();
 	g_pMain->m_MonsterSummonListZoneArray.DeleteAllData();
 	g_pMain->LoadMonsterSummonListZoneTable();
+	g_pMain->m_MonsterRespawnListArray.DeleteAllData();
+	g_pMain->LoadMonsterRespawnListTable();
 	g_pMain->m_PremiumItemArray.DeleteAllData();
 	g_pMain->LoadPremiumItemTable();
 	g_pMain->m_PremiumItemExpArray.DeleteAllData();

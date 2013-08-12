@@ -46,6 +46,7 @@
 #include "../shared/database/KingElectionListSet.h"
 #include "../shared/database/MonsterSummonListSet.h"
 #include "../shared/database/MonsterSummonListZoneSet.h"
+#include "../shared/database/MonsterRespawnListSet.h"
 #include "../shared/database/PremiumItemSet.h"
 #include "../shared/database/PremiumItemExpSet.h"
 
@@ -309,6 +310,11 @@ bool CGameServerDlg::LoadMonsterSummonListTable()
 bool CGameServerDlg::LoadMonsterSummonListZoneTable()
 {
 	LOAD_TABLE(CMonsterSummonListZoneSet, g_DBAgent.m_GameDB, &m_MonsterSummonListZoneArray, true);
+}
+
+bool CGameServerDlg::LoadMonsterRespawnListTable()
+{
+	LOAD_TABLE(CMonsterRespawnListSet, g_DBAgent.m_GameDB, &m_MonsterRespawnListArray, true);
 }
 
 bool CGameServerDlg::LoadPremiumItemTable()

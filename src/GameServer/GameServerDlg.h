@@ -61,6 +61,7 @@ public:
 	bool LoadKingSystem();
 	bool LoadMonsterSummonListTable();
 	bool LoadMonsterSummonListZoneTable();
+	bool LoadMonsterRespawnListTable();
 	bool LoadPremiumItemTable();
 	bool LoadPremiumItemExpTable();
 
@@ -323,6 +324,7 @@ public:
 	KingSystemArray				m_KingSystemArray;
 	MonsterSummonListArray		m_MonsterSummonList;
 	MonsterSummonListZoneArray	m_MonsterSummonListZoneArray;
+	MonsterRespawnListArray		m_MonsterRespawnListArray;
 	PremiumItemArray			m_PremiumItemArray;
 	PremiumItemExpArray			m_PremiumItemExpArray;
 	_PVP_RANKINGS				m_PVPRankings[MAX_USER];
