@@ -937,7 +937,7 @@ void KOMap::SetZoneAttributes(int zoneNumber)
 		m_zoneFlags = ZF_ATTACK_OTHER_NATION;
 
 		if (zoneNumber == ZONE_KARUS_ESLANT || zoneNumber == ZONE_ELMORAD_ESLANT)
-			m_byMinLevel = MIN_LEVEL_ESLANT;
+			m_byMinLevel = MIN_LEVEL_ESLANT, m_byMaxLevel = MAX_LEVEL_ESLANT;
 		else if (zoneNumber == ZONE_RONARK_LAND)
 			m_byMinLevel = MIN_LEVEL_RONARK_LAND, m_byMaxLevel = MAX_LEVEL_RONARK_LAND;
 		else if (zoneNumber == ZONE_ARDREAM)
