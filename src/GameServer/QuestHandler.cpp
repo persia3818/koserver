@@ -444,7 +444,7 @@ void CUser::PromoteClan(ClanTypeFlag byFlag)
 	CKnightsManager::UpdateKnightsGrade(GetClanID(), byFlag);
 }
 
-void CUser::SendClanPointChange(uint32 nChangeAmount)
+void CUser::SendClanPointChange(int32 nChangeAmount)
 {
 	if (!isInClan())
 		return;

@@ -638,13 +638,20 @@ void CKnightsManager::UpdateKnightsGrade(uint16 sClanID, uint8 byFlag)
 	g_pMain->AddDatabaseRequest(result);
 }
 
-void CKnightsManager::UpdateClanPoint(uint16 sClanID, uint32 nChangeAmount)
+void CKnightsManager::UpdateClanPoint(uint16 sClanID, int32 nChangeAmount)
 {
 	CKnights * pClan = g_pMain->GetClanPtr(sClanID);
 	if (pClan == nullptr)
 		return;
 
-	pClan->m_nClanPointFund += nChangeAmount;
+	uint32 sChangeAmount = pClan->m_nClanPointFund;
+
+	if (nChangeAmount > 0)
+		sChangeAmount += nChangeAmount;
+	else
+		sChangeAmount -= nChangeAmount;
+
+	pClan->m_nClanPointFund = sChangeAmount;
 	pClan->UpdateClanFund();
 }
 

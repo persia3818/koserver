@@ -429,7 +429,7 @@ public:
 	uint8 GetClanGrade();
 	uint8 GetClanRank();
 	uint32 GetClanPoint();
-	void SendClanPointChange(uint32 nChangeAmount);
+	void SendClanPointChange(int32 nChangeAmount = 0);
 
 	INLINE uint8 GetStat(StatType type)
 	{
