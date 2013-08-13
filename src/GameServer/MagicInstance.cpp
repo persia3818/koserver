@@ -114,10 +114,12 @@ void MagicInstance::Run()
 		if (bInitialResult)
 		{
 			CUser * pCaster = TO_USER(pSkillCaster);
-			if (pCaster != nullptr){
+			if (pCaster != nullptr) {
+
 				if (nSkillID < 400000  && pCaster->isPlayer()) {
 					pCaster->m_LastSkillID = nSkillID;
-					pCaster->m_LastSkillUseTime = UNIXTIME;
+					if (!pSkillCaster->m_bInstantCast)
+						pCaster->m_LastSkillUseTime = UNIXTIME;
 					pCaster->m_LastSkillType = pSkill->bType[0];
 				}
 			}
