@@ -7,7 +7,7 @@ public:
 		: OdbcRecordset(dbConnection), m_pMap(pMap) {}
 
 	virtual tstring GetTableName() { return _T("ITEM"); }
-	virtual tstring GetColumns() { return _T("Num, Kind, Slot, Race, Class, Damage, Delay, Range, Weight, Duration, BuyPrice, SellPrice, Ac, Countable, Effect1, Effect2, ReqLevel, ReqLevelMax, ReqRank, ReqTitle, ReqStr, ReqSta, ReqDex, ReqIntel, ReqCha, SellingGroup, ItemType, Hitrate, Evasionrate, DaggerAc, SwordAc, MaceAc, AxeAc, SpearAc, BowAc, FireDamage, IceDamage, LightningDamage, PoisonDamage, HPDrain, MPDamage, MPDrain, MirrorDamage, StrB, StaB, DexB, IntelB, ChaB, MaxHpB, MaxMpB, FireR, ColdR, LightningR, MagicR, PoisonR, CurseR"); }
+	virtual tstring GetColumns() { return _T("Num, strName, Kind, Slot, Race, Class, Damage, Delay, Range, Weight, Duration, BuyPrice, SellPrice, Ac, Countable, Effect1, Effect2, ReqLevel, ReqLevelMax, ReqRank, ReqTitle, ReqStr, ReqSta, ReqDex, ReqIntel, ReqCha, SellingGroup, ItemType, Hitrate, Evasionrate, DaggerAc, SwordAc, MaceAc, AxeAc, SpearAc, BowAc, FireDamage, IceDamage, LightningDamage, PoisonDamage, HPDrain, MPDamage, MPDrain, MirrorDamage, StrB, StaB, DexB, IntelB, ChaB, MaxHpB, MaxMpB, FireR, ColdR, LightningR, MagicR, PoisonR, CurseR"); }
 
 	virtual bool Fetch()
 	{
@@ -15,6 +15,7 @@ public:
 
 		int i = 1;
 		_dbCommand->FetchUInt32(i++, pData->m_iNum);
+		_dbCommand->FetchString(i++, pData->m_sName);
 		_dbCommand->FetchByte(i++, pData->m_bKind);
 		_dbCommand->FetchByte(i++, pData->m_bSlot);
 		_dbCommand->FetchByte(i++, pData->m_bRace);

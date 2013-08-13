@@ -292,6 +292,7 @@ enum SellType
 struct _ITEM_TABLE
 {
 	uint32	m_iNum;
+	std::string	m_sName;
 	uint8	m_bKind;
 	uint8	m_bSlot;
 	uint8	m_bRace;
