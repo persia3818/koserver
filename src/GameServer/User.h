@@ -428,6 +428,8 @@ public:
 	INLINE uint16 GetActiveQuestID() { return m_sEventDataIndex; }
 	uint8 GetClanGrade();
 	uint8 GetClanRank();
+	uint32 GetClanPoint();
+	void SendClanPointChange(uint32 nChangeAmount);
 
 	INLINE uint8 GetStat(StatType type)
 	{
@@ -991,6 +993,7 @@ public:
 	DECLARE_LUA_GETTER(GetManner)
 	DECLARE_LUA_GETTER(GetActiveQuestID)
 	DECLARE_LUA_GETTER(GetClanGrade)
+	DECLARE_LUA_GETTER(GetClanPoint)
 	DECLARE_LUA_GETTER(GetClanRank)
 	DECLARE_LUA_GETTER(isWarrior)
 	DECLARE_LUA_GETTER(isRogue)
@@ -1226,5 +1229,9 @@ public:
 
 	DECLARE_LUA_FUNCTION(GetStat) {
 		LUA_RETURN(LUA_GET_INSTANCE()->GetStat((StatType)(LUA_ARG(uint8, 2) + 1)));	
+	}
+
+	DECLARE_LUA_FUNCTION(RobClanPoint) {
+		LUA_NO_RETURN(LUA_GET_INSTANCE()->SendClanPointChange(-(LUA_ARG(int32, 2))));	
 	}
 };

@@ -39,6 +39,7 @@ public:
 	static bool LoadKnightsIndex(int index);
 	static bool LoadAllKnights();
 	static void UpdateKnightsGrade(uint16 sClanID, uint8 byFlag);
+	static void UpdateClanPoint(uint16 sClanID, uint32 nChangeAmount);
 
 	// database requests go here
 	static void ReqKnightsPacket(CUser* pUser, Packet & pkt);

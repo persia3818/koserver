@@ -48,6 +48,7 @@ DEFINE_LUA_CLASS
 	MAKE_LUA_METHOD(GetManner)
 	MAKE_LUA_METHOD(GetActiveQuestID)
 	MAKE_LUA_METHOD(GetClanGrade)
+	MAKE_LUA_METHOD(GetClanPoint)
 	MAKE_LUA_METHOD(GetClanRank)
 	MAKE_LUA_METHOD(GetStat)
 
@@ -126,6 +127,7 @@ DEFINE_LUA_CLASS
 	MAKE_LUA_METHOD(KissUser)
 	MAKE_LUA_METHOD(ChangeManner)
 	MAKE_LUA_METHOD(PromoteClan)
+	MAKE_LUA_METHOD(RobClanPoint)
 	);
 #undef LUA_CLASS
 
@@ -298,9 +300,11 @@ _LUA_WRAPPER_USER_FUNCTION(KissUser, KissUser);
 _LUA_WRAPPER_USER_FUNCTION(ChangeManner, ChangeManner);
 _LUA_WRAPPER_USER_FUNCTION(PromoteClan, PromoteClan);
 _LUA_WRAPPER_USER_FUNCTION(CheckClanGrade, GetClanGrade);
+_LUA_WRAPPER_USER_FUNCTION(CheckClanPoint, GetClanPoint);
 _LUA_WRAPPER_USER_FUNCTION(CheckLoyalty, GetLoyalty);
 _LUA_WRAPPER_USER_FUNCTION(CheckKnight, GetClanRank);
 _LUA_WRAPPER_USER_FUNCTION(CheckStatPoint, GetStat); 
+_LUA_WRAPPER_USER_FUNCTION(RobClanPoint, RobClanPoint);
 
 LUA_FUNCTION(SelectMsg)
 {

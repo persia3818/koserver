@@ -638,6 +638,16 @@ void CKnightsManager::UpdateKnightsGrade(uint16 sClanID, uint8 byFlag)
 	g_pMain->AddDatabaseRequest(result);
 }
 
+void CKnightsManager::UpdateClanPoint(uint16 sClanID, uint32 nChangeAmount)
+{
+	CKnights * pClan = g_pMain->GetClanPtr(sClanID);
+	if (pClan == nullptr)
+		return;
+
+	pClan->m_nClanPointFund += nChangeAmount;
+	pClan->UpdateClanFund();
+}
+
 void CKnightsManager::AddUserDonatedNP(int index, std::string & strUserID, uint32 nDonatedNP, bool bIsKillReward)
 {
 	CKnights *pKnights = g_pMain->GetClanPtr(index);

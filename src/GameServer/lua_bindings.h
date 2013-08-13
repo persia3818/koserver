@@ -71,6 +71,8 @@ LUA_FUNCTION(ZoneChangeClan);
 LUA_FUNCTION(KissUser);
 LUA_FUNCTION(ChangeManner);
 LUA_FUNCTION(CheckClanGrade);
+LUA_FUNCTION(CheckClanPoint);
 LUA_FUNCTION(CheckLoyalty);
 LUA_FUNCTION(CheckKnight);
 LUA_FUNCTION(CheckStatPoint); 
+LUA_FUNCTION(RobClanPoint);
