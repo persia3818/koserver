@@ -264,6 +264,9 @@ void CGameServerDlg::GetTimeFromIni()
 		m_PVPRankings[i].m_iLoyaltyPremiumBonus = 0;
 	}
 
+	m_BifrostVictory = 0;
+
+	g_timerThreads.push_back(new Thread(Timer_BifrostTime));
 	g_timerThreads.push_back(new Thread(Timer_UpdateGameTime));
 	g_timerThreads.push_back(new Thread(Timer_UpdateSessions));
 	g_timerThreads.push_back(new Thread(Timer_UpdateConcurrent));
@@ -496,6 +499,15 @@ _PARTY_GROUP * CGameServerDlg::CreateParty(CUser *pLeader)
 void CGameServerDlg::DeleteParty(uint16 sIndex)
 {
 	m_PartyArray.DeleteData(sIndex);
+}
+
+uint32 CGameServerDlg::Timer_BifrostTime(void * lpParam)
+{
+	while (g_bRunning)
+	{
+		sleep(60 * SECOND);
+	}
+	return 0;
 }
 
 uint32 CGameServerDlg::Timer_UpdateGameTime(void * lpParam)

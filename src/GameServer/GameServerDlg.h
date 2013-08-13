@@ -70,6 +70,7 @@ public:
 
 	void AIServerConnect();
 
+	static uint32 THREADCALL Timer_BifrostTime(void * lpParam);
 	static uint32 THREADCALL Timer_UpdateGameTime(void * lpParam);
 	static uint32 THREADCALL Timer_UpdateSessions(void * lpParam);
 	static uint32 THREADCALL Timer_UpdateConcurrent(void * lpParam);
@@ -358,10 +359,13 @@ public:
 	std::string	m_strPermanentChat;
 
 	uint8	m_bSantaOrAngel;
-	short	m_sRankInfoIndex;
-	short	m_sRankKarusCount;
-	short	m_sRankHumanCount;
+	uint16	m_sRankInfoIndex;
+	uint16	m_sRankKarusCount;
+	uint16	m_sRankHumanCount;
 	uint8	m_sRankResetHour;
+
+	// Bifrost
+	uint8 m_BifrostVictory;
 
 	// zone server info
 	int					m_nServerNo, m_nServerGroupNo;

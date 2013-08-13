@@ -76,3 +76,4 @@ LUA_FUNCTION(CheckLoyalty);
 LUA_FUNCTION(CheckKnight);
 LUA_FUNCTION(CheckStatPoint); 
 LUA_FUNCTION(RobClanPoint);
+LUA_FUNCTION(CheckBeefRoastVictory);

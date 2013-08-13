@@ -128,6 +128,7 @@ DEFINE_LUA_CLASS
 	MAKE_LUA_METHOD(ChangeManner)
 	MAKE_LUA_METHOD(PromoteClan)
 	MAKE_LUA_METHOD(RobClanPoint)
+	MAKE_LUA_METHOD(GetBeefRoastVictory)
 	);
 #undef LUA_CLASS
 
@@ -305,6 +306,7 @@ _LUA_WRAPPER_USER_FUNCTION(CheckLoyalty, GetLoyalty);
 _LUA_WRAPPER_USER_FUNCTION(CheckKnight, GetClanRank);
 _LUA_WRAPPER_USER_FUNCTION(CheckStatPoint, GetStat); 
 _LUA_WRAPPER_USER_FUNCTION(RobClanPoint, RobClanPoint);
+_LUA_WRAPPER_USER_FUNCTION(CheckBeefRoastVictory, GetBeefRoastVictory);
 
 LUA_FUNCTION(SelectMsg)
 {

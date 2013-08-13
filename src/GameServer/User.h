@@ -430,6 +430,7 @@ public:
 	uint8 GetClanRank();
 	uint32 GetClanPoint();
 	void SendClanPointChange(int32 nChangeAmount = 0);
+	uint8 GetBeefRoastVictory();
 
 	INLINE uint8 GetStat(StatType type)
 	{
@@ -1018,6 +1019,7 @@ public:
 	DECLARE_LUA_GETTER(isClanLeader)
 	DECLARE_LUA_GETTER(isInParty)
 	DECLARE_LUA_GETTER(isPartyLeader)
+	DECLARE_LUA_GETTER(GetBeefRoastVictory)
 
 	// Shortcuts for lazy people
 	DECLARE_LUA_FUNCTION(hasCoins)  {
