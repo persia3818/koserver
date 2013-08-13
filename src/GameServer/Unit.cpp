@@ -939,9 +939,9 @@ void KOMap::SetZoneAttributes(int zoneNumber)
 		if (zoneNumber == ZONE_KARUS_ESLANT || zoneNumber == ZONE_ELMORAD_ESLANT)
 			m_byMinLevel = MIN_LEVEL_ESLANT;
 		else if (zoneNumber == ZONE_RONARK_LAND)
-			m_byMinLevel = MIN_LEVEL_RONARK_LAND;
+			m_byMinLevel = MIN_LEVEL_RONARK_LAND, m_byMaxLevel = MAX_LEVEL_RONARK_LAND;
 		else if (zoneNumber == ZONE_ARDREAM)
-			m_byMinLevel = MIN_LEVEL_ARDREAM;
+			m_byMinLevel = MIN_LEVEL_ARDREAM, m_byMaxLevel = MAX_LEVEL_ARDREAM;
 		else if (zoneNumber == ZONE_RONARK_LAND_BASE)
 			m_byMinLevel = MIN_LEVEL_RONARK_LAND_BASE, m_byMaxLevel = MAX_LEVEL_RONARK_LAND_BASE;
 		else if (zoneNumber == ZONE_KARUS || zoneNumber == ZONE_ELMORAD)

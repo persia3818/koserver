@@ -130,7 +130,9 @@ enum InOutType
 
 // Zone level requirements (should really be in a database or something...)
 #define MIN_LEVEL_ESLANT			60
-#define MIN_LEVEL_RONARK_LAND		35 // or 69~83?
+#define MAX_LEVEL_ESLANT			MAX_LEVEL
+#define MIN_LEVEL_RONARK_LAND		35
+#define MAX_LEVEL_RONARK_LAND		MAX_LEVEL
 #define MIN_LEVEL_ARDREAM			35
 #define MAX_LEVEL_ARDREAM			59
 #define MIN_LEVEL_RONARK_LAND_BASE	45
