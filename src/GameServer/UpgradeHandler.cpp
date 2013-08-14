@@ -269,7 +269,7 @@ void CUser::ItemUpgrade(Packet & pkt)
 
 				// Reset the durability also, to the new cap.
 				pOriginItem->sDuration = newProto->m_sDuration;
-				
+
 				std::string sUpgradeNotice = string_format("%s Adli Oyuncu %s Adli Itemi Basti...",GetName().c_str(),newProto->m_sName.c_str());
 				g_pMain->SendAnnouncement(sUpgradeNotice.c_str());
 			}
@@ -345,6 +345,11 @@ void CUser::ItemUpgradeAccessories(Packet & pkt)
 */
 void CUser::BifrostPieceProcess(Packet & pkt)
 {
+	enum GeneratorDisplayCodes
+	{
+		GeneratorFailed		= 0,
+		GeneratorSucceeded	= 1
+	};
 }
 
 /**

@@ -798,6 +798,8 @@ COMMAND_HANDLER(CGameServerDlg::HandleReloadTablesCommand)
 	g_pMain->LoadPremiumItemTable();
 	g_pMain->m_PremiumItemExpArray.DeleteAllData();
 	g_pMain->LoadPremiumItemExpTable();
+	g_pMain->m_ItemExchangeArray.DeleteAllData();
+	g_pMain->LoadItemExchangeTable();
 
 	return true;
 }
