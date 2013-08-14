@@ -1,114 +1,86 @@
--- [È²½Ç¿ä¸®»ç]
 
--- EVENT ´Â 100¹ø ÀÌ»ó ºÎÅÍ »ç¿ëÇÏ¶ó
 
--- UID : ¼­¹ö¿¡¼­ Á¦°øÇÏ´Â À¯Àú¹øÈ£
--- EVENT : ¼­¹ö¿¡¼­ Á¦°øÇÏ´Â Äù½ºÆ® ¹øÈ£
--- STEP : ¼­¹ö¿¡¼­ Á¦°øÇÏ´Â Äù½ºÆ® ³»ºÎ ´Ü°è
-
--- À§ÀÇ ¼¼°¡Áö ÆÄ¶ó¸ŞÅ¸´Â ·ç¾Æ ½ÇÇà½Ã Ç×»ó Àü¿ªº¯¼ö·Î Á¦°øµ
-
--- Áö¿ªº¯¼ö ¼±¾ğ...
 local UserClass;
 local QuestNum;
 local Ret = 0;
 local NPC = 14410;
 
--- [È²½Ç¿ä¸®»ç] Å¬¸¯½Ã Äù½ºÆ® Ã¼Å©  
--------------------------------
-------¸ÀÀÇ ÀıÁ¤-----
--------------------------------
 if EVENT == 190 then
-	QuestNum = SearchQuest(UID, NPC);
-		if QuestNum == 0 then --ÇØ´ç NPC¿¡°Ô ÇÒ¼ö ÀÖ´Â Äù½ºÆ®°¡ 0°³ ÀÏ¶§ 
-          -- SelectMsg(UID, 2. -1...........)
-			 SelectMsg(UID, 2, -1, 680, NPC, 10, 193, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1);
-			 --SetQuestStep(UID, EVENT, 1); -- ¹» ÇÏ´Â °É±î?
-			 Ret = 1; -- ÀÌ°Ç ¿Ö ÀúÀå ½ÃÄÑ¿ä? ±×³É RETURNÀº ¾ÈµÇ³ª¿ä?
-		elseif QuestNum > 1 and  QuestNum < 100 then--ÇØ´ç NPC¿¡°Ô ÇÒ¼ö ÀÖ´Â Äù½ºÆ®°¡ 1°³ ÀÏ¶§ 
-          NpcMsg(UID, 681, NPC)
-      else --ÇØ´ç NPC¿¡°Ô ÇÒ¼ö ÀÖ´Â Äù½ºÆ®°¡ 1°³ ÀÌ»ó ÀÏ¶§ 
-          EVENT = QuestNum
-		end
+QuestNum = SearchQuest(UID, NPC);
+if QuestNum == 0 then
+SelectMsg(UID, 2, -1, 680, NPC, 10, 193);
+Ret = 1;
+elseif QuestNum > 1 and QuestNum < 100 then
+NpcMsg(UID, 681, NPC)
+else
+EVENT = QuestNum
+end
 end
 
 if EVENT == 193 then
-    Ret = 1;
+Ret = 1;
 end
 
---°í±â±¸ÇØ¿À±â
---. ¹Ì½©
-
 if EVENT == 195 then
-   SelectMsg(UID, 1, 65, 1260, NPC, 28, 196, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1);
+SelectMsg(UID, 1, 65, 1260, NPC, 28, 196);
 end
 
 if EVENT == 196 then
-   ShowMap(UID, 41);
-   SaveEvent(UID, 449);
+ShowMap(UID, 41);
+SaveEvent(UID, 449);
 end
 
---  102¹øÀÇ ¼Ó¼º 0¹ø 4¹øÀÏ °æ¿ì
-
 if EVENT == 200 then
-   SelectMsg(UID, 2, 65, 683, NPC, 10, 201, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1);
+SelectMsg(UID, 2, 65, 683, NPC, 10, 201);
 end
 
 if EVENT == 201 then
-   SelectMsg(UID, 4, 65, 684, NPC, 22, 202, 23, 193, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1);
+SelectMsg(UID, 4, 65, 684, NPC, 22, 202, 23, 193);
 end
 
 if EVENT == 202 then
-   SaveEvent(UID, 450);
+SaveEvent(UID, 450);
 end
 
--- Àç·á¸¦ ´Ù ¸ğ¾ÒÀ» ¶§ 
-local NATION = 0;--±¹°¡ Ã¼Å©
+-- Ã€Ã§Â·Ã¡Â¸Â¦ Â´Ã™ Â¸ÄŸÂ¾Ã’Ã€Â» Â¶Â§
+local NATION = 0;
 
 if EVENT == 205 then
-   SaveEvent(UID, 452);
-   NATION = CheckNation(UID);
-   if NATION == 1 then -- Ä«·ç½º ÀÏ¶§
-      SelectMsg(UID, 1, 65, 1263, NPC, 32, 208, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1);
-   else -- ¿¤¸ğÀÏ¶§
-      SelectMsg(UID, 1, 65, 685, NPC, 21, 208, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1);
-   end
+SaveEvent(UID, 452);
+NATION = CheckNation(UID);
+if NATION == 1 then
+SelectMsg(UID, 1, 65, 1263, NPC, 32, 208);
+else
+SelectMsg(UID, 1, 65, 685, NPC, 21, 208);
+end
 end
 
-
 local ITEM_COUNT=0;
-local RUN_EXCHANGE ;--Àç·á ±³Ã¼ ÇÔ¼ö ¸¸µé¾î ÁÖ¼¼¿ä 
+local RUN_EXCHANGE ;
 
 if EVENT == 210 then
-   ITEM_COUNT = HowmuchItem(UID, 379204000); --exchange Å×ÀÌºí ÀÎµ¦½º°ª   
-   if  ITEM_COUNT < 5 then -- Àç·á ¾øÀ»¶§
-      SelectMsg(UID, 2, 65, 686, NPC, 18, 213, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1);
-      else
-          SelectMsg(UID, 4, 65, 687, NPC, 41, 214, 27, 193, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1);
-           
-   end
+ITEM_COUNT = HowmuchItem(UID, 379204000);
+
+if ITEM_COUNT < 2 then
+SelectMsg(UID, 2, 65, 686, NPC, 18, 213);
+else
+SelectMsg(UID, 4, 65, 687, NPC, 41, 214, 27, 193);
+end
 end
 
 if EVENT == 213 then
-   ShowMap(UID, 14);
+ShowMap(UID, 14);
 end
 
 local Check;
 
 if EVENT == 214 then
-  Check = CheckExchange(UID, 90)
-   if  Check ==1 then
-    SaveEvent(UID, 451);
-    SaveEvent(UID, 455); 
-    RunExchange(UID, 90);
-    SelectMsg(UID, 2, 65, 689, NPC, 58, 193, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1);      
-   else
-  Ret = 1;	
-  end	 
+RobItem(UID, 379204000, 2)
+GoldGain(UID, 100000)
+ExpChange(UID, 1000000)
+GiveItem(UID, 389620000, 1)
+SelectMsg(UID, 2, -1, 692, NPC, 10);
+SaveEvent(UID, 451);
 end
 
-
--------------------------------
------¸ÀÀÇ ÀıÁ¤            ³¡---
--------------------------------
 return Ret;
