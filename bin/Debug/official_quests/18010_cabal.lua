@@ -13,5 +13,11 @@ Ret = 1;
 end
 
 if EVENT == 102 then
-ZoneChange(UID, 1, 443, 441)
+NATION = CheckNation(UID);
+if NATION == 2 then
+ZoneChange(UID, 2, 1767, 447)
+end
+elseif NATION == 1 then
+ZoneChange(UID, 1, 328, 1604)
+end
 end
