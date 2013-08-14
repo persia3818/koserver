@@ -349,7 +349,7 @@ void CNpc::OnDeathProcess(Unit *pKiller)
 			{
 				if (m_sSid == 700 || m_sSid == 750)
 				{
-					if (pUser->CheckExistEvent(STARTER_SEED_QUEST, 0) || pUser->CheckExistEvent(STARTER_SEED_QUEST, 1))
+					if (pUser->CheckExistEvent(STARTER_SEED_QUEST, 1))
 						pUser->SaveEvent(STARTER_SEED_QUEST, 2);
 				} else if (g_pMain->m_MonsterRespawnListArray.GetData(m_sSid) != nullptr) {
 					g_pMain->SpawnEventNpc(g_pMain->m_MonsterRespawnListArray.GetData(m_sSid)->sSid, true, GetZoneID(), GetX(), GetY(), GetZ(), 1);
