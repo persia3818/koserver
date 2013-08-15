@@ -16,6 +16,8 @@ void CGameServerDlg::InitServerCommands()
 		{ "open1",				&CGameServerDlg::HandleWar1OpenCommand,			"Opens war zone 1" },
 		{ "open2",				&CGameServerDlg::HandleWar2OpenCommand,			"Opens war zone 2" },
 		{ "open3",				&CGameServerDlg::HandleWar3OpenCommand,			"Opens war zone 3" },
+		{ "open4",				&CGameServerDlg::HandleWar4OpenCommand,			"Opens war zone 4" },
+		{ "open5",				&CGameServerDlg::HandleWar5OpenCommand,			"Opens war zone 5" },
 		{ "snowopen",			&CGameServerDlg::HandleSnowWarOpenCommand,		"Opens the snow war zone" },
 		{ "close",				&CGameServerDlg::HandleWarCloseCommand,			"Closes the active war zone" },
 		{ "down",				&CGameServerDlg::HandleShutdownCommand,			"Shuts down the server" },
@@ -53,6 +55,8 @@ void CUser::InitChatCommands()
 		{ "open1",				&CUser::HandleWar1OpenCommand,					"Opens war zone 1" },
 		{ "open2",				&CUser::HandleWar2OpenCommand,					"Opens war zone 2" },
 		{ "open3",				&CUser::HandleWar3OpenCommand,					"Opens war zone 3" },
+		{ "open4",				&CUser::HandleWar4OpenCommand,					"Opens war zone 4" },
+		{ "open5",				&CUser::HandleWar5OpenCommand,					"Opens war zone 5" },
 		{ "snowopen",			&CUser::HandleSnowWarOpenCommand,				"Opens the snow war zone" },
 		{ "close",				&CUser::HandleWarCloseCommand,					"Closes the active war zone" },
 		{ "np_change",			&CUser::HandleLoyaltyChangeCommand,				"Change a player an loyalty" },
@@ -482,6 +486,19 @@ COMMAND_HANDLER(CGameServerDlg::HandleWar3OpenCommand)
 	return true;
 }
 
+COMMAND_HANDLER(CUser::HandleWar4OpenCommand) { return g_pMain->HandleWar4OpenCommand(vargs, args, description); }
+COMMAND_HANDLER(CGameServerDlg::HandleWar4OpenCommand)
+{
+	BattleZoneOpen(BATTLEZONE_OPEN, 4);
+	return true;
+}
+
+COMMAND_HANDLER(CUser::HandleWar5OpenCommand) { return g_pMain->HandleWar5OpenCommand(vargs, args, description); }
+COMMAND_HANDLER(CGameServerDlg::HandleWar5OpenCommand)
+{
+	BattleZoneOpen(BATTLEZONE_OPEN, 6);
+	return true;
+}
 COMMAND_HANDLER(CUser::HandleSnowWarOpenCommand) { return g_pMain->HandleSnowWarOpenCommand(vargs, args, description); }
 COMMAND_HANDLER(CGameServerDlg::HandleSnowWarOpenCommand)
 {

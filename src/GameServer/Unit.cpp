@@ -951,6 +951,8 @@ void KOMap::SetZoneAttributes(int zoneNumber)
 	case ZONE_BATTLE:
 	case ZONE_BATTLE2:
 	case ZONE_BATTLE3:
+	case ZONE_BATTLE4:
+	case ZONE_BATTLE5:
 	case ZONE_SNOW_BATTLE:
 		m_zoneType = ZoneAbilityPVP;
 		m_zoneFlags = ZF_ATTACK_OTHER_NATION | ZF_WAR_ZONE;
