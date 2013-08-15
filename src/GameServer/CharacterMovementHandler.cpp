@@ -188,15 +188,6 @@ bool CUser::CanChangeZone(C3DMap * pTargetMap, WarpListResponse & errorReason)
 	// Generic error reason; this should only be checked when the method returns false.
 	errorReason = WarpListGenericError;
 
-	// Ensure the user meets the zone's level requirements
-	if (GetLevel() < pTargetMap->GetMinLevelReq()
-		|| GetLevel() > pTargetMap->GetMaxLevelReq())
-	{
-		// TO-DO: Implement overrides for zone-specific behaviour (e.g. wars)
-		errorReason = WarpListMinLevel;
-		return false;
-	}
-
 	switch (pTargetMap->GetID())
 	{
 	case ZONE_ELMORAD:
@@ -226,21 +217,72 @@ bool CUser::CanChangeZone(C3DMap * pTargetMap, WarpListResponse & errorReason)
 		// After that, it's open to both zones (note: this extended logic won't be implemented until we actually implement the event -- #84).
 	case ZONE_BIFROST: // TO-DO: implement Bifrost logic
 		return true;
-
-	case ZONE_RONARK_LAND:
 	case ZONE_ARDREAM:
-	case ZONE_RONARK_LAND_BASE:
-		// PVP zones such as Ronark Land/Ardream (do we include both?) may only be entered if a war is not started. 
 		if (g_pMain->m_byBattleOpen != NO_BATTLE)
 		{
 			errorReason = WarpListNotDuringWar;
 			return false;
 		}
 
-		// They may also not be entered if the user has no NP.
 		if (GetLoyalty() <= 0)
 		{
 			errorReason = WarpListNeedNP;
+			return false;
+		}
+
+		if (GetLevel() < MIN_LEVEL_ARDREAM || GetLevel() >  MAX_LEVEL_ARDREAM)
+		{
+			errorReason = WarpListMinLevel;
+			return false;
+		}
+
+		if ((m_sPoints + GetStatTotal()) > 474 || GetTotalSkillPoints() > 100)
+		{
+			errorReason = WarpListDoNotQualify;
+			return false;
+		}
+		break;
+	case ZONE_RONARK_LAND:
+		if (g_pMain->m_byBattleOpen != NO_BATTLE)
+		{
+			errorReason = WarpListNotDuringWar;
+			return false;
+		}
+
+		if (GetLoyalty() <= 0)
+		{
+			errorReason = WarpListNeedNP;
+			return false;
+		}
+
+		if (GetLevel() < MIN_LEVEL_RONARK_LAND || GetLevel() >  MAX_LEVEL_RONARK_LAND)
+		{
+			errorReason = WarpListMinLevel;
+			return false;
+		}
+		break;
+	case ZONE_RONARK_LAND_BASE:
+		if (g_pMain->m_byBattleOpen != NO_BATTLE)
+		{
+			errorReason = WarpListNotDuringWar;
+			return false;
+		}
+
+		if (GetLoyalty() <= 0)
+		{
+			errorReason = WarpListNeedNP;
+			return false;
+		}
+
+		if (GetLevel() < MIN_LEVEL_RONARK_LAND_BASE || GetLevel() >  MAX_LEVEL_RONARK_LAND_BASE)
+		{
+			errorReason = WarpListMinLevel;
+			return false;
+		}
+
+		if ((m_sPoints + GetStatTotal()) > 522 || GetTotalSkillPoints() > 120)
+		{
+			errorReason = WarpListDoNotQualify;
 			return false;
 		}
 		break;
@@ -252,6 +294,15 @@ bool CUser::CanChangeZone(C3DMap * pTargetMap, WarpListResponse & errorReason)
 			if ((ZONE_BATTLE_BASE - pTargetMap->GetID()) != g_pMain->m_byBattleZone)
 				return false;
 		}
+	}
+
+	// Ensure the user meets the zone's level requirements
+	if (GetLevel() < pTargetMap->GetMinLevelReq()
+		|| GetLevel() > pTargetMap->GetMaxLevelReq())
+	{
+		// TO-DO: Implement overrides for zone-specific behaviour (e.g. wars)
+		errorReason = WarpListMinLevel;
+		return false;
 	}
 
 	return true;

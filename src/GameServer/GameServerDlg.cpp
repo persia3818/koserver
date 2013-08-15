@@ -255,7 +255,7 @@ void CGameServerDlg::GetTimeFromIni()
 	m_sRankKarusCount = 0;
 	m_sRankHumanCount = 0;
 	m_sRankResetHour = 0;
-	
+
 	for(int i = 0; i < MAX_USER; i++) {
 		m_PVPRankings[i].m_bZone = 0;
 		m_PVPRankings[i].s_SocketID = -1;
@@ -1613,7 +1613,7 @@ void CGameServerDlg::ResetBattleZone()
 	m_byBanishFlag = false;
 	m_sBanishDelay = 0;
 	m_bKarusFlag = 0,
-		m_bElmoradFlag = 0;
+	m_bElmoradFlag = 0;
 	m_byKarusOpenFlag = m_byElmoradOpenFlag = false;
 	m_byBattleOpen = NO_BATTLE;
 	m_byOldBattleOpen = NO_BATTLE;
@@ -1923,7 +1923,7 @@ _PVP_RANKINGS* CGameServerDlg::PVPRankInfo(_PVP_RANKINGS* m_PVPRankings, uint16 
 	{
 		if(m_PVPRankings[i].s_SocketID == -1 || m_PVPRankings[i].m_bNation != sNation)
 			continue;
-		
+
 		pPVPRankInfo[nRank] = m_PVPRankings[i];
 		nRank++;
 		if (nRank <= 10) {
