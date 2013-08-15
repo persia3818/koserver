@@ -688,9 +688,14 @@ uint8 CUser::GetRankReward(bool isMonthly)
 			nGoldAmount = 300000;
 		else if (nRank >= 41 && nRank <= 100)
 			nGoldAmount = 200000;
+		else
+			nGoldAmount = 0;
 
-		sResult = RewardSuccessfull;
-		GoldGain(nGoldAmount);
+		if (nGoldAmount > 0) 
+		{
+			sResult = RewardSuccessfull;
+			GoldGain(nGoldAmount);
+		}
 	}
 	else
 	{
