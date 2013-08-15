@@ -236,7 +236,32 @@ bool CUser::CanChangeZone(C3DMap * pTargetMap, WarpListResponse & errorReason)
 			return false;
 		}
 
-		if ((m_sPoints + GetStatTotal()) > 474 || GetTotalSkillPoints() > 100)
+		if (!CanLevelQualify(MAX_LEVEL_ARDREAM))
+		{
+			errorReason = WarpListDoNotQualify;
+			return false;
+		}
+		break;
+	case ZONE_RONARK_LAND_BASE:
+		if (g_pMain->m_byBattleOpen != NO_BATTLE)
+		{
+			errorReason = WarpListNotDuringWar;
+			return false;
+		}
+
+		if (GetLoyalty() <= 0)
+		{
+			errorReason = WarpListNeedNP;
+			return false;
+		}
+
+		if (GetLevel() < MIN_LEVEL_RONARK_LAND_BASE || GetLevel() >  MAX_LEVEL_RONARK_LAND_BASE)
+		{
+			errorReason = WarpListMinLevel;
+			return false;
+		}
+
+		if (!CanLevelQualify(MAX_LEVEL_RONARK_LAND_BASE))
 		{
 			errorReason = WarpListDoNotQualify;
 			return false;
@@ -260,27 +285,8 @@ bool CUser::CanChangeZone(C3DMap * pTargetMap, WarpListResponse & errorReason)
 			errorReason = WarpListMinLevel;
 			return false;
 		}
-		break;
-	case ZONE_RONARK_LAND_BASE:
-		if (g_pMain->m_byBattleOpen != NO_BATTLE)
-		{
-			errorReason = WarpListNotDuringWar;
-			return false;
-		}
 
-		if (GetLoyalty() <= 0)
-		{
-			errorReason = WarpListNeedNP;
-			return false;
-		}
-
-		if (GetLevel() < MIN_LEVEL_RONARK_LAND_BASE || GetLevel() >  MAX_LEVEL_RONARK_LAND_BASE)
-		{
-			errorReason = WarpListMinLevel;
-			return false;
-		}
-
-		if ((m_sPoints + GetStatTotal()) > 522 || GetTotalSkillPoints() > 120)
+		if (!CanLevelQualify(MAX_LEVEL_RONARK_LAND)) // Edit Character can't teleport to Ronark Land
 		{
 			errorReason = WarpListDoNotQualify;
 			return false;
@@ -302,6 +308,26 @@ bool CUser::CanChangeZone(C3DMap * pTargetMap, WarpListResponse & errorReason)
 	{
 		// TO-DO: Implement overrides for zone-specific behaviour (e.g. wars)
 		errorReason = WarpListMinLevel;
+		return false;
+	}
+
+	return true;
+}
+
+bool CUser::CanLevelQualify(uint8 sLevel)
+{
+	int16 lStatTotal = 290;
+	uint8 lSkillTotal = 0;
+
+	lStatTotal += 10 + (sLevel - 1) * 3;
+
+	if (sLevel > 60)
+		lStatTotal+= 2 * (sLevel - 60);
+
+	lSkillTotal = (sLevel - 9) * 2;
+
+	if ((m_sPoints + GetStatTotal()) > lStatTotal || GetTotalSkillPoints() > lSkillTotal)
+	{
 		return false;
 	}
 

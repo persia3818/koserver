@@ -830,6 +830,7 @@ public:
 	void GrantChickenManner();
 	void SendMannerChange(int32 iMannerPoints);
 
+	bool CanLevelQualify(uint8 sLevel);
 	bool CanChangeZone(C3DMap * pTargetMap, WarpListResponse & errorReason);
 	void ZoneChange(uint16 sNewZone, float x, float z);
 	void ZoneChangeParty(uint16 sNewZone, float x, float z);
