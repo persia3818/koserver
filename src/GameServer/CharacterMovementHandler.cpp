@@ -286,11 +286,11 @@ bool CUser::CanChangeZone(C3DMap * pTargetMap, WarpListResponse & errorReason)
 			return false;
 		}
 
-		if (!CanLevelQualify(MAX_LEVEL_RONARK_LAND)) // Edit Character can't teleport to Ronark Land
-		{
-			errorReason = WarpListDoNotQualify;
-			return false;
-		}
+		//if (!CanLevelQualify(MAX_LEVEL_RONARK_LAND)) // Edit Character can't teleport to Ronark Land
+		//{
+		//	errorReason = WarpListDoNotQualify;
+		//	return false;
+		//}
 		break;
 
 	default:

@@ -643,6 +643,64 @@ void CUser::SendLoyaltyChange(int32 nChangeAmount /*= 0*/, bool bIsKillReward /*
 }
 
 /**
+* @brief	Get a player loyalty reward.
+*
+* @param	isMonthly	Monthly reward.
+*/
+uint8 CUser::GetRankReward(bool isMonthly)
+{
+	enum RankErrorCodes
+	{
+		NoRank				= 0,
+		RewardSuccessfull	= 1,
+		RewardAlreadyTaken	= 2
+	};
+
+	uint8 sResult = NoRank;
+	int8 nRank = -1;
+	int32 nGoldAmount = 0;
+
+	FastGuard lock(g_pMain->m_userRankingsLock);
+
+	string strUserID = GetName();
+	STRTOUPPER(strUserID);
+
+	UserNameRankMap::iterator itr;
+
+	if (isMonthly)
+	{
+		itr = g_pMain->m_UserPersonalRankMap.find(strUserID);
+		nRank = itr != g_pMain->m_UserPersonalRankMap.end() ? int8(itr->second->nRank) : -1;
+	} else {
+		itr = g_pMain->m_UserKnightsRankMap.find(strUserID);
+		nRank = itr != g_pMain->m_UserKnightsRankMap.end() ? int8(itr->second->nRank) : -1;
+	}
+
+	if (nRank > 0 && nRank <= 100)
+	{
+		if (nRank == 1)
+			nGoldAmount = 1000000;
+		else if (nRank >= 2 && nRank <= 4)
+			nGoldAmount = 700000;
+		else if (nRank >= 5 && nRank <= 10)
+			nGoldAmount = 500000;
+		else if (nRank >= 11 && nRank <= 40)
+			nGoldAmount = 300000;
+		else if (nRank >= 41 && nRank <= 100)
+			nGoldAmount = 200000;
+
+		sResult = RewardSuccessfull;
+		GoldGain(nGoldAmount);
+	}
+	else
+	{
+		sResult = NoRank;
+	}
+
+	return sResult;
+}
+
+/**
 * @brief	Changes a player's fame.
 *
 * @param	bFame	The fame.

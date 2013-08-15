@@ -33,7 +33,6 @@ DEFINE_LUA_FUNCTION_TABLE(g_globalFunctions,
 						  MAKE_LUA_FUNCTION(CheckLoyalty)
 						  MAKE_LUA_FUNCTION(SelectMsg)
 						  MAKE_LUA_FUNCTION(CastSkill)
-						  /*New Quest*/
 						  MAKE_LUA_FUNCTION(GetName)
 						  MAKE_LUA_FUNCTION(GetAccountName)
 						  MAKE_LUA_FUNCTION(GetZoneID)
@@ -89,6 +88,8 @@ DEFINE_LUA_FUNCTION_TABLE(g_globalFunctions,
 						  MAKE_LUA_FUNCTION(CheckStatPoint) 
 						  MAKE_LUA_FUNCTION(RobClanPoint)
 						  MAKE_LUA_FUNCTION(CheckBeefRoastVictory)
+						  MAKE_LUA_FUNCTION(RequestPersonalRankReward)
+						  MAKE_LUA_FUNCTION(RequestReward)
 						  );
 #endif
 

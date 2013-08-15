@@ -431,6 +431,7 @@ public:
 	uint32 GetClanPoint();
 	void SendClanPointChange(int32 nChangeAmount = 0);
 	uint8 GetBeefRoastVictory();
+	uint8 GetRankReward(bool isMonthly);
 
 	INLINE uint8 GetStat(StatType type)
 	{
@@ -1238,5 +1239,13 @@ public:
 
 	DECLARE_LUA_FUNCTION(RobClanPoint) {
 		LUA_NO_RETURN(LUA_GET_INSTANCE()->SendClanPointChange(-(LUA_ARG(int32, 2))));	
+	}
+
+	DECLARE_LUA_FUNCTION(RequestPersonalRankReward) {
+		LUA_NO_RETURN(LUA_GET_INSTANCE()->GetRankReward(true));	
+	}
+
+	DECLARE_LUA_FUNCTION(RequestReward) {
+		LUA_NO_RETURN(LUA_GET_INSTANCE()->GetRankReward(false));	
 	}
 };

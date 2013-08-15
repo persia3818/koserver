@@ -51,7 +51,7 @@ DEFINE_LUA_CLASS
 	MAKE_LUA_METHOD(GetClanPoint)
 	MAKE_LUA_METHOD(GetClanRank)
 	MAKE_LUA_METHOD(GetStat)
-
+	
 	MAKE_LUA_METHOD(isWarrior)
 	MAKE_LUA_METHOD(isRogue)
 	MAKE_LUA_METHOD(isMage)
@@ -96,8 +96,6 @@ DEFINE_LUA_CLASS
 	MAKE_LUA_METHOD(ExpChange)
 	MAKE_LUA_METHOD(GiveLoyalty)
 	MAKE_LUA_METHOD(RobLoyalty)
-	// MAKE_LUA_METHOD(RequestReward)
-	// MAKE_LUA_METHOD(RequestPersonalRankReward)
 	MAKE_LUA_METHOD(SaveEvent)
 	MAKE_LUA_METHOD(SearchQuest)
 	MAKE_LUA_METHOD(ShowMap)
@@ -129,6 +127,8 @@ DEFINE_LUA_CLASS
 	MAKE_LUA_METHOD(PromoteClan)
 	MAKE_LUA_METHOD(RobClanPoint)
 	MAKE_LUA_METHOD(GetBeefRoastVictory)
+	MAKE_LUA_METHOD(RequestPersonalRankReward)
+	MAKE_LUA_METHOD(RequestReward)
 	);
 #undef LUA_CLASS
 
@@ -307,6 +307,8 @@ _LUA_WRAPPER_USER_FUNCTION(CheckKnight, GetClanRank);
 _LUA_WRAPPER_USER_FUNCTION(CheckStatPoint, GetStat); 
 _LUA_WRAPPER_USER_FUNCTION(RobClanPoint, RobClanPoint);
 _LUA_WRAPPER_USER_FUNCTION(CheckBeefRoastVictory, GetBeefRoastVictory);
+_LUA_WRAPPER_USER_FUNCTION(RequestPersonalRankReward, RequestPersonalRankReward);
+_LUA_WRAPPER_USER_FUNCTION(RequestReward, RequestReward);
 
 LUA_FUNCTION(SelectMsg)
 {
