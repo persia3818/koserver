@@ -558,8 +558,18 @@ void CAISocket::RecvBattleEvent(Packet & pkt)
 			g_pMain->m_byBattleSave = true;
 		}
 
-		g_pMain->m_bVictory = bResult;
-		g_pMain->m_byOldVictory = bResult;
+		pUser = g_pMain->GetUserPtr(strMaxUserName, TYPE_CHARACTER);
+		if (pUser != nullptr)
+		{
+			g_pMain->m_bVictory = pUser->GetNation();
+			g_pMain->m_byOldVictory = pUser->GetNation();
+		}
+		else 
+		{
+			g_pMain->m_bVictory = bResult;
+			g_pMain->m_byOldVictory = bResult;
+		}
+
 		g_pMain->m_byKarusOpenFlag = false;
 		g_pMain->m_byElmoradOpenFlag = false;
 		g_pMain->m_byBanishFlag = true;
