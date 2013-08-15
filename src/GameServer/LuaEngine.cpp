@@ -90,6 +90,8 @@ DEFINE_LUA_FUNCTION_TABLE(g_globalFunctions,
 						  MAKE_LUA_FUNCTION(CheckBeefRoastVictory)
 						  MAKE_LUA_FUNCTION(RequestPersonalRankReward)
 						  MAKE_LUA_FUNCTION(RequestReward)
+						  MAKE_LUA_FUNCTION(RunCountExchange)
+						  MAKE_LUA_FUNCTION(GetMaxExchange)
 						  );
 #endif
 

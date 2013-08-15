@@ -79,3 +79,5 @@ LUA_FUNCTION(RobClanPoint);
 LUA_FUNCTION(CheckBeefRoastVictory);
 LUA_FUNCTION(RequestPersonalRankReward);
 LUA_FUNCTION(RequestReward);
+LUA_FUNCTION(RunCountExchange);
+LUA_FUNCTION(GetMaxExchange);

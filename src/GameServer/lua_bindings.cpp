@@ -129,6 +129,8 @@ DEFINE_LUA_CLASS
 	MAKE_LUA_METHOD(GetBeefRoastVictory)
 	MAKE_LUA_METHOD(RequestPersonalRankReward)
 	MAKE_LUA_METHOD(RequestReward)
+	MAKE_LUA_METHOD(RunCountExchange)
+	MAKE_LUA_METHOD(GetMaxExchange)
 	);
 #undef LUA_CLASS
 
@@ -309,6 +311,8 @@ _LUA_WRAPPER_USER_FUNCTION(RobClanPoint, RobClanPoint);
 _LUA_WRAPPER_USER_FUNCTION(CheckBeefRoastVictory, GetBeefRoastVictory);
 _LUA_WRAPPER_USER_FUNCTION(RequestPersonalRankReward, RequestPersonalRankReward);
 _LUA_WRAPPER_USER_FUNCTION(RequestReward, RequestReward);
+_LUA_WRAPPER_USER_FUNCTION(RunCountExchange, RunCountExchange);
+_LUA_WRAPPER_USER_FUNCTION(GetMaxExchange, GetMaxExchange);
 
 LUA_FUNCTION(SelectMsg)
 {

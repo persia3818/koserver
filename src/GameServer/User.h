@@ -878,7 +878,8 @@ public:
 
 	// Exchange system
 	bool CheckExchange(int nExchangeID);
-	bool RunExchange(int nExchangeID);
+	bool RunExchange(int nExchangeID, uint16 count = 1);
+	int GetMaxExchange(int nExchangeID);	
 
 	// Clan system
 	void SendClanUserStatusUpdate(bool bToRegion = true);
@@ -1248,5 +1249,15 @@ public:
 
 	DECLARE_LUA_FUNCTION(RequestReward) {
 		LUA_NO_RETURN(LUA_GET_INSTANCE()->GetRankReward(false));	
+	}
+
+	DECLARE_LUA_FUNCTION(RunCountExchange) {
+		LUA_NO_RETURN(LUA_GET_INSTANCE()->RunExchange(
+			LUA_ARG(int, 2),		
+			LUA_ARG(uint16, 3)));
+	}
+
+	DECLARE_LUA_FUNCTION(GetMaxExchange) {
+		LUA_NO_RETURN(LUA_GET_INSTANCE()->GetMaxExchange((LUA_ARG(int, 2))));
 	}
 };
