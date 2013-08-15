@@ -248,6 +248,7 @@ void CUser::ItemUpgrade(Packet & pkt)
 		{
 			bResult = UpgradeFailed;
 			memset(pOriginItem, 0, sizeof(_ITEM_DATA));
+			ItemUpgradeNotice(proto, UpgradeFailed);
 		}
 		else
 		{
@@ -269,9 +270,9 @@ void CUser::ItemUpgrade(Packet & pkt)
 
 				// Reset the durability also, to the new cap.
 				pOriginItem->sDuration = newProto->m_sDuration;
-
-				std::string sUpgradeNotice = string_format("%s Adli Oyuncu %s Adli Itemi Basti...",GetName().c_str(),newProto->m_sName.c_str());
-				g_pMain->SendAnnouncement(sUpgradeNotice.c_str());
+				
+				// Send upgrade notice.
+				ItemUpgradeNotice(newProto, UpgradeSucceeded);
 			}
 
 			// Replace the item ID in the list for the packet
@@ -326,6 +327,32 @@ fail_return:
 			result << nItemID[i] << bPos[i];
 	}
 	Send(&result);
+}
+
+/**
+* @brief	Upgrade notice.
+*
+* @param	pItem	The item.
+*/
+void CUser::ItemUpgradeNotice(_ITEM_TABLE * pItem, uint8 UpgradeResult)
+{
+	bool bSendUpgradeNotice = false;
+	std::string sUpgradeNotice;
+
+	// Notice is only rebirth upgrade a Offical stuff.
+	if (pItem->m_ItemType == 11 || pItem->m_ItemType == 12) 
+		bSendUpgradeNotice = true;
+
+	if (bSendUpgradeNotice)
+	{
+		if (UpgradeResult == 0)
+			sUpgradeNotice = string_format("%s has failed to upgrade %s.",GetName().c_str(),pItem->m_sName.c_str());
+		else if (UpgradeResult == 1)
+			sUpgradeNotice = string_format("%s has succeeded to upgrade %s.",GetName().c_str(),pItem->m_sName.c_str());
+
+		g_pMain->SendAnnouncement(sUpgradeNotice.c_str());
+		g_pMain->SendNotice(sUpgradeNotice.c_str());
+	}
 }
 
 /**
