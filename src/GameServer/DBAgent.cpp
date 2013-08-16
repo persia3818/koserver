@@ -772,6 +772,9 @@ bool CDBAgent::LoadWebItemMall(std::vector<_ITEM_DATA> & itemList, CUser *pUser)
 
 bool CDBAgent::LoadSkillShortcut(Packet & result, CUser *pUser)
 {
+	if (pUser == nullptr)
+		return false;
+
 	unique_ptr<OdbcCommand> dbCommand(m_GameDB->CreateCommand());
 	if (dbCommand.get() == nullptr)
 		return false;
