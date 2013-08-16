@@ -107,6 +107,9 @@ enum InOutType
 #define ZONE_MORADON			21
 #define ZONE_DELOS				30
 #define ZONE_BIFROST			31
+#define ZONE_DESPERATION_ABYSS	32
+#define ZONE_HELL_ABYSS			33
+#define ZONE_DRAGON_CAVE		34
 #define ZONE_ARENA				48
 #define ZONE_CAITHAROS_ARENA	54
 #define ZONE_FORGOTTEN_TEMPLE	55
@@ -117,18 +120,25 @@ enum InOutType
 #define ZONE_BATTLE2			ZONE_BATTLE_BASE + 2 // Alseids Prairie - Lunar War
 #define ZONE_BATTLE3			ZONE_BATTLE_BASE + 3 // Nieds Triangle - Dark Lunar War 
 #define ZONE_BATTLE4			ZONE_BATTLE_BASE + 4 // Nereid's Island - Lunar War 
-#define ZONE_BATTLE5			ZONE_BATTLE_BASE + 6 // Oreads - Lunar War 
+#define ZONE_BATTLE5			ZONE_BATTLE_BASE + 5 // Zipang - unknown
+#define ZONE_BATTLE6			ZONE_BATTLE_BASE + 6 // Oreads - Lunar War 
 
-#define ZONE_SNOW_BATTLE		111
+#define ZONE_SNOW_BATTLE		69
 #define	ZONE_RONARK_LAND		71
 #define	ZONE_ARDREAM			72
 #define	ZONE_RONARK_LAND_BASE	73
 
 #define ZONE_KROWAZ_DOMINION	75
+#define ZONE_CHAOS_DUNGEON		85
+#define ZONE_JURAD_MOUNTAIN		87
+#define ZONE_ISILOON_ARENA		93
+#define ZONE_FELANKOR_ARENA 	94
 
 #define MAX_BATTLE_ZONE_USERS	150
 
 // Zone level requirements (should really be in a database or something...)
+#define MIN_LEVEL_NATION_BASE		35
+#define MAX_LEVEL_NATION_BASE	    MAX_LEVEL 
 #define MIN_LEVEL_ESLANT			60
 #define MAX_LEVEL_ESLANT			MAX_LEVEL
 #define MIN_LEVEL_RONARK_LAND		35
@@ -138,6 +148,9 @@ enum InOutType
 #define MIN_LEVEL_RONARK_LAND_BASE	45
 #define MAX_LEVEL_RONARK_LAND_BASE	69
 #define MIN_LEVEL_KROWAZ_DOMINION	70
+#define MAX_LEVEL_KROWAZ_DOMINION	MAX_LEVEL
+#define MIN_LEVEL_WAR_ZONE			83
+#define MAX_LEVEL_WAR_ZONE	MAX_LEVEL
 
 // Where to respawn after dying in the Moradon arenas
 #define MINI_ARENA_RESPAWN_X		734
