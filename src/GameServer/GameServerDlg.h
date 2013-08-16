@@ -366,6 +366,14 @@ public:
 
 	// Bifrost
 	uint8 m_BifrostVictory;
+	uint16 m_sBifrostRemainingTime;
+	uint16 m_sBifrostTime;
+
+	uint16 m_xBifrostRemainingTime;
+	uint16 m_xJoinOtherNationBifrostTime;
+	uint16 m_xBifrostTime;
+	uint16 m_xBifrostMonumentAttackTime;
+	bool m_bAttackBifrostMonument;
 
 	// zone server info
 	int					m_nServerNo, m_nServerGroupNo;

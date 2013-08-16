@@ -149,7 +149,7 @@ enum InOutType
 #define MAX_LEVEL_RONARK_LAND_BASE	69
 #define MIN_LEVEL_KROWAZ_DOMINION	70
 #define MAX_LEVEL_KROWAZ_DOMINION	MAX_LEVEL
-#define MIN_LEVEL_WAR_ZONE			83
+#define MIN_LEVEL_WAR_ZONE			35
 #define MAX_LEVEL_WAR_ZONE	MAX_LEVEL
 
 // Where to respawn after dying in the Moradon arenas

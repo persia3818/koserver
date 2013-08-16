@@ -41,6 +41,16 @@ void CMagicProcess::MagicPacket(Packet & pkt, Unit * pCaster /*= nullptr*/)
 	CUser * pUser = TO_USER(pCaster);
 
 	if (pUser != nullptr) {
+
+		Unit * pTarget = g_pMain->GetUnitPtr(instance.sTargetID);
+
+		if (pTarget != nullptr)
+		{
+			if (pTarget->isNPC()) 
+				if (!pUser->isAttackable(TO_NPC(pTarget)))
+					instance.bSendSkillFailed = true;
+		}
+
 		if (pUser->isPlayer()) {
 			if (instance.nSkillID < 400000) {
 				if (pUser->m_LastSkillID != instance.nSkillID) {

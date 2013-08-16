@@ -36,6 +36,10 @@ void CUser::Attack(Packet & pkt)
 	pTarget = g_pMain->GetUnitPtr(tid);
 	bResult = ATTACK_FAIL;
 
+	if (pTarget->isNPC())
+		if (!isAttackable(TO_NPC(pTarget)))
+			return;
+
 	if (pTarget != nullptr 
 		&& isInAttackRange(pTarget)
 		&& CanAttack(pTarget))
@@ -219,4 +223,18 @@ void CUser::Regene(uint8 regene_type, uint32 magicid /*= 0*/)
 			&& GetLoyalty() == 0)
 			KickOutZoneUser(false);
 	}
+}
+
+bool CUser::isAttackable(CNpc * pNpc)
+{
+	if (pNpc == nullptr)
+		return true;
+
+	if (pNpc != nullptr)
+	{
+		if (!pNpc->m_bMonster)
+			if (pNpc->m_tNpcType == NPC_BIFROST_MONUMENT)
+				return g_pMain->m_bAttackBifrostMonument;
+	}
+	return true;
 }

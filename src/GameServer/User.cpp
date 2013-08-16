@@ -1022,6 +1022,9 @@ void CUser::SetZoneAbilityChange(uint16 sNewZone)
 	if (!isGM())
 		PlayerRanking(sNewZone,false);
 
+	if (sNewZone == ZONE_RONARK_LAND)
+		SendBifrostTime();
+
 	Packet result(WIZ_ZONEABILITY, uint8(1));
 
 	result	<< pMap->canTradeWithOtherNation()

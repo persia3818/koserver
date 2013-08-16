@@ -340,10 +340,7 @@ void CNpc::OnDeathProcess(Unit *pKiller)
 			if (!m_bMonster)
 			{
 				if (m_tNpcType == NPC_BIFROST_MONUMENT)
-				{
-					g_pMain->m_BifrostVictory = pUser->GetNation();
-					g_pMain->SendFormattedResource(pUser->GetNation() == ELMORAD ? IDS_BEEF_ROAST_VICTORY_ELMORAD : IDS_BEEF_ROAST_VICTORY_KARUS, Nation::ALL,false);
-				}
+					pUser->BifrostProcess(pUser);
 			}
 			else if (m_bMonster) // Seed Quest
 			{

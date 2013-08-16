@@ -264,7 +264,15 @@ void CGameServerDlg::GetTimeFromIni()
 		m_PVPRankings[i].m_iLoyaltyPremiumBonus = 0;
 	}
 
+	m_xBifrostRemainingTime = (240 * MINUTE);  // Bifrost remaining time ( 4 hour ).
+	m_xBifrostMonumentAttackTime = (30 * MINUTE); // Players is attack a monument last 30 minute.
+	m_xBifrostTime = (90 * MINUTE); // Victory nation time ( 1 hour and 30 minute )
+	m_xJoinOtherNationBifrostTime = (60 * MINUTE); // Other nation join time ( last 1 hour )
+
+	m_bAttackBifrostMonument = false;
 	m_BifrostVictory = 0;
+	m_sBifrostRemainingTime = m_xBifrostRemainingTime + 60;
+	m_sBifrostTime = 0;
 
 	g_timerThreads.push_back(new Thread(Timer_BifrostTime));
 	g_timerThreads.push_back(new Thread(Timer_UpdateGameTime));
@@ -505,6 +513,50 @@ uint32 CGameServerDlg::Timer_BifrostTime(void * lpParam)
 {
 	while (g_bRunning)
 	{
+		if (g_pMain->m_BifrostVictory == 0)
+		{
+			g_pMain->m_sBifrostRemainingTime -= 60;
+
+			if (g_pMain->m_sBifrostRemainingTime == 0)
+			{
+				g_pMain->m_BifrostVictory = 0;
+				g_pMain->m_sBifrostRemainingTime = g_pMain->m_xBifrostRemainingTime;
+				g_pMain->m_sBifrostTime = 0;
+				g_pMain->SendFormattedResource(IDS_BEEF_ROAST_DRAW, Nation::ALL, false);
+
+				if (g_pMain->m_bAttackBifrostMonument)
+					g_pMain->m_bAttackBifrostMonument = false;
+			}
+			else if (g_pMain->m_sBifrostRemainingTime == g_pMain->m_xBifrostMonumentAttackTime)
+			{
+				g_pMain->SendFormattedResource(IDS_BEEF_ROAST_START, Nation::ALL, false);
+
+				if (!g_pMain->m_bAttackBifrostMonument)
+					g_pMain->m_bAttackBifrostMonument = true;
+			}
+		}
+		else if (g_pMain->m_BifrostVictory != 0)
+		{
+			g_pMain->m_sBifrostTime -= 60;
+			g_pMain->m_sBifrostRemainingTime = g_pMain->m_sBifrostTime;
+
+			if (g_pMain->m_sBifrostTime == 0)
+			{
+				g_pMain->m_BifrostVictory = 0;
+				g_pMain->m_sBifrostRemainingTime = g_pMain->m_xBifrostRemainingTime;
+				g_pMain->m_sBifrostTime = 0;
+				g_pMain->SendFormattedResource(IDS_BEEF_ROAST_FINISH, Nation::ALL, false);
+
+				if (g_pMain->m_bAttackBifrostMonument)
+					g_pMain->m_bAttackBifrostMonument = false;
+			}
+			else if (g_pMain->m_sBifrostTime == g_pMain->m_xJoinOtherNationBifrostTime)
+			{
+				if (!g_pMain->m_bAttackBifrostMonument)
+					g_pMain->m_bAttackBifrostMonument = true;
+			}
+		} 
+
 		sleep(60 * SECOND);
 	}
 	return 0;
@@ -1612,7 +1664,7 @@ void CGameServerDlg::ResetBattleZone()
 	m_bVictory = 0;
 	m_byBanishFlag = false;
 	m_sBanishDelay = 0;
-	m_bKarusFlag = 0,
+	m_bKarusFlag = 0;
 	m_bElmoradFlag = 0;
 	m_byKarusOpenFlag = m_byElmoradOpenFlag = false;
 	m_byBattleOpen = NO_BATTLE;
