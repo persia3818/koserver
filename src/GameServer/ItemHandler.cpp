@@ -706,14 +706,31 @@ bool CUser::RunExchange(int nExchangeID, uint16 count)
 	uint16 temp_sOriginItemCount2 = 0;
 	uint16 temp_sOriginItemCount3 = 0;
 	uint16 temp_sOriginItemCount4 = 0;
+	uint16 temp_sCount = 0;
 
 	if (pExchange != nullptr)
 	{
-		temp_sOriginItemCount0 = count == 1 ? pExchange->sOriginItemCount[0] : count;
-		temp_sOriginItemCount1 = count == 1 ? pExchange->sOriginItemCount[1] : count;
-		temp_sOriginItemCount2 = count == 1 ? pExchange->sOriginItemCount[2] : count;
-		temp_sOriginItemCount3 = count == 1 ? pExchange->sOriginItemCount[3] : count;
-		temp_sOriginItemCount4 = count == 1 ? pExchange->sOriginItemCount[4] : count;
+		uint16 sItemCount[5];
+		sItemCount[0] = GetItemCount(pExchange->nOriginItemNum[0]);
+		sItemCount[1] = GetItemCount(pExchange->nOriginItemNum[1]);
+		sItemCount[2] = GetItemCount(pExchange->nOriginItemNum[2]);
+		sItemCount[3] = GetItemCount(pExchange->nOriginItemNum[3]);
+		sItemCount[4] = GetItemCount(pExchange->nOriginItemNum[4]);
+		temp_sCount = sItemCount[0];
+
+		for (int i = 1; i < 5; i++){
+			if (sItemCount[i] < temp_sCount && sItemCount[i] != 0)
+				temp_sCount = sItemCount[i];
+		}
+
+		if (temp_sCount >= count)
+			temp_sCount = count;
+
+		temp_sOriginItemCount0 = pExchange->nOriginItemNum[0] == 0 ? 0 : (count == 0 ? pExchange->sOriginItemCount[0] : temp_sCount);
+		temp_sOriginItemCount1 = pExchange->nOriginItemNum[1] == 0 ? 0 : (count == 0 ? pExchange->sOriginItemCount[1] : temp_sCount);
+		temp_sOriginItemCount2 = pExchange->nOriginItemNum[2] == 0 ? 0 : (count == 0 ? pExchange->sOriginItemCount[2] : temp_sCount);
+		temp_sOriginItemCount3 = pExchange->nOriginItemNum[3] == 0 ? 0 : (count == 0 ? pExchange->sOriginItemCount[3] : temp_sCount);
+		temp_sOriginItemCount4 = pExchange->nOriginItemNum[4] == 0 ? 0 : (count == 0 ? pExchange->sOriginItemCount[4] : temp_sCount);
 	}
 
 	if (pExchange == nullptr
@@ -723,17 +740,17 @@ bool CUser::RunExchange(int nExchangeID, uint16 count)
 			|| pExchange->bRandomFlag > 101
 			// Do we have all of the required items?
 			|| !CheckExistItemAnd(
-			pExchange->nOriginItemNum[0], count, 
-			pExchange->nOriginItemNum[1], count, 
-			pExchange->nOriginItemNum[2], count, 
-			pExchange->nOriginItemNum[3], count, 
-			pExchange->nOriginItemNum[4], count)
+			pExchange->nOriginItemNum[0], temp_sOriginItemCount0, 
+			pExchange->nOriginItemNum[1], temp_sOriginItemCount1, 
+			pExchange->nOriginItemNum[2], temp_sOriginItemCount2, 
+			pExchange->nOriginItemNum[3], temp_sOriginItemCount3, 
+			pExchange->nOriginItemNum[4], temp_sOriginItemCount4)
 			// These checks are a little pointless, but remove the required items as well.
-			|| !RobItem(pExchange->nOriginItemNum[0], count)
-			|| !RobItem(pExchange->nOriginItemNum[1], count)
-			|| !RobItem(pExchange->nOriginItemNum[2], count)
-			|| !RobItem(pExchange->nOriginItemNum[3], count)
-			|| !RobItem(pExchange->nOriginItemNum[4], count))
+			|| !RobItem(pExchange->nOriginItemNum[0], temp_sOriginItemCount0)
+			|| !RobItem(pExchange->nOriginItemNum[1], temp_sOriginItemCount1)
+			|| !RobItem(pExchange->nOriginItemNum[2], temp_sOriginItemCount2)
+			|| !RobItem(pExchange->nOriginItemNum[3], temp_sOriginItemCount3)
+			|| !RobItem(pExchange->nOriginItemNum[4], temp_sOriginItemCount4))
 			return false;
 
 	// No random element? We're just exchanging x items for y items.
@@ -741,11 +758,10 @@ bool CUser::RunExchange(int nExchangeID, uint16 count)
 	{
 		for (int i = 0; i < ITEMS_IN_EXCHANGE_GROUP; i++)
 		{
-			if (count == 1)
+			if (count == 0)
 				GiveItem(pExchange->nExchangeItemNum[i], pExchange->sExchangeItemCount[i]);
 			else
-				for (int i = 0; i < count; i++)
-					GiveItem(pExchange->nExchangeItemNum[i], pExchange->sExchangeItemCount[i]);
+				GiveItem(pExchange->nExchangeItemNum[i], temp_sCount);
 		}
 	}
 	// For these items the rate set by bRandomFlag.
@@ -804,9 +820,27 @@ bool CUser::RunExchange(int nExchangeID, uint16 count)
 	return true;
 }
 
-int CUser::GetMaxExchange(int nExchangeID)
+uint16 CUser::GetMaxExchange(int nExchangeID)
 {
-	return 0;
+	uint16 sResult = 0;
+	_ITEM_TABLE * pTable;
+	uint16 temp_sWeight = 0;
+
+	_ITEM_EXCHANGE * pExchange = g_pMain->m_ItemExchangeArray.GetData(nExchangeID);
+
+	if (pExchange != nullptr)
+	{
+		for (int i = 0; i < 5; i++)
+		{
+			pTable = g_pMain->GetItemPtr(pExchange->nExchangeItemNum[i]);
+			if (pTable != nullptr)
+				temp_sWeight += pTable->m_sWeight;
+		}
+
+		sResult = (m_sMaxWeight - m_sItemWeight) / temp_sWeight;
+	}
+
+	return sResult;
 }
 
 bool CUser::IsValidSlotPos(_ITEM_TABLE* pTable, int destpos)

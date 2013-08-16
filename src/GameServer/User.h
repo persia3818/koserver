@@ -878,8 +878,8 @@ public:
 
 	// Exchange system
 	bool CheckExchange(int nExchangeID);
-	bool RunExchange(int nExchangeID, uint16 count = 1);
-	int GetMaxExchange(int nExchangeID);	
+	bool RunExchange(int nExchangeID, uint16 count = 0 /* No random flag */);
+	uint16 GetMaxExchange(int nExchangeID);	
 
 	// Clan system
 	void SendClanUserStatusUpdate(bool bToRegion = true);
@@ -1258,6 +1258,6 @@ public:
 	}
 
 	DECLARE_LUA_FUNCTION(GetMaxExchange) {
-		LUA_NO_RETURN(LUA_GET_INSTANCE()->GetMaxExchange((LUA_ARG(int, 2))));
+		LUA_RETURN(LUA_GET_INSTANCE()->GetMaxExchange((LUA_ARG(int, 2))));
 	}
 };
