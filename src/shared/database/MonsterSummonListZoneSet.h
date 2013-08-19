@@ -18,6 +18,8 @@ public:
 		_dbCommand->FetchUInt16(3, pData->sSid);
 		_dbCommand->FetchByte(4, pData->bType);
 
+		pData->nIndex = m_pMap->GetSize();
+
 		if (!m_pMap->PutData(pData->nIndex, pData))
 			delete pData;
 
