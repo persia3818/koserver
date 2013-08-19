@@ -113,23 +113,26 @@ void MagicInstance::Run()
 
 		if (bInitialResult)
 		{
-			CUser * pCaster = TO_USER(pSkillCaster);
-			if (pCaster != nullptr) {
-				bool bSetLastSkillInformation = true;
+			if (nSkillID < 400000)
+			{
+				CUser * pCaster = TO_USER(pSkillCaster);
+				if (pCaster != nullptr) {
+					bool bSetLastSkillInformation = true;
 
-				if (nSkillID < 400000  && pCaster->isPlayer()) {
+					if (pCaster->isPlayer()) {
 
-					if (pCaster->isMage() && !pSkillCaster->hasBuff(BUFF_TYPE_INSTANT_MAGIC)) 	
-						bSetLastSkillInformation = false;
-
-					if (pCaster->isRogue()) 	
-						if (pSkill->bType[0] == 3)
+						if (pCaster->isMage() && !pSkillCaster->hasBuff(BUFF_TYPE_INSTANT_MAGIC)) 	
 							bSetLastSkillInformation = false;
 
-					if (bSetLastSkillInformation) {
-						pCaster->m_LastSkillID = nSkillID;
-						pCaster->m_LastSkillUseTime = UNIXTIME;
-						pCaster->m_LastSkillType = pSkill->bType[0];
+						if (pCaster->isRogue()) 	
+							if (pSkill->bType[0] == 3)
+								bSetLastSkillInformation = false;
+
+						if (bSetLastSkillInformation) {
+							pCaster->m_LastSkillID = nSkillID;
+							pCaster->m_LastSkillUseTime = UNIXTIME;
+							pCaster->m_LastSkillType = pSkill->bType[0];
+						}
 					}
 				}
 			}
