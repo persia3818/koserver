@@ -7,7 +7,7 @@ public:
 		: OdbcRecordset(dbConnection), m_pMap(pMap) {}
 
 	virtual tstring GetTableName() { return _T("MONSTER_RESPAWN_LIST"); }
-	virtual tstring GetColumns() { return _T("sIndex, sSid"); }
+	virtual tstring GetColumns() { return _T("sIndex, sSid, scount"); }
 
 	virtual bool Fetch()
 	{
@@ -15,6 +15,7 @@ public:
 
 		_dbCommand->FetchUInt16(1, pData->sIndex);
 		_dbCommand->FetchUInt16(2, pData->sSid);
+		_dbCommand->FetchByte(3, pData->sCount);
 
 		if (!m_pMap->PutData(pData->sIndex, pData))
 			delete pData;
