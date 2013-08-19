@@ -115,10 +115,9 @@ void MagicInstance::Run()
 		{
 			CUser * pCaster = TO_USER(pSkillCaster);
 			if (pCaster != nullptr) {
-
 				if (nSkillID < 400000  && pCaster->isPlayer()) {
 					pCaster->m_LastSkillID = nSkillID;
-					if (!pSkillCaster->m_bInstantCast)
+					if (!pSkillCaster->hasBuff(BUFF_TYPE_INSTANT_MAGIC)) 
 						pCaster->m_LastSkillUseTime = UNIXTIME;
 					pCaster->m_LastSkillType = pSkill->bType[0];
 				}
@@ -2452,6 +2451,8 @@ void MagicInstance::ReflectDamage(int32 damage, Unit * pTarget)
 		pSkillCaster->HpChange(-damage, pTarget);
 		break;
 	}
+
+	CMagicProcess::RemoveType4Buff(BUFF_TYPE_MAGE_ARMOR,pTarget,false); 
 }
 
 void MagicInstance::ConsumeItem()

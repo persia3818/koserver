@@ -172,6 +172,21 @@ enum InOutType
 // ID of the "Meat Dumpling" item, given on kills in PVP zones.
 #define ITEM_MEAT_DUMPLING		508216000
 
+// ID of the "Golden Mattock" item
+#define  GOLDEN_MATTOCK         389135000
+
+// ID of the "Mattock" item
+#define  MATTOCK                389132000
+
+// ID of the "Mysterious Ore" item,given on Minning
+#define  MYSTERIOUS_ORE          399210000
+
+// ID of the "Mysterious Gold Ore" item,given on Minnig
+#define  MYSTERIOUS_GOLD_ORE     399200000
+
+//ID of the "Sling" item,given on Minning
+#define  SLING                   389043000 
+
 #define KING_SCEPTER 910074311
 
 // ID of the Seed quest, to be automatically started on first load.

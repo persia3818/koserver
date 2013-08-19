@@ -443,7 +443,7 @@ void CUser::ItemMove(Packet & pkt)
 
 	pkt >> dir >> nItemID >> bSrcPos >> bDstPos;
 
-	if (isTrading() || isMerchanting())
+	if (isTrading() || isMerchanting() || isMining())
 		goto fail_return;
 
 	pTable = g_pMain->GetItemPtr(nItemID);

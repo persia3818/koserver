@@ -350,7 +350,7 @@ void CNpc::OnDeathProcess(Unit *pKiller)
 						pUser->SaveEvent(STARTER_SEED_QUEST, 2);
 				} else if (g_pMain->m_MonsterRespawnListArray.GetData(m_sSid) != nullptr) {
 					g_pMain->SpawnEventNpc(g_pMain->m_MonsterRespawnListArray.GetData(m_sSid)->sSid, true, GetZoneID(), GetX(), GetY(), GetZ(), 1);
-				} else if (m_tNpcType == 200) {
+				} else if (m_tNpcType == 200 && pUser->isRankingPVPZone()) {
 					ChaosStone(pUser,5);
 				}
 			}
@@ -370,7 +370,7 @@ void CNpc::ChaosStone(CUser *pUser, uint16 MonsterCount)
 		return;
 
 	g_pMain->SendNotice<CHAOS_STONE_ENEMY_NOTICE>("",GetZoneID(),pUser->GetNation() == ELMORAD ? Nation::KARUS : Nation::ELMORAD);
-	g_pMain->SendNotice<ANNOUNCEMENT_WHITE_CHAT>(string_format("- ## %s Chaos Stone'yi Kesti ## -",pUser->GetName().c_str()).c_str(),GetZoneID(),pUser->GetNation());
+	g_pMain->SendNotice<ANNOUNCEMENT_WHITE_CHAT>("You have destroyed the [Summoning Stone of Chaos] and opened the Gates of Chaos.", GetZoneID(), pUser->GetNation());
 
 	uint16 CurrentMonsterCountRepawned = 0;
 

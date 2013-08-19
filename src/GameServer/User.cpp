@@ -3153,35 +3153,35 @@ void CUser::OperatorCommand(Packet & pkt)
 		} else {
 			g_DBAgent.UpdateUserAuthority(strUserID,AUTHORITY_BANNED);
 		}
-		sNoticeMessage = string_format("%s has been banned..!", strUserID.c_str());
+		sNoticeMessage = string_format("%s has been banned.", strUserID.c_str());
 		break;
 	case OPERATOR_MUTE:
 		if (bIsOnline)
 			pUser->m_bAuthority = AUTHORITY_MUTED;
 		else
 			g_DBAgent.UpdateUserAuthority(strUserID,AUTHORITY_MUTED);
-		sNoticeMessage = string_format("%s has been muted..!", strUserID.c_str());
+		sNoticeMessage = string_format("%s has been muted.", strUserID.c_str());
 		break;
 	case OPERATOR_DISABLE_ATTACK:
 		if (bIsOnline) 
 			pUser->m_bAuthority = AUTHORITY_ATTACK_DISABLED;
 		else
 			g_DBAgent.UpdateUserAuthority(strUserID,AUTHORITY_ATTACK_DISABLED);
-		sNoticeMessage = string_format("%s has been disabled attack..!", strUserID.c_str());
+		sNoticeMessage = string_format("%s has been disabled attack.", strUserID.c_str());
 		break;
 	case OPERATOR_ENABLE_ATTACK:
 		if (bIsOnline)
 			pUser->m_bAuthority = AUTHORITY_PLAYER;
 		else
 			g_DBAgent.UpdateUserAuthority(strUserID,AUTHORITY_PLAYER);
-		sNoticeMessage = string_format("%s has been enabled attack..!", strUserID.c_str());
+		sNoticeMessage = string_format("%s has been enabled attack.", strUserID.c_str());
 		break;
 	case OPERATOR_UNMUTE:
 		if (bIsOnline)
 			pUser->m_bAuthority = AUTHORITY_PLAYER;
 		else
 			g_DBAgent.UpdateUserAuthority(strUserID,AUTHORITY_PLAYER);
-		sNoticeMessage = string_format("%s has been unmuted..!", strUserID.c_str());
+		sNoticeMessage = string_format("%s has been unmuted.", strUserID.c_str());
 		break;
 	}
 
@@ -4194,7 +4194,7 @@ void CUser::OnDeath(Unit *pKiller)
 						bool bKilledByRival = false;
 
 						// In PVP zones (just Ronark Land for now)
-						if (GetZoneID() == ZONE_RONARK_LAND)
+						if (isRankingPVPZone())
 						{
 							// Show death notices in PVP zones
 							noticeType = DeathNoticeCoordinates;
@@ -4264,7 +4264,7 @@ void CUser::OnDeath(Unit *pKiller)
 							ExpChange(-(m_iMaxExp / 100));
 
 						// If we don't have a rival, this player is now our rival for 3 minutes.
-						if (GetZoneID() == ZONE_RONARK_LAND
+						if (isRankingPVPZone()
 							&& !hasRival())
 							SetRival(pUser);
 					}
@@ -4834,19 +4834,44 @@ void CUser::HandleMiningAttempt(Packet & pkt)
 	if (resultCode == MiningResultSuccess)
 	{
 		int rate = myrand(1, 100), random = myrand(1, 10000);
+
+		if (m_bPremiumType != 0)
+		{
+			_PREMIUM_ITEM* pPremiumItem = g_pMain->m_PremiumItemArray.GetData(m_bPremiumType);
+			if (pPremiumItem != nullptr)
+			{
+				rate += (rate / 100) * pPremiumItem->DropPercent;
+				random += (rate / 100) * pPremiumItem->DropPercent;
+			}
+		}
+		if (pTable->m_iNum == GOLDEN_MATTOCK)
+		{
+			rate += (rate / 100) * 10;
+			random += (random / 100) * 10;
+		}
+
+		if (rate > 100)
+			rate = 100;
+		if (random > 10000)
+			random = 10000;
+
 		if (rate <= 50 && random <= 5000)
 		{
 			ExpChange(1);
 			sEffect = 13082; // "XP" effect
 		}
 		else if (rate >= 50 && rate <= 75 && random <= 7500)
-		{ 
-			GiveItem(389043000); // Sling
+		{
+			GiveItem(SLING);
 			sEffect = 13081; // "Item" effect
 		}
 		else if (rate >= 75 && rate <= 100 && random <= 10000)
 		{
-			GiveItem(399210000); // Mysterious Ore
+			if (pTable->m_iNum == MATTOCK)
+				GiveItem(MYSTERIOUS_ORE);
+			else if(pTable->m_iNum == GOLDEN_MATTOCK)
+				GiveItem(MYSTERIOUS_GOLD_ORE);
+
 			sEffect = 13081; // "Item" effect
 		}
 		else
@@ -4869,7 +4894,10 @@ void CUser::HandleMiningAttempt(Packet & pkt)
 		return;
 	}
 
-	SendToRegion(&result);
+	if(resultCode != MiningResultNothingFound)
+		SendToRegion(&result);
+	else if(resultCode == MiningResultNothingFound)
+		Send(&result);
 }
 
 /**

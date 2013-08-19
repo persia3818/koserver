@@ -42,7 +42,7 @@ void CKnights::OnLogin(CUser *pUser)
 
 	// Send login notice
 	// TO-DO: Shift this to SERVER_RESOURCE
-	std::string buffer = string_format("*** %s has logged in ***", pUser->GetName().c_str());
+	std::string buffer = string_format("%s is online.", pUser->GetName().c_str()); 
 	ChatPacket::Construct(&result, KNIGHTS_CHAT, &buffer);
 	Send(&result);
 
@@ -81,7 +81,7 @@ void CKnights::UpdateClanNotice(std::string & clanNotice)
 	m_strClanNotice = clanNotice;
 
 	// Construct the update notice packet to inform players the clan notice has changed
-	std::string updateNotice = string_format("*** %s updated the clan notice ***", m_strChief.c_str());
+	std::string updateNotice = string_format("%s updated the clan notice.", m_strChief.c_str()); 
 	ChatPacket::Construct(&result, KNIGHTS_CHAT, &updateNotice);
 	Send(&result);
 
@@ -116,7 +116,7 @@ void CKnights::OnLogout(CUser *pUser)
 
 	Packet logoutNotice;
 	// TO-DO: Shift this to SERVER_RESOURCE
-	std::string buffer = string_format("*** %s has logged out ***", pUser->GetName().c_str());
+	std::string buffer = string_format("%s is offline.", pUser->GetName().c_str()); 
 	ChatPacket::Construct(&logoutNotice, KNIGHTS_CHAT, &buffer);
 	Send(&logoutNotice);
 }

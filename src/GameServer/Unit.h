@@ -7,6 +7,7 @@
 #endif
 
 #include "Define.h"
+#include "GameDefine.h"
 #include "../shared/ReferenceObject.h"
 #include <map>
 
@@ -89,7 +90,7 @@ public:
 
 	INLINE bool isIncapacitated() { return isDead() || isBlinded() || isBlinking() || isKaul(); }
 	INLINE bool isBlinded() { return m_bIsBlinded; }
-	INLINE bool canUseSkills() { return !isBlinded() && m_bCanUseSkills && !isKaul(); }
+	INLINE bool canUseSkills() { return !(!isBlinded() && hasBuff(BUFF_TYPE_BLIND)) && m_bCanUseSkills && !isKaul(); } 
 	INLINE bool canUsePotions() { return m_bCanUsePotions; }
 	INLINE bool canTeleport() { return m_bCanTeleport; }
 	INLINE bool isKaul() { return m_bIsKaul; }

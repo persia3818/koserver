@@ -78,7 +78,7 @@ void CUser::ItemUpgrade(Packet & pkt)
 	uint16 sNpcID;
 	int8 bType = UpgradeTypeNormal, bResult = UpgradeNoMatch;
 
-	if (isTrading() || isMerchanting())
+	if (isTrading() || isMerchanting() || isMining())
 	{
 		bResult = UpgradeTrading;
 		goto fail_return;
