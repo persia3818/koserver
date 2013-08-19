@@ -302,7 +302,7 @@ public:
 	INLINE bool isRogue() { return JobGroupCheck(ClassRogue); }
 	INLINE bool isMage() { return JobGroupCheck(ClassMage); }
 	INLINE bool isPriest() { return JobGroupCheck(ClassPriest); }
-	INLINE bool isRankingPVPZone() {  return GetZoneID() == ZONE_ARDREAM || GetZoneID() == ZONE_RONARK_LAND || GetZoneID() == ZONE_RONARK_LAND_BASE; }
+	INLINE bool isPVPZone() {  return GetZoneID() == ZONE_ARDREAM || GetZoneID() == ZONE_RONARK_LAND || GetZoneID() == ZONE_RONARK_LAND_BASE; }
 
 	INLINE bool isBeginner() 
 	{

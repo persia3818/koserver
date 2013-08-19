@@ -574,7 +574,7 @@ void CUser::SendLoyaltyChange(int32 nChangeAmount /*= 0*/, bool bIsKillReward /*
 		else
 			m_iLoyalty += nChangeAmount;
 
-		if (isRankingPVPZone())
+		if (isPVPZone())
 		{
 			m_iLoyaltyDaily += nChangeAmount;
 
@@ -601,7 +601,7 @@ void CUser::SendLoyaltyChange(int32 nChangeAmount /*= 0*/, bool bIsKillReward /*
 				m_iLoyalty += g_pMain->m_PremiumItemArray.GetData(m_bPremiumType)->BonusLoyalty;
 				m_iLoyaltyMonthly += g_pMain->m_PremiumItemArray.GetData(m_bPremiumType)->BonusLoyalty;
 
-				if (isRankingPVPZone())
+				if (isPVPZone())
 					m_iLoyaltyPremiumBonus += g_pMain->m_PremiumItemArray.GetData(m_bPremiumType)->BonusLoyalty;
 			}
 		}
@@ -4138,10 +4138,10 @@ void CUser::OnDeath(Unit *pKiller)
 	InitType3();
 	InitType4();
 
-	DeathNoticeType noticeType = DeathNoticeNone;
-
 	if (pKiller != nullptr)
 	{
+		DeathNoticeType noticeType = DeathNoticeNone;
+
 		if (pKiller->isNPC())
 		{
 			int64 nExpLost = 0;
@@ -4152,7 +4152,7 @@ void CUser::OnDeath(Unit *pKiller)
 			else
 				nExpLost = m_iMaxExp / 20;
 
-			if (pNpc->GetType() == NPC_GUARD_TOWER1)
+			if (pNpc->GetType() == NPC_GUARD_TOWER1 && isPVPZone())
 				noticeType = DeathNotice;
 
 			if (m_bPremiumType > 0)
@@ -4199,7 +4199,7 @@ void CUser::OnDeath(Unit *pKiller)
 						bool bKilledByRival = false;
 
 						// In PVP zones (just Ronark Land for now)
-						if (isRankingPVPZone())
+						if (isPVPZone())
 						{
 							// Show death notices in PVP zones
 							noticeType = DeathNoticeCoordinates;
@@ -4269,7 +4269,7 @@ void CUser::OnDeath(Unit *pKiller)
 							ExpChange(-(m_iMaxExp / 100));
 
 						// If we don't have a rival, this player is now our rival for 3 minutes.
-						if (isRankingPVPZone()
+						if (isPVPZone()
 							&& !hasRival())
 							SetRival(pUser);
 					}
@@ -4281,10 +4281,9 @@ void CUser::OnDeath(Unit *pKiller)
 				m_sWhoKilledMe = pUser->GetID();
 			}
 		}
-		if (noticeType == DeathNotice && pKiller->isNPC())
-			SendDeathNotice(TO_NPC(pKiller), noticeType);
-		else if (noticeType != DeathNoticeNone)
-			SendDeathNotice(TO_USER(pKiller),noticeType);
+
+		if (noticeType != DeathNoticeNone)
+			SendDeathNotice(pKiller,noticeType); 
 	}
 
 	Unit::OnDeath(pKiller);
@@ -4631,7 +4630,7 @@ void CUser::HandlePlayerRankings(Packet & pkt)
 	uint16 OwnRank = 0;
 	uint8 RankType = 1;
 
-	if (isRankingPVPZone())
+	if (isPVPZone())
 		RankType = 1;
 	else // BDW
 		RankType = 2;
