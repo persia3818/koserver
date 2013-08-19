@@ -1,10 +1,6 @@
-KOServer
 ========
-
-* Knight Online Server Project
-* Project owner is @twostars
-
-Proje Kullanımı Hakkında Bilgilendirme ( @katanatr ) ;
+Proje Kullanımı Hakkında Bilgilendirme ( @katanatr )
+========
 İlk olarak yapacağımız işlem, çalışmaya başladığınız proje ile bağlantı kurmak. Unutmayın, bu sadece tek seferlik yapılacak bir işlem. 
 
 `git remote add upstream https://github.com/xAKUMAx/koserver.git`
