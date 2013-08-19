@@ -262,13 +262,13 @@ struct _MONSTER_SUMMON_LIST_ZONE
 	uint32	nIndex;
 	uint16	ZoneID;
 	uint16	sSid;
-	uint8	bType;
 };
 
 struct _MONSTER_RESPAWN_LIST
 {
 	uint16	sIndex;
 	uint16	sSid;
+	uint8	sCount;
 };
 
 #define MAX_PARTY_USERS		8
