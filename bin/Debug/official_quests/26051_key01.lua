@@ -1,52 +1,40 @@
---¿­¼èÀÇ ÆÄ¼ö²Û
--- ±×³É ´Ý±â 168
 
--- EVENT ´Â 100¹ø ÀÌ»ó ºÎÅÍ »ç¿ë
-
--- UID : ¼­¹ö¿¡¼­ Á¦°øÇÏ´Â À¯Àú¹øÈ£
--- EVENT : ¼­¹ö¿¡¼­ Á¦°øÇÏ´Â Äù½ºÆ® ¹øÈ£
--- STEP : ¼­¹ö¿¡¼­ Á¦°øÇÏ´Â Äù½ºÆ® ³»ºÎ ´Ü°è
-
--- À§ÀÇ ¼¼°¡Áö ÆÄ¶ó¸ÞÅ¸´Â ·ç¾Æ ½ÇÇà½Ã Ç×»ó Àü¿ªº¯¼ö·Î Á¦°øµ
-
--- Áö¿ªº¯¼ö ¼±¾ð...
 local UserClass;
 local QuestNum;
 local Ret = 0;
+local NPC = 26051;
 
 
 if EVENT == 168 then
 	Ret = 1;
 end
 
--- ¿­¼èÀÇ ÆÄ¼ö²Û Å¬¸¯½Ã Äù½ºÆ® Ã¼Å©  
 
 local ItemA;
-local NPC = 26051;
 local savenum = 416;
 
 if EVENT == 100 then
-ItemA = HowmuchItem(UID, 910050000);  -- ¸í·É¼­ 
-    if  ItemA == 0 then -- ¸í·É¼­ ¾øÀ»¶§
-    SelectMsg(UID, 2, savenum, 4400, NPC, 10, 168, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1);
-    else-- ¸í·É¼­ ÀÖÀ»¶§ 
-    SelectMsg(UID, 4, savenum, 4401, NPC, 22, 101, 23, 168, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1);
+ItemA = HowmuchItem(UID, 910050000);
+    if  ItemA == 0 then
+    SelectMsg(UID, 2, savenum, 4400, NPC, 10, 168);
+    else
+    SelectMsg(UID, 4, savenum, 4401, NPC, 22, 101, 23, 168);
     end
 end
 
 if EVENT == 101 then
-    SelectMsg(UID, 2, savenum, 4402, NPC, 4174, 102, 4175, 103, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1);
+    SelectMsg(UID, 2, savenum, 4402, NPC, 4174, 102, 4175, 103);
 end
 
 
-if EVENT == 102 then
-   ChangePosition(UID)
-   RunExchange(UID, 471);		 
+if EVENT == 102 then -- Doðru cevap
+   --ChangePosition(UID)
+   GiveItem(UID, 910051000, 1)	 
    SaveEvent(UID, 4222);
 end
 
-if EVENT == 103 then
-    ChangePosition(UID)
+if EVENT == 103 then -- Yanlýþ cevap
+    --ChangePosition(UID)
     RobItem(UID, 910050000, 1);
-    SelectMsg(UID, 2, savenum, 4403, NPC, 10, 168, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1);
+    SelectMsg(UID, 2, savenum, 4403, NPC, 10, 168);
 end
