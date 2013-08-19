@@ -118,8 +118,7 @@ void CUser::SelCharToAgent(Packet & pkt)
 	CUser *pUser = g_pMain->GetUserPtr(strUserID, TYPE_CHARACTER);
 	if (pUser == nullptr)
 	{
-		result << uint8(0);
-		Send(&result);
+		Disconnect();
 		return;
 	}
 	else
