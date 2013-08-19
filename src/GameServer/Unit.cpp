@@ -835,6 +835,15 @@ bool Unit::CanAttack(Unit * pTarget)
 	if (GetZoneID() != pTarget->GetZoneID())
 		return false;
 
+	// NPC cannot attack.
+	if (pTarget->isNPC())
+	{
+		CNpc * pNpc = TO_NPC(pTarget);
+		if (pNpc != nullptr)
+			if (pNpc->GetType() == NPC_BIFROST_MONUMENT)
+				return false;
+	}
+
 	// We cannot attack our target if we are incapacitated 
 	// (should include debuffs & being blinded)
 	if (isIncapacitated()

@@ -630,7 +630,6 @@ public:
 	void MoveProcess(Packet & pkt);
 	void Rotate(Packet & pkt);
 	void Attack(Packet & pkt);
-	bool isAttackable(CNpc * pNpc);
 
 	static void InitChatCommands();
 	static void CleanupChatCommands();
