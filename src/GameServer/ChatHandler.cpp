@@ -272,7 +272,7 @@ void CUser::ChatTargetSelect(Packet & pkt)
 *
 * @param	pKiller	The killer.
 */
-void CUser::SendDeathNotice(CUser * pKiller, DeathNoticeType noticeType)
+void CUser::SendDeathNotice(Unit * pKiller, DeathNoticeType noticeType) 
 {
 	if (pKiller == nullptr)
 		return;

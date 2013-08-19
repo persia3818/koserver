@@ -4138,6 +4138,8 @@ void CUser::OnDeath(Unit *pKiller)
 	InitType3();
 	InitType4();
 
+	DeathNoticeType noticeType = DeathNoticeNone;
+
 	if (pKiller != nullptr)
 	{
 		if (pKiller->isNPC())
@@ -4149,6 +4151,9 @@ void CUser::OnDeath(Unit *pKiller)
 				nExpLost = m_iMaxExp / 100;
 			else
 				nExpLost = m_iMaxExp / 20;
+
+			if (pNpc->GetType() == NPC_GUARD_TOWER1)
+				noticeType = DeathNotice;
 
 			if (m_bPremiumType > 0)
 				nExpLost = nExpLost * (g_pMain->m_PremiumItemArray.GetData(m_bPremiumType)->ExpRestorePercent) / 100;
@@ -4168,20 +4173,20 @@ void CUser::OnDeath(Unit *pKiller)
 			else
 			{
 				// Did we get killed in the snow war? Handle appropriately.
-				if (GetZoneID() == ZONE_SNOW_BATTLE 
+				if (GetZoneID() == ZONE_SNOW_BATTLE
 					&& g_pMain->m_byBattleOpen == SNOW_BATTLE)
 				{
 					pUser->GoldGain(SNOW_EVENT_MONEY);
 
 					if (GetNation() == KARUS)
 						g_pMain->m_sKarusDead++;
-					else 
+					else
 						g_pMain->m_sElmoradDead++;
 				}
 				// All zones other than the snow war.
 				else
 				{
-					DeathNoticeType noticeType = DeathNoticeNone;
+
 
 					if (isInArena())
 					{
@@ -4201,15 +4206,15 @@ void CUser::OnDeath(Unit *pKiller)
 
 							/**
 							* NOTE:
-							* The rival system is poorly named, evidently it's meant to work more 
+							* The rival system is poorly named, evidently it's meant to work more
 							* like a vengeance system than anything.
-							* 
+							*
 							* In a nutshell:
-							*  - user a kills user b,  
-							*  - user b sets user a as their rival.  
-							*  - when user b kills user a, they receive +150NP and the rivalry ends.   
-							*  - if user a at this point does not have a rival already, user b becomes their rival and it starts again.
-							*  - if a rivalry expires (after 3min) before the user has killed their rival, the rivalry ends.  
+							* - user a kills user b,
+							* - user b sets user a as their rival.
+							* - when user b kills user a, they receive +150NP and the rivalry ends.
+							* - if user a at this point does not have a rival already, user b becomes their rival and it starts again.
+							* - if a rivalry expires (after 3min) before the user has killed their rival, the rivalry ends.
 							**/
 
 							// If the killer has us set as their rival, reward them & remove the rivalry.
@@ -4270,13 +4275,16 @@ void CUser::OnDeath(Unit *pKiller)
 					}
 
 					// Send a death notice where applicable
-					if (noticeType != DeathNoticeNone)
-						SendDeathNotice(pUser, noticeType); 
+
 				}
 
 				m_sWhoKilledMe = pUser->GetID();
 			}
 		}
+		if (noticeType == DeathNotice && pKiller->isNPC())
+			SendDeathNotice(TO_NPC(pKiller), noticeType);
+		else if (noticeType != DeathNoticeNone)
+			SendDeathNotice(TO_USER(pKiller),noticeType);
 	}
 
 	Unit::OnDeath(pKiller);

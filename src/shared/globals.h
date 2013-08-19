@@ -99,7 +99,8 @@ enum NpcType
 	NPC_GATE_LEVER			= 55,
 	NPC_ARTIFACT			= 60,
 	NPC_DESTROYED_ARTIFACT	= 61,
-	NPC_GUARD_TOWER			= 63,
+	NPC_GUARD_TOWER1		= 62,
+	NPC_GUARD_TOWER2		= 63,
 	NPC_BOARD				= 64, // also encampment
 	NPC_ARTIFACT1			= 65, // Protective artifact
 	NPC_ARTIFACT2			= 66, // Guard Tower artifact
