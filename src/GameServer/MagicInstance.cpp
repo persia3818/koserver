@@ -117,7 +117,7 @@ void MagicInstance::Run()
 			if (pCaster != nullptr) {
 				if (nSkillID < 400000  && pCaster->isPlayer()) {
 					pCaster->m_LastSkillID = nSkillID;
-					if (!pSkillCaster->hasBuff(BUFF_TYPE_INSTANT_MAGIC)) 
+					if (pCaster->isMage() && !pSkillCaster->hasBuff(BUFF_TYPE_INSTANT_MAGIC)) 
 						pCaster->m_LastSkillUseTime = UNIXTIME;
 					pCaster->m_LastSkillType = pSkill->bType[0];
 				}
