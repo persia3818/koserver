@@ -13,7 +13,6 @@ void CGameSocket::OnConnect()
 {
 	KOSocket::OnConnect();
 	Initialize();
-	printf("### Socket Error : %d ###\r\n", WSAGetLastError());
 }
 
 void CGameSocket::Initialize()
