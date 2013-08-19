@@ -2888,19 +2888,20 @@ void CUser::ItemWoreOut(int type, int damage)
 	else if (type == DEFENCE)
 		totalSlots = sizeof(armourTypes) / sizeof(*armourTypes); // use all the slots.
 
-	for (uint8 i = 0, slot = armourTypes[i]; i < totalSlots; i++)
+	for (uint8 i = 0; i < totalSlots; i++) 
 	{
+		uint8 slot = armourTypes[i];
 		_ITEM_DATA * pItem = GetItem(slot);
 		_ITEM_TABLE * pTable = nullptr;
 
 		// Is a non-broken item equipped?
 		if (pItem == nullptr 
-			|| (damage > 0 && pItem->sDuration <= 0)
+			|| (pItem->sDuration <= 0) 
 			// Does the item exist?
 			|| (pTable = g_pMain->GetItemPtr(pItem->nNum)) == nullptr
 			// If it's in the left or righthand slot, is it a shield? (this doesn't apply to weapons)
 			|| (type == ATTACK 
-			&& ((slot == LEFTHAND || slot == RIGHTHAND) && pTable->m_bSlot != ItemSlot1HLeftHand)))
+			&& ((slot == LEFTHAND || slot == RIGHTHAND) && pTable->m_bSlot == ItemSlot1HLeftHand))) 
 			continue;
 
 		int beforepercent = (int)((pItem->sDuration / (double)pTable->m_sDuration) * 100);
@@ -2919,12 +2920,12 @@ void CUser::ItemWoreOut(int type, int damage)
 			continue;
 		}
 
+		SendDurability(slot, pItem->sDuration); 
+
 		curpercent = (int)((pItem->sDuration / (double)pTable->m_sDuration) * 100);
 
 		if ((curpercent / 5) != (beforepercent / 5)) 
 		{
-			SendDurability(slot, pItem->sDuration);
-
 			if (curpercent >= 65 && curpercent < 70
 				|| curpercent >= 25 && curpercent < 30)
 				UserLookChange(slot, pItem->nNum, pItem->sDuration);
@@ -4890,6 +4891,9 @@ void CUser::HandleMiningAttempt(Packet & pkt)
 	}
 
 	result << resultCode << GetID() << sEffect;
+
+	ItemWoreOut(ATTACK,100); 
+
 	if (resultCode != MiningResultSuccess
 		&& resultCode != MiningResultNothingFound)
 	{

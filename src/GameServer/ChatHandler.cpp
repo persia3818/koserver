@@ -703,7 +703,7 @@ COMMAND_HANDLER(CGameServerDlg::HandleDiscountOffCommand)
 
 COMMAND_HANDLER(CGameServerDlg::HandleCaptainCommand)
 {
-	LoadKnightsRankTable();
+	LoadKnightsRankTable(true);
 	return true;
 }
 

@@ -248,7 +248,10 @@ void CUser::ItemUpgrade(Packet & pkt)
 		{
 			bResult = UpgradeFailed;
 			memset(pOriginItem, 0, sizeof(_ITEM_DATA));
+
+			// Send upgrade notice.
 			ItemUpgradeNotice(proto, UpgradeFailed);
+			GoldLose(pUpgrade->nReqNoah,true); 
 		}
 		else
 		{
@@ -270,9 +273,10 @@ void CUser::ItemUpgrade(Packet & pkt)
 
 				// Reset the durability also, to the new cap.
 				pOriginItem->sDuration = newProto->m_sDuration;
-				
+
 				// Send upgrade notice.
 				ItemUpgradeNotice(newProto, UpgradeSucceeded);
+				GoldLose(pUpgrade->nReqNoah,true); 
 			}
 
 			// Replace the item ID in the list for the packet
