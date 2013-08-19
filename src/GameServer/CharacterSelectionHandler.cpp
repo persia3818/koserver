@@ -116,14 +116,23 @@ void CUser::SelCharToAgent(Packet & pkt)
 
 	// Disconnect any currently logged in sessions.
 	CUser *pUser = g_pMain->GetUserPtr(strUserID, TYPE_CHARACTER);
-	if (pUser && (pUser->GetSocketID() != GetSocketID()))
+	if (pUser == nullptr)
 	{
-		pUser->Disconnect();
-
-		// And reject the login attempt (otherwise we'll probably desync char data)
 		result << uint8(0);
 		Send(&result);
 		return;
+	}
+	else
+	{
+		if (pUser && (pUser->GetSocketID() != GetSocketID()))
+		{
+			pUser->Disconnect();
+
+			// And reject the login attempt (otherwise we'll probably desync char data)
+			result << uint8(0);
+			Send(&result);
+			return;
+		}
 	}
 
 	result << strUserID << bInit;

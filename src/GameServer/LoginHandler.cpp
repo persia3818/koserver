@@ -35,10 +35,16 @@ void CUser::LoginProcess(Packet & pkt)
 		goto fail_return;
 
 	pUser = g_pMain->GetUserPtr(strAccountID, TYPE_ACCOUNT);
-	if (pUser && (pUser->GetSocketID() != GetSocketID()))
-	{
-		pUser->Disconnect();
+
+	if (pUser == nullptr)
 		goto fail_return;
+	else
+	{
+		if (pUser && (pUser->GetSocketID() != GetSocketID()))
+		{
+			pUser->Disconnect();
+			goto fail_return;
+		}
 	}
 
 	result << strPasswd;
