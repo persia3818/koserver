@@ -984,7 +984,7 @@ void KOMap::SetZoneAttributes(int zoneNumber)
 	case ZONE_BATTLE3:
 		m_zoneType = ZoneAbilityPVP;
 		m_zoneFlags = ZF_ATTACK_OTHER_NATION | ZF_WAR_ZONE;
-		m_byMinLevel = MIN_LEVEL_WAR_ZONE, m_byMaxLevel = MAX_LEVEL_WAR_ZONE;
+		m_byMinLevel = MIN_LEVEL_NIEDS_TRIANGLE, m_byMaxLevel = MAX_LEVEL_NIEDS_TRIANGLE;
 		break;
 	case ZONE_BATTLE4:
 		m_zoneType = ZoneAbilityPVP;
