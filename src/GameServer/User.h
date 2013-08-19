@@ -765,7 +765,7 @@ public:
 	void PartyBBSDelete(Packet & pkt);
 	void PartyBBSNeeded(Packet & pkt, uint8 type);
 	void PartyBBSWanted(Packet & pkt);
-	uint8 GetPartyMemberAmount(_PARTY_GROUP *pParty);
+	uint8 GetPartyMemberAmount(_PARTY_GROUP *pParty = nullptr);
 
 	void SendPartyBBSNeeded(uint16 page_index, uint8 bType);
 
@@ -1029,6 +1029,7 @@ public:
 	DECLARE_LUA_GETTER(isInParty)
 	DECLARE_LUA_GETTER(isPartyLeader)
 	DECLARE_LUA_GETTER(GetBeefRoastVictory)
+	DECLARE_LUA_GETTER(GetPartyMemberAmount)
 
 	// Shortcuts for lazy people
 	DECLARE_LUA_FUNCTION(hasCoins)  {

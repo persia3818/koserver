@@ -603,6 +603,9 @@ void CUser::PartyBBSWanted(Packet & pkt)
 uint8 CUser::GetPartyMemberAmount(_PARTY_GROUP *pParty)
 {
 	if (pParty == nullptr)
+		pParty = g_pMain->GetPartyPtr(GetPartyID());
+
+	if (pParty == nullptr)
 		return 0;
 
 	uint8 PartyMembers = 0;
