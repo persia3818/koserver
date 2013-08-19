@@ -3,12 +3,12 @@
 
 using std::string;
 
-void CUser::SendBifrostTime(bool bSendAll){
+void CUser::SendBifrostTime(bool bSendAll) {
 	Packet result(WIZ_BIFROST,uint8(2));
 	result << g_pMain->m_sBifrostRemainingTime;
 
 	if (bSendAll)
-		g_pMain->Send_All(&result);
+		g_pMain->Send_All(&result,nullptr, 0, ZONE_RONARK_LAND);
 	else
 		Send(&result);
 }

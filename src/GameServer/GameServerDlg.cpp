@@ -733,7 +733,7 @@ void CGameServerDlg::Send_Zone(Packet *pkt, uint8 bZoneID, CUser* pExceptUser /*
 * @param	nation	   	Nation to allow. If unspecified, will default to Nation::ALL 
 * 						which will send to all/both nations.
 */
-void CGameServerDlg::Send_All(Packet *pkt, CUser* pExceptUser /*= nullptr*/, uint8 nation /*= 0*/)
+void CGameServerDlg::Send_All(Packet *pkt, CUser* pExceptUser /*= nullptr*/, uint8 nation /*= 0*/, uint8 ZoneID /*= 0*/)
 {
 	SessionMap & sessMap = g_pMain->m_socketMgr.GetActiveSessionMap();
 	foreach (itr, sessMap)
@@ -743,6 +743,10 @@ void CGameServerDlg::Send_All(Packet *pkt, CUser* pExceptUser /*= nullptr*/, uin
 			|| !pUser->isInGame()
 			|| (nation != Nation::ALL && nation != pUser->GetNation()))
 			continue;
+
+		if (ZoneID != 0)
+			if (pUser->GetZoneID() != ZoneID) 
+				continue;
 
 		pUser->Send(pkt);
 	}
