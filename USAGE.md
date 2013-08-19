@@ -1,4 +1,5 @@
 Proje Kullanımı Hakkında Bilgilendirme
+========
 Yazan : @katanatr
 
 İlk olarak yapacağımız işlem, çalışmaya başladığınız proje ile bağlantı kurmak. Unutmayın, bu sadece tek seferlik yapılacak bir işlem. 
