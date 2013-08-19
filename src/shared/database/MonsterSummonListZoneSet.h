@@ -1,4 +1,4 @@
- #pragma once
+#pragma once
 
 class CMonsterSummonListZoneSet : public OdbcRecordset
 {
@@ -7,7 +7,7 @@ public:
 		: OdbcRecordset(dbConnection), m_pMap(pMap) {}
 
 	virtual tstring GetTableName() { return _T("MONSTER_SUMMON_LIST_ZONE"); }
-	virtual tstring GetColumns() { return _T("nIndex, ZoneID, sSid, bType"); }
+	virtual tstring GetColumns() { return _T("ZoneID, sSid, bType"); }
 
 	virtual bool Fetch()
 	{
@@ -18,7 +18,7 @@ public:
 		_dbCommand->FetchUInt16(3, pData->sSid);
 		_dbCommand->FetchByte(4, pData->bType);
 
-		if (!m_pMap->PutData(pData->nIndex, pData))
+		if (!m_pMap->PutData(m_pMap->GetSize(), pData))
 			delete pData;
 
 		return true;
