@@ -4630,7 +4630,7 @@ void CUser::HandlePlayerRankings(Packet & pkt)
 	else // BDW
 		RankType = 2;
 
-	// Burada Sort Edilecek..!
+	// Burada Sort Edilecek..
 
 	Packet result(WIZ_RANK, RankType);
 	uint16 sClanID = 0;
@@ -4644,12 +4644,12 @@ void CUser::HandlePlayerRankings(Packet & pkt)
 		result << sCount; 
 
 		if (nation == KARUS) {
-			foreach_stlmap_nolock(itr, g_pMain->m_PVPRankingsArray[nation - 1]) {
+			foreach_stlmap_nolock(itr, g_pMain->m_PVPRankingsArray[KARUS_ARRAY]) {
 
 				if (sCount == 10)
 					break;
 
-				_PVP_RANKINGS *pRank = g_pMain->m_PVPRankingsArray[nation - 1].GetData(itr->first);
+				_PVP_RANKINGS *pRank = g_pMain->m_PVPRankingsArray[KARUS_ARRAY].GetData(itr->first);
 
 				if (pRank == nullptr)
 					continue;
@@ -4689,12 +4689,12 @@ void CUser::HandlePlayerRankings(Packet & pkt)
 				sCount++;
 			}
 		} else if (nation == ELMORAD) {
-			foreach_stlmap_nolock(itr, g_pMain->m_PVPRankingsArray[nation - 1]) {
+			foreach_stlmap_nolock(itr, g_pMain->m_PVPRankingsArray[ELMORAD_ARRAY]) {
 
 				if (sCount == 10)
 					break;
 
-				_PVP_RANKINGS *pRank = g_pMain->m_PVPRankingsArray[nation - 1].GetData(itr->first);
+				_PVP_RANKINGS *pRank = g_pMain->m_PVPRankingsArray[ELMORAD_ARRAY].GetData(itr->first);
 
 				if (pRank == nullptr)
 					continue;

@@ -1061,8 +1061,8 @@ void CGameServerDlg::ResetPlayerRankings()
 {
 	if (m_sRankResetHour == 12) {
 		m_sRankResetHour = 0;
-		foreach_stlmap_nolock(itr, g_pMain->m_PVPRankingsArray[KARUS - 1]) {
-			_PVP_RANKINGS *pRank = g_pMain->m_PVPRankingsArray[KARUS - 1].GetData(itr->first);
+		foreach_stlmap_nolock(itr, g_pMain->m_PVPRankingsArray[KARUS_ARRAY]) {
+			_PVP_RANKINGS *pRank = g_pMain->m_PVPRankingsArray[KARUS_ARRAY].GetData(itr->first);
 
 			if (pRank == nullptr)
 				continue;
@@ -1077,8 +1077,8 @@ void CGameServerDlg::ResetPlayerRankings()
 			pUser->m_iLoyaltyDaily = 0;
 			pUser->m_iLoyaltyPremiumBonus = 0;
 		}
-		foreach_stlmap_nolock(itr, g_pMain->m_PVPRankingsArray[ELMORAD - 1]) {
-			_PVP_RANKINGS *pRank = g_pMain->m_PVPRankingsArray[ELMORAD - 1].GetData(itr->first);
+		foreach_stlmap_nolock(itr, g_pMain->m_PVPRankingsArray[ELMORAD_ARRAY]) {
+			_PVP_RANKINGS *pRank = g_pMain->m_PVPRankingsArray[ELMORAD_ARRAY].GetData(itr->first);
 
 			if (pRank == nullptr)
 				continue;
