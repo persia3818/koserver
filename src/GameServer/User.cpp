@@ -4655,12 +4655,17 @@ void CUser::HandlePlayerRankings(Packet & pkt)
 
 		for (int i = 0; i < (int)PVPRankings[nation].size(); i++)
 		{
-			CUser *pUser = g_pMain->GetUserPtr(PVPRankings[nation][i].s_SocketID);
+			_PVP_RANKINGS * pPlayerRankInfo = &PVPRankings[nation][i];
+
+			if (pPlayerRankInfo == nullptr)
+				continue;
+
+			CUser *pUser = g_pMain->GetUserPtr(pPlayerRankInfo->s_SocketID);
 
 			if( pUser == nullptr)
 				continue;
 
-			if (GetZoneID() != PVPRankings[nation][i].m_bZone)
+			if (GetZoneID() != pPlayerRankInfo->m_bZone)
 				continue;
 
 			if (pUser->GetSocketID() == GetSocketID() && OwnRank == 0)
@@ -4690,8 +4695,8 @@ void CUser::HandlePlayerRankings(Packet & pkt)
 					<< sClanID // clan ID
 					<< sMarkVersion // mark/symbol version
 					<< strClanName // clan name
-					<< PVPRankings[nation][i].m_iLoyaltyDaily
-					<< PVPRankings[nation][i].m_iLoyaltyPremiumBonus; // bonus from prem NP
+					<< pPlayerRankInfo->m_iLoyaltyDaily
+					<< pPlayerRankInfo->m_iLoyaltyPremiumBonus; // bonus from prem NP
 
 				sCount++;
 			}
