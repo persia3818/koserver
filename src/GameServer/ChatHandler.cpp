@@ -18,6 +18,7 @@ void CGameServerDlg::InitServerCommands()
 		{ "open3",				&CGameServerDlg::HandleWar3OpenCommand,			"Opens war zone 3" },
 		{ "open4",				&CGameServerDlg::HandleWar4OpenCommand,			"Opens war zone 4" },
 		{ "open5",				&CGameServerDlg::HandleWar5OpenCommand,			"Opens war zone 5" },
+		{ "open6",				&CGameServerDlg::HandleWar6OpenCommand,			"Opens war zone 6" },
 		{ "snowopen",			&CGameServerDlg::HandleSnowWarOpenCommand,		"Opens the snow war zone" },
 		{ "close",				&CGameServerDlg::HandleWarCloseCommand,			"Closes the active war zone" },
 		{ "down",				&CGameServerDlg::HandleShutdownCommand,			"Shuts down the server" },
@@ -57,6 +58,8 @@ void CUser::InitChatCommands()
 		{ "open3",				&CUser::HandleWar3OpenCommand,					"Opens war zone 3" },
 		{ "open4",				&CUser::HandleWar4OpenCommand,					"Opens war zone 4" },
 		{ "open5",				&CUser::HandleWar5OpenCommand,					"Opens war zone 5" },
+		{ "open6",				&CUser::HandleWar6OpenCommand,					"Opens war zone 5" },
+		{ "captain",			&CUser::HandleCaptainCommand,					"Sets the captains/commanders for the war" },
 		{ "snowopen",			&CUser::HandleSnowWarOpenCommand,				"Opens the snow war zone" },
 		{ "close",				&CUser::HandleWarCloseCommand,					"Closes the active war zone" },
 		{ "np_change",			&CUser::HandleLoyaltyChangeCommand,				"Change a player an loyalty" },
@@ -65,7 +68,6 @@ void CUser::InitChatCommands()
 		{ "exp_add",			&CUser::HandleExpAddCommand,					"Sets the server-wide XP event. If bonusPercent is set to 0, the event is ended. Arguments: bonusPercent" },
 		{ "money_add",			&CUser::HandleMoneyAddCommand,					"Sets the server-wide coin event. If bonusPercent is set to 0, the event is ended. Arguments: bonusPercent" },
 		{ "permitconnect",		&CUser::HandlePermitConnectCommand,				"Player unban" },
-
 	};
 
 	init_command_table(CUser, commandTable, s_commandTable);
@@ -496,9 +498,17 @@ COMMAND_HANDLER(CGameServerDlg::HandleWar4OpenCommand)
 COMMAND_HANDLER(CUser::HandleWar5OpenCommand) { return g_pMain->HandleWar5OpenCommand(vargs, args, description); }
 COMMAND_HANDLER(CGameServerDlg::HandleWar5OpenCommand)
 {
+	BattleZoneOpen(BATTLEZONE_OPEN, 5);
+	return true;
+}
+
+COMMAND_HANDLER(CUser::HandleWar6OpenCommand) { return g_pMain->HandleWar6OpenCommand(vargs, args, description); }
+COMMAND_HANDLER(CGameServerDlg::HandleWar6OpenCommand)
+{
 	BattleZoneOpen(BATTLEZONE_OPEN, 6);
 	return true;
 }
+
 COMMAND_HANDLER(CUser::HandleSnowWarOpenCommand) { return g_pMain->HandleSnowWarOpenCommand(vargs, args, description); }
 COMMAND_HANDLER(CGameServerDlg::HandleSnowWarOpenCommand)
 {
@@ -701,8 +711,11 @@ COMMAND_HANDLER(CGameServerDlg::HandleDiscountOffCommand)
 	return true;
 }
 
+COMMAND_HANDLER(CUser::HandleCaptainCommand) { return g_pMain->HandleCaptainCommand(vargs, args, description); }
 COMMAND_HANDLER(CGameServerDlg::HandleCaptainCommand)
 {
+	m_KnightsRatingArray[KARUS - 1].DeleteAllData();
+	m_KnightsRatingArray[ELMORAD - 1].DeleteAllData();
 	LoadKnightsRankTable(true);
 	return true;
 }

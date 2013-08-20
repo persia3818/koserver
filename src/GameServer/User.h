@@ -650,6 +650,8 @@ public:
 	COMMAND_HANDLER(HandleWar3OpenCommand);
 	COMMAND_HANDLER(HandleWar4OpenCommand);
 	COMMAND_HANDLER(HandleWar5OpenCommand);
+	COMMAND_HANDLER(HandleWar6OpenCommand);
+	COMMAND_HANDLER(HandleCaptainCommand);
 	COMMAND_HANDLER(HandleSnowWarOpenCommand);
 	COMMAND_HANDLER(HandleWarCloseCommand);
 	COMMAND_HANDLER(HandleLoyaltyChangeCommand);
