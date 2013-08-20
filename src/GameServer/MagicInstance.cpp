@@ -1216,7 +1216,8 @@ bool MagicInstance::ExecuteType3()
 						damage = (pTarget->GetMaxHealth() * (pType->sFirstDamage - 100)) / 100;
 
 					pTarget->HpChangeMagic(damage, pSkillCaster);
-					pSkillCaster->HpChangeMagic(-(damage));
+					if (pTarget->isPlayer()) 
+						pSkillCaster->HpChangeMagic(-(damage));
 				}
 				break;
 
@@ -1228,7 +1229,8 @@ bool MagicInstance::ExecuteType3()
 					damage = (pTarget->GetMaxHealth() * (pType->sFirstDamage - 100)) / 100;
 
 				pTarget->HpChangeMagic(damage, pSkillCaster);
-				pSkillCaster->HpChangeMagic(-(damage));
+				if (pTarget->isPlayer()) 
+					pSkillCaster->HpChangeMagic(-(damage));
 				break;
 
 				// Inflicts true damage (i.e. disregards Ac/resistances/buffs, etc).
