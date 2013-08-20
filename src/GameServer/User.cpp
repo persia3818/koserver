@@ -4257,8 +4257,7 @@ void CUser::OnDeath(Unit *pKiller)
 								for (uint8 i = 0; i < MAX_PARTY_USERS; i++)
 								{
 									CUser * pPartyUser = g_pMain->GetUserPtr(pParty->uid[i]);
-									if (pPartyUser != nullptr
-										&& pUser->isInRange(pPartyUser, RANGE_50M))
+									if (pPartyUser != nullptr)
 										pPartyUser->GiveItem(ITEM_MEAT_DUMPLING);
 								}
 							}
