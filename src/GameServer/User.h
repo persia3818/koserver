@@ -144,6 +144,7 @@ public:
 
 	bool	m_bSelectedCharacter;
 	bool	m_bStoreOpen;
+	bool	m_btempleJoin;
 
 	int8	m_bMerchantState;
 	int16	m_sMerchantsSocketID;
@@ -285,6 +286,9 @@ public:
 	INLINE bool isAttackDisabled() { return GetAuthority() == AUTHORITY_ATTACK_DISABLED; }
 	INLINE bool isGM() { return GetAuthority() == AUTHORITY_GAME_MASTER; }
 	INLINE bool isLimitedGM() { return GetAuthority() == AUTHORITY_LIMITED_GAME_MASTER; }
+
+	INLINE bool isTempleJoin() {return m_btempleJoin ;}
+	INLINE void setTempleJoin() { m_btempleJoin = !m_btempleJoin; }
 
 	virtual bool isDead() { return m_bResHpType == USER_DEAD || m_sHp <= 0; }
 	virtual bool isBlinking() { return m_bAbnormalType == ABNORMAL_BLINKING; }
@@ -621,6 +625,10 @@ public:
 	void RecvLoginInfo(Packet & pkt); // from the database
 
 	void SpeedHackTime(Packet & pkt);
+	void TempleProcess(Packet & pkt );
+	void TempleJoin();
+	void TempleDisband();
+	void SendTempleCounterPacket();
 
 	void GameStart(Packet & pkt);
 	void RentalSystem(Packet & pkt);

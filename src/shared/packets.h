@@ -477,6 +477,14 @@ enum FriendOpcodes
 	FRIEND_REMOVE	= 4
 };
 
+enum TempleOpCodes
+{
+	TEMPLE_EVENT = 7,
+	TEMPLE_JOIN = 8,
+	TEMPLE_DISBAND = 9,
+	TEMPLE_COUNTER = 16
+};
+
 enum FriendAddResult
 {
 	FRIEND_ADD_SUCCESS	= 0,

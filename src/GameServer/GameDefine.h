@@ -616,6 +616,16 @@ struct _PVP_RANKINGS
 	uint16 m_iLoyaltyPremiumBonus;
 };
 
+struct _EVENT_STATUS
+{
+	uint16 ActiveEvent;
+	uint32 StartTime;
+	uint16 ElMoradUserCount;
+	uint16 KarusUserCount;
+	uint16 AllUserCount;
+	uint8  isActive;
+};
+
 enum BuffType
 {
 	BUFF_TYPE_NONE					= 0,

@@ -2,6 +2,7 @@
 #include "DBAgent.h"
 
 using std::string;
+using std::vector;
 
 void CUser::SendBifrostTime(bool bSendAll) {
 	Packet result(WIZ_BIFROST,uint8(2));
@@ -40,4 +41,100 @@ void CUser::BifrostProcess(CUser * pUser)
 				g_pMain->m_bAttackBifrostMonument = false;
 		}
 	}
+}
+
+void CUser::TempleProcess(Packet &pkt )
+{
+	uint8 opcode = pkt.read<uint8>();
+
+	switch(opcode)
+	{
+	case TEMPLE_JOIN:
+		TempleJoin();
+		break;
+	case TEMPLE_DISBAND:
+		TempleDisband();
+		break;
+	}
+}
+
+void CUser::TempleJoin()
+{
+	uint8 bResult = 1;
+	uint16 Active = g_pMain->pTempleEvent.ActiveEvent;
+	Packet result(WIZ_EVENT);
+	result << uint8(TEMPLE_JOIN) << bResult << uint16(Active);
+
+	if(GetZoneID() >= ZONE_JURAD_MOUNTAIN) {
+		bResult = 0;
+		result.put(0, bResult);
+		Send(&result);
+		return;
+	}
+
+	if(g_pMain->pTempleEvent.ActiveEvent == 24)
+	{
+		if (CheckExistItem(910246000,1))
+			bResult = 1;
+		else
+			bResult = 3;
+	}
+
+	if(bResult != 1)
+	{
+		result.put(0, bResult);
+		Send(&result);
+		return;
+	}
+
+	if(isTempleJoin()){
+		Send(&result);
+		setTempleJoin();
+	}
+	else
+		return;
+
+	if(GetNation() == KARUS)
+		g_pMain->pTempleEvent.KarusUserCount++;
+	else if (GetNation() == ELMORAD)
+		g_pMain->pTempleEvent.ElMoradUserCount++;
+
+	g_pMain->pTempleEvent.AllUserCount = g_pMain->pTempleEvent.KarusUserCount + g_pMain->pTempleEvent.ElMoradUserCount;
+
+	SendTempleCounterPacket();     
+}
+
+void CUser::TempleDisband()
+{
+	uint8 bResult = 1;
+	uint16 Active = g_pMain->pTempleEvent.ActiveEvent;
+	Packet result(WIZ_EVENT);
+	result << uint8(TEMPLE_DISBAND) << bResult << uint16(Active);
+
+	if(!isTempleJoin())
+	{
+		Send(&result);
+		if(GetNation() == KARUS)
+			g_pMain->pTempleEvent.KarusUserCount--;
+		else if (GetNation() == ELMORAD)
+			g_pMain->pTempleEvent.ElMoradUserCount--;
+
+		setTempleJoin();
+		g_pMain->pTempleEvent.AllUserCount = g_pMain->pTempleEvent.KarusUserCount + g_pMain->pTempleEvent.ElMoradUserCount;
+	}
+
+	SendTempleCounterPacket();
+}
+
+void CUser::SendTempleCounterPacket()
+{
+	Packet result(WIZ_EVENT);
+	result << uint8(TEMPLE_COUNTER) << uint16(g_pMain->pTempleEvent.ActiveEvent);
+
+	if(g_pMain->pTempleEvent.ActiveEvent == 24)
+		result << uint16(g_pMain->pTempleEvent.AllUserCount);
+	else
+		result << uint16(g_pMain->pTempleEvent.KarusUserCount) << uint16(g_pMain->pTempleEvent.ElMoradUserCount);
+
+	g_pMain->Send_All(&result);
 }

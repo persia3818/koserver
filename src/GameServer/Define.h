@@ -79,6 +79,11 @@ enum InOutType
 #define SNOW_EVENT_MONEY		2000
 #define SNOW_EVENT_SKILL		490043
 
+// Temple Event
+#define CHAOS_EVENT_COUNT				3
+#define BORDER_DEFENSE_WAR_EVENT_COUNT	3
+#define JURAD_MOUNTAIN_EVENT_COUNT		3
+
 // Users under level 35 require 3,000 coins to shout.
 #define SHOUT_COIN_REQUIREMENT	3000
 

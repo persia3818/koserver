@@ -107,6 +107,7 @@ public:
 	void SendAllUserInfo();
 	void DeleteAllNpcList(int flag = 0);
 	CNpc*  FindNpcInZone(uint16 sPid, uint8 byZone);
+	void EventTimer();
 
 	void AddDatabaseRequest(Packet & pkt, CUser *pUser = nullptr);
 
@@ -277,6 +278,7 @@ public:
 	// Removes the account name & character names from the hashmaps (on logout)
 	void RemoveSessionNames(CUser *pSession);
 
+	_EVENT_STATUS pTempleEvent;
 	_PARTY_GROUP * GetPartyPtr(uint16 sPartyID);
 	CKnights * GetClanPtr(uint16 sClanID);
 	_KNIGHTS_ALLIANCE * GetAlliancePtr(uint16 sAllianceID);
@@ -355,6 +357,8 @@ public:
 	short	m_sKarusDead, m_sElmoradDead, m_sBanishDelay, m_sKarusCount, m_sElmoradCount;
 	int m_nBattleZoneOpenWeek, m_nBattleZoneOpenHourStart, m_nBattleZoneOpenHourEnd;
 	std::string m_strKarusCaptain, m_strElmoradCaptain;
+
+	uint8   m_nBorderDefenseWarTime[BORDER_DEFENSE_WAR_EVENT_COUNT], m_nChaosTime[CHAOS_EVENT_COUNT];
 
 	uint8	m_bMaxRegenePoint;
 

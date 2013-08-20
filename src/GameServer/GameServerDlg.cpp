@@ -251,6 +251,14 @@ void CGameServerDlg::GetTimeFromIni()
 
 	ini.GetString("AI_SERVER", "IP", "127.0.0.1", m_AIServerIP);
 
+	m_nBorderDefenseWarTime[0] = ini.GetInt("BDW","START_TIME1", 0);
+	m_nBorderDefenseWarTime[1] = ini.GetInt("BDW","START_TIME2", 0);
+	m_nBorderDefenseWarTime[2] = ini.GetInt("BDW","START_TIME3", 0);
+
+	m_nChaosTime[0] = ini.GetInt("CHAOS","START_TIME1", 0);
+	m_nChaosTime[1] = ini.GetInt("CHAOS","START_TIME2", 0);
+	m_nChaosTime[2] = ini.GetInt("CHAOS","START_TIME3", 0);
+
 	m_PVPRankingsArray[KARUS_ARRAY].DeleteAllData();
 	m_PVPRankingsArray[ELMORAD_ARRAY].DeleteAllData();
 
@@ -923,6 +931,7 @@ void CGameServerDlg::UpdateGameTime()
 	DateTime now(&g_localTime);
 
 	BattleZoneOpenTimer();	// Check if it's time for the BattleZone to open or end.
+	EventTimer();
 
 	// Check timed King events.
 	foreach_stlmap (itr, m_KingSystemArray)
@@ -1688,6 +1697,61 @@ void CGameServerDlg::ResetBattleZone()
 	m_sKarusCount = 0;
 	m_sElmoradCount = 0;
 	// REMEMBER TO MAKE ALL FLAGS AND LEVERS NEUTRAL AGAIN!!!!!!!!!!
+}
+
+void CGameServerDlg::EventTimer()
+{
+	uint32 nTime = g_localTime.tm_hour;
+	uint32 nMinute = g_localTime.tm_min;
+	uint32 nSecond = g_localTime.tm_sec;
+	Packet result(WIZ_EVENT, uint8(TEMPLE_EVENT));
+
+	if (nMinute > 10)
+	{
+		pTempleEvent.isActive = 0;
+		//TempleTeleport();
+	}
+
+	for(int i = 0; i < BORDER_DEFENSE_WAR_EVENT_COUNT; i++)
+	{
+		if( nTime == m_nBorderDefenseWarTime[i] && nMinute < 10 )
+		{
+			uint16 remainMinute = 600-((nMinute*60)+nSecond);
+			if( pTempleEvent.isActive != pTempleEvent.ActiveEvent )
+			{
+				pTempleEvent.ActiveEvent = 4;
+				pTempleEvent.StartTime = (((nTime*60) + nMinute)*60) + nSecond;
+				pTempleEvent.KarusUserCount = 0;
+				pTempleEvent.ElMoradUserCount = 0;
+				pTempleEvent.AllUserCount = 0;
+				pTempleEvent.isActive = 4;
+			}           
+			result << uint16(pTempleEvent.ActiveEvent) << uint16(remainMinute);
+			Send_All(&result , nullptr, 0, 0);
+			break;
+		}
+	}
+
+	for( int i=0; i < CHAOS_EVENT_COUNT; i++)
+	{
+		if( nTime == m_nChaosTime[i] && nMinute < 10 )
+		{
+			uint16 remainMinute = 600-((nMinute*60)+nSecond);
+			if( pTempleEvent.isActive != pTempleEvent.ActiveEvent )
+			{
+				uint16 remainMinute = (nMinute*60) - nSecond;
+				pTempleEvent.ActiveEvent = 24;
+				pTempleEvent.StartTime = (((nTime*60) + nMinute)*60) + nSecond;
+				pTempleEvent.KarusUserCount = 0;
+				pTempleEvent.ElMoradUserCount = 0;
+				pTempleEvent.AllUserCount = 0;
+				pTempleEvent.isActive = 24;
+			}
+			result << uint16(pTempleEvent.ActiveEvent) << uint16(remainMinute);
+			Send_All(&result , nullptr, 0, 0);
+			break;
+		}
+	}
 }
 
 void CGameServerDlg::Announcement(uint8 type, int nation, int chat_type)

@@ -412,6 +412,7 @@ bool CUser::HandlePacket(Packet & pkt)
 		ItemUpgradeProcess(pkt);
 		break;
 	case WIZ_EVENT:
+		TempleProcess(pkt);
 		break;
 	case WIZ_SHOPPING_MALL: // letter system's used in here too
 		ShoppingMall(pkt);
