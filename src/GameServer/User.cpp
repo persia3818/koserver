@@ -4659,7 +4659,7 @@ void CUser::HandlePlayerRankings(Packet & pkt)
 				if( pUser == nullptr)
 					continue;
 
-				if (pUser->GetZoneID() != pRank->m_bZone)
+				if (GetZoneID() != pRank->m_bZone)
 					continue;
 
 				if (pUser->GetSocketID() == GetSocketID() && OwnRank == 0)
@@ -4704,7 +4704,7 @@ void CUser::HandlePlayerRankings(Packet & pkt)
 				if( pUser == nullptr )
 					continue;
 
-				if (pUser->GetZoneID() != pRank->m_bZone)
+				if (GetZoneID() != pRank->m_bZone)
 					continue;
 
 				if (pUser->GetSocketID() == GetSocketID() && OwnRank == 0)
