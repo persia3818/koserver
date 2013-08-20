@@ -76,6 +76,8 @@ void CUser::TempleJoin()
 	{
 		if (CheckExistItem(910246000,1))
 			bResult = 1;
+		else if (m_sItemArray[RIGHTHAND].nNum == MATTOCK || m_sItemArray[RIGHTHAND].nNum == GOLDEN_MATTOCK || isMining())
+			bResult = 4; 
 		else
 			bResult = 3;
 	}
