@@ -1015,21 +1015,28 @@ void KOMap::SetZoneAttributes(int zoneNumber)
 		m_zoneFlags = ZF_ATTACK_OTHER_NATION | ZF_WAR_ZONE;
 		m_byMinLevel = MIN_LEVEL_WAR_ZONE, m_byMaxLevel = MAX_LEVEL_WAR_ZONE;
 		break;
-
 	case ZONE_DELOS:
 		m_zoneType = ZoneAbilitySiegeDisabled; // depends on current siege state
 		m_zoneFlags = ZF_TRADE_OTHER_NATION | ZF_TALK_OTHER_NATION | ZF_FRIENDLY_NPCS; // also depends on current siege state, should be updated by CSW.
 		break;
 	case ZONE_BIFROST:
-		m_zoneType = ZoneAbilityPVPNeutralNPCs;
-		m_zoneFlags = ZF_ATTACK_OTHER_NATION | ZF_FRIENDLY_NPCS;
+		m_zoneType = ZoneAbilityPVP;
+		m_zoneFlags = ZF_ATTACK_OTHER_NATION;
 		break;
 	case ZONE_KROWAZ_DOMINION:
 		m_zoneType = ZoneAbilityPVPNeutralNPCs;
 		m_zoneFlags = ZF_ATTACK_OTHER_NATION | ZF_TALK_OTHER_NATION | ZF_FRIENDLY_NPCS;
-		m_byMinLevel = MIN_LEVEL_KROWAZ_DOMINION;
+		m_byMinLevel = MIN_LEVEL_KROWAZ_DOMINION, m_byMaxLevel = MAX_LEVEL_KROWAZ_DOMINION;
 		break;
-
+	case ZONE_CHAOS_DUNGEON:
+		m_zoneType = ZoneAbilityPVP;
+		m_zoneFlags = ZF_ATTACK_OTHER_NATION;
+		break;
+	case ZONE_JURAD_MOUNTAIN:
+		m_zoneType = ZoneAbilityPVPNeutralNPCs;
+		m_zoneFlags = ZF_ATTACK_OTHER_NATION | ZF_FRIENDLY_NPCS;
+		m_byMinLevel = MIN_LEVEL_JURAD_MOUNTAIN, m_byMaxLevel = MAX_LEVEL;
+		break;
 	default:
 		m_zoneType = ZoneAbilityPVP;
 		break;
