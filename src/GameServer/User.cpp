@@ -4644,12 +4644,12 @@ void CUser::HandlePlayerRankings(Packet & pkt)
 		result << sCount; 
 
 		if (nation == KARUS) {
-			foreach_stlmap_nolock(itr, g_pMain->m_PVPRankingsArray[KARUS - 1]) {
+			foreach_stlmap_nolock(itr, g_pMain->m_PVPRankingsArray[nation - 1]) {
 
 				if (sCount == 10)
 					break;
 
-				_PVP_RANKINGS *pRank = g_pMain->m_PVPRankingsArray[KARUS - 1].GetData(itr->first);
+				_PVP_RANKINGS *pRank = g_pMain->m_PVPRankingsArray[nation - 1].GetData(itr->first);
 
 				if (pRank == nullptr)
 					continue;
@@ -4689,12 +4689,12 @@ void CUser::HandlePlayerRankings(Packet & pkt)
 				sCount++;
 			}
 		} else if (nation == ELMORAD) {
-			foreach_stlmap_nolock(itr, g_pMain->m_PVPRankingsArray[ELMORAD - 1]) {
+			foreach_stlmap_nolock(itr, g_pMain->m_PVPRankingsArray[nation - 1]) {
 
 				if (sCount == 10)
 					break;
 
-				_PVP_RANKINGS *pRank = g_pMain->m_PVPRankingsArray[ELMORAD - 1].GetData(itr->first);
+				_PVP_RANKINGS *pRank = g_pMain->m_PVPRankingsArray[nation - 1].GetData(itr->first);
 
 				if (pRank == nullptr)
 					continue;
