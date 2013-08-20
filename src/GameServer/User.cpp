@@ -4637,79 +4637,35 @@ void CUser::HandlePlayerRankings(Packet & pkt)
 	uint16 sMarkVersion = 0;
 	std::string strClanName;
 
-	for (int nation = KARUS; nation <= ELMORAD; nation++)
+	for (int nation = KARUS_ARRAY; nation <= ELMORAD_ARRAY; nation++)
 	{
 		uint16 sCount = 0;
 		size_t wpos = result.wpos();
 		result << sCount; 
 
-		if (nation == KARUS) {
-			foreach_stlmap_nolock(itr, g_pMain->m_PVPRankingsArray[KARUS_ARRAY]) {
+		foreach_stlmap (itr, g_pMain->m_PVPRankingsArray[nation]) {
+			_PVP_RANKINGS *pRank = g_pMain->m_PVPRankingsArray[nation].GetData(itr->first);
 
+			if (pRank == nullptr)
+				continue;
+
+			CUser *pUser = g_pMain->GetUserPtr(pRank->s_SocketID);
+
+			if( pUser == nullptr)
+				continue;
+
+			if (GetZoneID() != pRank->m_bZone)
+				continue;
+
+			if (pUser->GetSocketID() == GetSocketID() && OwnRank == 0)
+			{
+				OwnRank = sCount+1;
 				if (sCount == 10)
 					break;
-
-				_PVP_RANKINGS *pRank = g_pMain->m_PVPRankingsArray[KARUS_ARRAY].GetData(itr->first);
-
-				if (pRank == nullptr)
-					continue;
-
-				CUser *pUser = g_pMain->GetUserPtr(pRank->s_SocketID);
-
-				if( pUser == nullptr)
-					continue;
-
-				if (GetZoneID() != pRank->m_bZone)
-					continue;
-
-				if (pUser->GetSocketID() == GetSocketID() && OwnRank == 0)
-					OwnRank = sCount+1;
-
-				CKnights * pKnights = g_pMain->GetClanPtr(pUser->m_bKnights);
-
-				if (pKnights != nullptr)
-				{
-					sClanID = pKnights->m_sIndex;
-					sMarkVersion = pKnights->m_sMarkVersion;
-					strClanName = pKnights->m_strName;
-				} else {
-					sClanID = 0;
-					sMarkVersion = 0;
-					strClanName = "";
-				}
-
-				result	<< pUser->m_strUserID
-					<< true // seems to be 0 or 1, not sure what it does though
-					<< sClanID // clan ID
-					<< sMarkVersion // mark/symbol version
-					<< strClanName // clan name
-					<< pRank->m_iLoyaltyDaily
-					<< pRank->m_iLoyaltyPremiumBonus; // bonus from prem NP
-
-				sCount++;
 			}
-		} else if (nation == ELMORAD) {
-			foreach_stlmap_nolock(itr, g_pMain->m_PVPRankingsArray[ELMORAD_ARRAY]) {
 
-				if (sCount == 10)
-					break;
-
-				_PVP_RANKINGS *pRank = g_pMain->m_PVPRankingsArray[ELMORAD_ARRAY].GetData(itr->first);
-
-				if (pRank == nullptr)
-					continue;
-
-				CUser *pUser = g_pMain->GetUserPtr(pRank->s_SocketID);
-
-				if( pUser == nullptr )
-					continue;
-
-				if (GetZoneID() != pRank->m_bZone)
-					continue;
-
-				if (pUser->GetSocketID() == GetSocketID() && OwnRank == 0)
-					OwnRank = sCount+1;
-
+			if (sCount < 10)
+			{
 				CKnights * pKnights = g_pMain->GetClanPtr(pUser->m_bKnights);
 
 				if (pKnights != nullptr)

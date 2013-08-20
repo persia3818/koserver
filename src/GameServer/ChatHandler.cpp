@@ -714,8 +714,8 @@ COMMAND_HANDLER(CGameServerDlg::HandleDiscountOffCommand)
 COMMAND_HANDLER(CUser::HandleCaptainCommand) { return g_pMain->HandleCaptainCommand(vargs, args, description); }
 COMMAND_HANDLER(CGameServerDlg::HandleCaptainCommand)
 {
-	m_KnightsRatingArray[KARUS - 1].DeleteAllData();
-	m_KnightsRatingArray[ELMORAD - 1].DeleteAllData();
+	m_KnightsRatingArray[KARUS_ARRAY].DeleteAllData();
+	m_KnightsRatingArray[ELMORAD_ARRAY].DeleteAllData();
 	LoadKnightsRankTable(true);
 	return true;
 }
@@ -830,7 +830,6 @@ COMMAND_HANDLER(CGameServerDlg::HandleReloadTablesCommand)
 	g_pMain->LoadPremiumItemExpTable();
 	g_pMain->m_ItemExchangeArray.DeleteAllData();
 	g_pMain->LoadItemExchangeTable();
-
 	return true;
 }
 

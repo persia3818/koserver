@@ -7,7 +7,7 @@ public:
 		: OdbcRecordset(dbConnection), m_pMap(pMap) {}
 
 	virtual tstring GetTableName() { return _T("MONSTER_RESPAWN_LIST"); }
-	virtual tstring GetColumns() { return _T("sIndex, sSid, scount"); }
+	virtual tstring GetColumns() { return _T("sIndex, sSid, sCount"); }
 
 	virtual bool Fetch()
 	{

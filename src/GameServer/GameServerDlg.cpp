@@ -251,8 +251,8 @@ void CGameServerDlg::GetTimeFromIni()
 
 	ini.GetString("AI_SERVER", "IP", "127.0.0.1", m_AIServerIP);
 
-	m_PVPRankingsArray[KARUS - 1].DeleteAllData();
-	m_PVPRankingsArray[ELMORAD - 1].DeleteAllData();
+	m_PVPRankingsArray[KARUS_ARRAY].DeleteAllData();
+	m_PVPRankingsArray[ELMORAD_ARRAY].DeleteAllData();
 
 	m_xBifrostRemainingTime = (240 * MINUTE);  // Bifrost remaining time ( 4 hour ).
 	m_xBifrostMonumentAttackTime = (30 * MINUTE); // Players is attack a monument last 30 minute.
