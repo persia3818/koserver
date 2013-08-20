@@ -1595,6 +1595,7 @@ void CGameServerDlg::BattleZoneOpen(int nType, uint8 bZone /*= 0*/)
 	KickOutZoneUsers(ZONE_RONARK_LAND_BASE);
 	KickOutZoneUsers(ZONE_RONARK_LAND);
 	KickOutZoneUsers(ZONE_BIFROST);
+	KickOutZoneUsers(ZONE_KROWAZ_DOMINION);
 
 	Packet result(AG_BATTLE_EVENT, uint8(BATTLE_EVENT_OPEN));
 	result << uint8(nType);

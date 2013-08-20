@@ -58,6 +58,8 @@ public:
 	INLINE bool areNPCsFriendly() { return (m_zoneFlags & ZF_FRIENDLY_NPCS) != 0; }
 	INLINE bool canUpdateClan() { return (m_zoneFlags & ZF_CLAN_UPDATE) != 0; }
 
+	INLINE bool isWarOpen() { return g_pMain->m_byBattleOpen != NO_BATTLE;} 
+
 	INLINE uint8 GetZoneType() { return m_zoneType; }
 	INLINE uint8 GetTariff() { return m_byTariff; }
 	INLINE void SetTariff(uint8 tariff) { m_byTariff = tariff; }
