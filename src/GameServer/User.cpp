@@ -3717,6 +3717,12 @@ bool CUser::GetWarpList(int warp_group)
 		if (pDstMap == nullptr)
 			continue;
 
+		if (g_pMain->m_byBattleOpen != NO_BATTLE)
+			if ((*itr)->sZone == ZONE_ARDREAM
+				|| (*itr)->sZone == ZONE_RONARK_LAND_BASE
+				|| (*itr)->sZone == ZONE_RONARK_LAND)
+				continue;
+
 		result	<< (*itr)->sWarpID 
 			<< (*itr)->strWarpName << (*itr)->strAnnounce
 			<< (*itr)->sZone
