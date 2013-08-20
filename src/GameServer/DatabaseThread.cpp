@@ -442,7 +442,7 @@ void CUser::ReqUserLogOut()
 	g_DBAgent.UpdateWarehouseData(GetAccountName(), UPDATE_LOGOUT, this);
 	g_DBAgent.UpdateSavedMagic(this);
 
-	PlayerRanking(m_bZone, true);
+	PlayerRanking(GetZoneID(), true);
 
 	if (m_bLogout != 2)	// zone change logout
 		g_DBAgent.AccountLogout(GetAccountName());

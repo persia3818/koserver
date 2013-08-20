@@ -100,7 +100,7 @@ public:
 	void Send_KnightsMember(int index, Packet *pkt);
 	void Send_KnightsAlliance(uint16 sAllianceID, Packet *pkt);
 	void SetGameTime();
-	void SetPlayerRankings();
+	void ResetPlayerRankings();
 	void UpdateWeather();
 	void UpdateGameTime();
 	void ResetLoyaltyMonthly();
@@ -139,6 +139,9 @@ public:
 
 	// Get info for merchants in regions around user
 	void MerchantUserInOutForMe(CUser* pSendUser);
+
+	// Get war status
+	INLINE bool isWarOpen() { return m_byBattleOpen != NO_BATTLE;} 
 
 	// Get list of merchants in region
 	void GetRegionMerchantUserIn(C3DMap* pMap, uint16 region_x, uint16 region_z, Packet & pkt, uint16 & t_count);
@@ -328,7 +331,7 @@ public:
 	MonsterRespawnListArray		m_MonsterRespawnListArray;
 	PremiumItemArray			m_PremiumItemArray;
 	PremiumItemExpArray			m_PremiumItemExpArray;
-	_PVP_RANKINGS				m_PVPRankings[MAX_USER];
+	PVPRankingsArray			m_PVPRankingsArray[2];
 
 	Atomic<uint16>				m_sPartyIndex;
 	short	m_sZoneCount;							// AI Server 재접속시 사용
@@ -359,9 +362,6 @@ public:
 	std::string	m_strPermanentChat;
 
 	uint8	m_bSantaOrAngel;
-	uint16	m_sRankInfoIndex;
-	uint16	m_sRankKarusCount;
-	uint16	m_sRankHumanCount;
 	uint8	m_sRankResetHour;
 
 	// Bifrost
@@ -415,7 +415,6 @@ private:
 public:
 	void InitServerCommands();
 	void CleanupServerCommands();
-	_PVP_RANKINGS* PVPRankInfo(_PVP_RANKINGS m_PVPRankings[], uint16 sNation, uint8 sZoneID);
 
 	static ServerCommandTable s_commandTable;
 

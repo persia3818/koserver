@@ -840,6 +840,9 @@ public:
 	void ZoneChangeParty(uint16 sNewZone, float x, float z);
 	void ZoneChangeClan(uint16 sNewZone, float x, float z);
 	void PlayerRanking(uint16 ZoneID, bool RemoveInZone = false);
+	void AddPlayerRanking(uint16 ZoneID);
+	void RemovePlayerRanking();
+	void UpdatePlayerRank();
 
 	void SendTargetHP( uint8 echo, int tid, int damage = 0 );
 	bool IsValidSlotPos( _ITEM_TABLE* pTable, int destpos );

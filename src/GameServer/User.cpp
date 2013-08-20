@@ -4,6 +4,7 @@
 #include "KingSystem.h"
 #include "MagicInstance.h"
 #include "DBAgent.h"
+#include <algorithm>
 
 using namespace std;
 
@@ -578,13 +579,7 @@ void CUser::SendLoyaltyChange(int32 nChangeAmount /*= 0*/, bool bIsKillReward /*
 		{
 			m_iLoyaltyDaily += nChangeAmount;
 
-			for( int i = 0; i < MAX_USER; i++) {
-				if( g_pMain->m_PVPRankings[i].s_SocketID == GetSocketID()) {
-					g_pMain->m_PVPRankings[i].m_iLoyaltyDaily = m_iLoyaltyDaily;
-					g_pMain->m_PVPRankings[i].m_iLoyaltyPremiumBonus = m_iLoyaltyPremiumBonus;
-					break;
-				}
-			}
+			UpdatePlayerRank();
 		}
 		//// We should only apply additional monthly NP when NP was gained as a reward for killing a player.
 		//if (bIsKillReward)
@@ -1019,8 +1014,8 @@ void CUser::SetZoneAbilityChange(uint16 sNewZone)
 	if (pMap == nullptr)
 		return;
 
-	if (!isGM())
-		PlayerRanking(sNewZone,false);
+	/*if (!isGM())*/
+	PlayerRanking(sNewZone,false);
 
 	if (sNewZone == ZONE_RONARK_LAND)
 		SendBifrostTime();
@@ -3717,7 +3712,7 @@ bool CUser::GetWarpList(int warp_group)
 		if (pDstMap == nullptr)
 			continue;
 
-		if (GetMap()->isWarOpen()) 
+		if (g_pMain->isWarOpen()) 
 			if ((*itr)->sZone == ZONE_ARDREAM
 				|| (*itr)->sZone == ZONE_RONARK_LAND_BASE
 				|| (*itr)->sZone == ZONE_RONARK_LAND)
@@ -4627,12 +4622,6 @@ void CUser::RecastSavedMagic()
 */
 void CUser::HandlePlayerRankings(Packet & pkt)
 {
-	return;
-	/* 
-	NOTE: This is a mockup. 
-	It should not be used in its current state for anything
-	other than testing.
-	*/
 	uint16 OwnRank = 0;
 	uint8 RankType = 1;
 
@@ -4641,16 +4630,12 @@ void CUser::HandlePlayerRankings(Packet & pkt)
 	else // BDW
 		RankType = 2;
 
+	// Burada Sort Edilecek..!
+
 	Packet result(WIZ_RANK, RankType);
 	uint16 sClanID = 0;
 	uint16 sMarkVersion = 0;
 	std::string strClanName;
-
-	_PVP_RANKINGS* PVPRankingKarus = NULL;
-	PVPRankingKarus = g_pMain->PVPRankInfo(g_pMain->m_PVPRankings,KARUS, m_bZone);
-
-	_PVP_RANKINGS* PVPRankingHuman = NULL;
-	PVPRankingHuman = g_pMain->PVPRankInfo(g_pMain->m_PVPRankings,ELMORAD, m_bZone);
 
 	for (int nation = KARUS; nation <= ELMORAD; nation++)
 	{
@@ -4659,15 +4644,26 @@ void CUser::HandlePlayerRankings(Packet & pkt)
 		result << sCount; 
 
 		if (nation == KARUS) {
-			for(int i = 0; i < g_pMain->m_sRankKarusCount; i++) 
-			{
-				CUser *pUser = g_pMain->GetUserPtr(PVPRankingKarus[i].s_SocketID);
+			foreach_stlmap_nolock(itr, g_pMain->m_PVPRankingsArray[KARUS - 1]) {
 
-				if( pUser == nullptr )
+				if (sCount == 10)
+					break;
+
+				_PVP_RANKINGS *pRank = g_pMain->m_PVPRankingsArray[KARUS - 1].GetData(itr->first);
+
+				if (pRank == nullptr)
+					continue;
+
+				CUser *pUser = g_pMain->GetUserPtr(pRank->s_SocketID);
+
+				if( pUser == nullptr)
+					continue;
+
+				if (pUser->GetZoneID() != pRank->m_bZone)
 					continue;
 
 				if (pUser->GetSocketID() == GetSocketID() && OwnRank == 0)
-					OwnRank = i+1;
+					OwnRank = sCount+1;
 
 				CKnights * pKnights = g_pMain->GetClanPtr(pUser->m_bKnights);
 
@@ -4687,22 +4683,32 @@ void CUser::HandlePlayerRankings(Packet & pkt)
 					<< sClanID // clan ID
 					<< sMarkVersion // mark/symbol version
 					<< strClanName // clan name
-					<< PVPRankingKarus[i].m_iLoyaltyDaily
-					<< PVPRankingKarus[i].m_iLoyaltyPremiumBonus; // bonus from prem NP
+					<< pRank->m_iLoyaltyDaily
+					<< pRank->m_iLoyaltyPremiumBonus; // bonus from prem NP
 
 				sCount++;
 			}
 		} else if (nation == ELMORAD) {
+			foreach_stlmap_nolock(itr, g_pMain->m_PVPRankingsArray[ELMORAD - 1]) {
 
-			for(int i = 0; i < g_pMain->m_sRankHumanCount; i++) 
-			{
-				CUser *pUser = g_pMain->GetUserPtr(PVPRankingHuman[i].s_SocketID);
+				if (sCount == 10)
+					break;
+
+				_PVP_RANKINGS *pRank = g_pMain->m_PVPRankingsArray[ELMORAD - 1].GetData(itr->first);
+
+				if (pRank == nullptr)
+					continue;
+
+				CUser *pUser = g_pMain->GetUserPtr(pRank->s_SocketID);
 
 				if( pUser == nullptr )
 					continue;
 
+				if (pUser->GetZoneID() != pRank->m_bZone)
+					continue;
+
 				if (pUser->GetSocketID() == GetSocketID() && OwnRank == 0)
-					OwnRank = i+1;
+					OwnRank = sCount+1;
 
 				CKnights * pKnights = g_pMain->GetClanPtr(pUser->m_bKnights);
 
@@ -4722,8 +4728,8 @@ void CUser::HandlePlayerRankings(Packet & pkt)
 					<< sClanID // clan ID
 					<< sMarkVersion // mark/symbol version
 					<< strClanName // clan name
-					<< PVPRankingHuman[i].m_iLoyaltyDaily
-					<< PVPRankingHuman[i].m_iLoyaltyPremiumBonus; // bonus from prem NP
+					<< pRank->m_iLoyaltyDaily
+					<< pRank->m_iLoyaltyPremiumBonus; // bonus from prem NP
 
 				sCount++;
 			}

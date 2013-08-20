@@ -251,18 +251,8 @@ void CGameServerDlg::GetTimeFromIni()
 
 	ini.GetString("AI_SERVER", "IP", "127.0.0.1", m_AIServerIP);
 
-	m_sRankInfoIndex = 0;
-	m_sRankKarusCount = 0;
-	m_sRankHumanCount = 0;
-	m_sRankResetHour = 0;
-
-	for(int i = 0; i < MAX_USER; i++) {
-		m_PVPRankings[i].m_bZone = 0;
-		m_PVPRankings[i].s_SocketID = -1;
-		m_PVPRankings[i].m_bNation = 0;
-		m_PVPRankings[i].m_iLoyaltyDaily = 0;
-		m_PVPRankings[i].m_iLoyaltyPremiumBonus = 0;
-	}
+	m_PVPRankingsArray[KARUS - 1].DeleteAllData();
+	m_PVPRankingsArray[ELMORAD - 1].DeleteAllData();
 
 	m_xBifrostRemainingTime = (240 * MINUTE);  // Bifrost remaining time ( 4 hour ).
 	m_xBifrostMonumentAttackTime = (30 * MINUTE); // Players is attack a monument last 30 minute.
@@ -943,7 +933,7 @@ void CGameServerDlg::UpdateGameTime()
 	// Every hour
 	if (m_sHour != now.GetHour())
 	{
-		SetPlayerRankings();
+		ResetPlayerRankings();
 		UpdateWeather();
 		SetGameTime();
 
@@ -1067,16 +1057,34 @@ void CGameServerDlg::SetGameTime()
 	ini.SetInt( "TIMER", "WEATHER", m_byWeather );
 }
 
-void CGameServerDlg::SetPlayerRankings()
+void CGameServerDlg::ResetPlayerRankings()
 {
 	if (m_sRankResetHour == 12) {
 		m_sRankResetHour = 0;
-		for(int i = 0; i < MAX_USER; i++) {
-			if (g_pMain->m_PVPRankings[i].s_SocketID == -1)
+		foreach_stlmap_nolock(itr, g_pMain->m_PVPRankingsArray[KARUS - 1]) {
+			_PVP_RANKINGS *pRank = g_pMain->m_PVPRankingsArray[KARUS - 1].GetData(itr->first);
+
+			if (pRank == nullptr)
 				continue;
 
-			g_pMain->m_PVPRankings[i].m_iLoyaltyDaily = 0;
-			g_pMain->m_PVPRankings[i].m_iLoyaltyPremiumBonus = 0;
+			CUser * pUser = g_pMain->GetUserPtr(pRank->s_SocketID);
+
+			if (pUser == nullptr)
+				continue;
+
+			pRank->m_iLoyaltyDaily = 0;
+			pRank->m_iLoyaltyPremiumBonus;
+			pUser->m_iLoyaltyDaily = 0;
+			pUser->m_iLoyaltyPremiumBonus = 0;
+		}
+		foreach_stlmap_nolock(itr, g_pMain->m_PVPRankingsArray[ELMORAD - 1]) {
+			_PVP_RANKINGS *pRank = g_pMain->m_PVPRankingsArray[ELMORAD - 1].GetData(itr->first);
+
+			if (pRank == nullptr)
+				continue;
+
+			pRank->m_iLoyaltyDaily = 0;
+			pRank->m_iLoyaltyPremiumBonus;
 		}
 	} else {
 		m_sRankResetHour++;
@@ -1956,43 +1964,6 @@ void CGameServerDlg::SendFlyingSantaOrAngel()
 {
 	Packet result(WIZ_SANTA, uint8(m_bSantaOrAngel));
 	Send_All(&result);
-}
-
-_PVP_RANKINGS* CGameServerDlg::PVPRankInfo(_PVP_RANKINGS* m_PVPRankings, uint16 sNation, uint8 sZoneID)
-{
-	_PVP_RANKINGS PVPRankingsTemp;
-	for (int i = m_sRankInfoIndex - 1; i > 0; i--)
-	{
-		for (int j = 1; j <= i; j++)
-		{
-			if( m_PVPRankings[j - 1].m_iLoyaltyDaily < m_PVPRankings[j].m_iLoyaltyDaily ) {
-				PVPRankingsTemp = m_PVPRankings[j - 1];
-				m_PVPRankings[j - 1] = m_PVPRankings[j];
-				m_PVPRankings[j] = PVPRankingsTemp;
-			}
-		}
-	}
-
-	_PVP_RANKINGS* pPVPRankInfo = new _PVP_RANKINGS();
-
-	int nRank = 0;
-
-	for(int i = 0; i < m_sRankInfoIndex; i++) 
-	{
-		if(m_PVPRankings[i].s_SocketID == -1 || m_PVPRankings[i].m_bNation != sNation)
-			continue;
-
-		pPVPRankInfo[nRank] = m_PVPRankings[i];
-		nRank++;
-		if (nRank <= 10) {
-			if( sNation == KARUS )
-				m_sRankKarusCount = nRank;
-			else if( sNation == ELMORAD ) 
-				m_sRankHumanCount = nRank;
-		}
-	}
-
-	return pPVPRankInfo;
 }
 
 CGameServerDlg::~CGameServerDlg() 

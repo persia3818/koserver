@@ -448,67 +448,51 @@ void CUser::PlayerRanking(uint16 ZoneID, bool RemoveInZone)
 	if(m_bZoneChangeSameZone)
 		return;
 
-	bool bAddRanking = false;
-	bool bAddedSucessfull = false;
-
-	m_iLoyaltyDaily = 0;
-	m_iLoyaltyPremiumBonus = 0;
-
 	if (ZoneID == ZONE_ARDREAM || ZoneID == ZONE_RONARK_LAND || ZoneID == ZONE_RONARK_LAND_BASE)
 	{
 		if (RemoveInZone)
-			goto RemoveRanking;
+			RemovePlayerRanking();
 		else
 		{
-			bAddRanking = true;
-			goto RemoveRanking;
+			RemovePlayerRanking();
+			AddPlayerRanking(ZoneID);
 		}
 	}
 	else
-	{
-		goto RemoveRanking;
-	}
+		RemovePlayerRanking();
+}
 
-AddRanking:
-	{
-		for( int i = 0; i < MAX_USER; i++) {
-			if( g_pMain->m_PVPRankings[i].s_SocketID != -1)
-				continue;
+void CUser::AddPlayerRanking(uint16 ZoneID)
+{
+	m_iLoyaltyDaily = 0;
+	m_iLoyaltyPremiumBonus = 0;
 
-			g_pMain->m_PVPRankings[i].m_bZone = ZoneID;
-			g_pMain->m_PVPRankings[i].s_SocketID = GetSocketID();
-			g_pMain->m_PVPRankings[i].m_bNation = m_bNation;
-			g_pMain->m_PVPRankings[i].m_iLoyaltyDaily = 0;
-			g_pMain->m_PVPRankings[i].m_iLoyaltyPremiumBonus = 0;
-			g_pMain->m_sRankInfoIndex++;
-			break;
-		}
+	_PVP_RANKINGS * pData = new _PVP_RANKINGS;
 
-		bAddedSucessfull = true;
-	}
+	pData->m_bZone = ZoneID;
+	pData->m_bNation = GetNation();
+	pData->s_SocketID = GetSocketID();
+	pData->m_iLoyaltyDaily = m_iLoyaltyDaily;
+	pData->m_iLoyaltyPremiumBonus = m_iLoyaltyPremiumBonus;
 
-RemoveRanking:
-	{
-		if (!bAddedSucessfull)
-		{
-			for( int i = 0; i < MAX_USER; i++) {
-				if( g_pMain->m_PVPRankings[i].s_SocketID != GetSocketID())
-					continue;
+	if (!g_pMain->m_PVPRankingsArray[GetNation() - 1].PutData(pData->s_SocketID, pData))
+		delete pData;
+}
 
-				g_pMain->m_PVPRankings[i].m_bZone = 0;
-				g_pMain->m_PVPRankings[i].s_SocketID = -1;
-				g_pMain->m_PVPRankings[i].m_bNation = 0;
-				g_pMain->m_PVPRankings[i].m_iLoyaltyDaily = 0;
-				g_pMain->m_PVPRankings[i].m_iLoyaltyPremiumBonus = 0;
-				if (g_pMain->m_sRankInfoIndex > 0)
-					g_pMain->m_sRankInfoIndex--;
-				break;
-			}
+void CUser::RemovePlayerRanking()
+{
+	g_pMain->m_PVPRankingsArray[GetNation() - 1].DeleteData(GetSocketID());
+}
 
-			if (bAddRanking)
-				goto AddRanking;
-		}
-	}
+void CUser::UpdatePlayerRank()
+{
+	_PVP_RANKINGS * pRank = g_pMain->m_PVPRankingsArray[GetNation() -1].GetData(GetSocketID());
+
+	if (pRank == nullptr)
+		return;
+
+	pRank->m_iLoyaltyDaily = m_iLoyaltyDaily;
+	pRank->m_iLoyaltyPremiumBonus = m_iLoyaltyPremiumBonus;
 }
 
 /**
