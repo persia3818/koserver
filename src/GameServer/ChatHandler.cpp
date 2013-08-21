@@ -108,6 +108,8 @@ void CUser::Chat(Packet & pkt)
 		if (type == ANNOUNCEMENT_CHAT)
 			type = WAR_SYSTEM_CHAT;
 
+		bOutType = type;
+
 		// This is horrible, but we'll live with it for now.
 		// Pull the notice string (#### NOTICE : %s ####) from the database.
 		// Format the chat string around it, so our chat data is within the notice
