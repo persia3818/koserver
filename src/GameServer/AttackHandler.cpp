@@ -40,27 +40,30 @@ void CUser::Attack(Packet & pkt)
 		&& isInAttackRange(pTarget)
 		&& CanAttack(pTarget))
 	{
-		damage = GetDamage(pTarget);
-
-		// Can't use R attacks in the Snow War.
-		if (GetZoneID() == ZONE_SNOW_BATTLE 
-			&& g_pMain->m_byBattleOpen == SNOW_BATTLE)
-			damage = 0;
-
-		if (damage > 0)
+		if (isAttackable(pTarget))
 		{
-			pTarget->HpChange(-damage, this);
-			if (pTarget->isDead())
-				bResult = ATTACK_TARGET_DEAD;
-			else
-				bResult = ATTACK_SUCCESS;
+			damage = GetDamage(pTarget);
 
-			// Every attack takes a little of your weapon's durability.
-			ItemWoreOut(ATTACK, damage);
+			// Can't use R attacks in the Snow War.
+			if (GetZoneID() == ZONE_SNOW_BATTLE 
+				&& g_pMain->m_byBattleOpen == SNOW_BATTLE)
+				damage = 0;
 
-			// Every hit takes a little of the defender's armour durability.
-			if (pTarget->isPlayer())
-				TO_USER(pTarget)->ItemWoreOut(DEFENCE, damage);
+			if (damage > 0)
+			{
+				pTarget->HpChange(-damage, this);
+				if (pTarget->isDead())
+					bResult = ATTACK_TARGET_DEAD;
+				else
+					bResult = ATTACK_SUCCESS;
+
+				// Every attack takes a little of your weapon's durability.
+				ItemWoreOut(ATTACK, damage);
+
+				// Every hit takes a little of the defender's armour durability.
+				if (pTarget->isPlayer())
+					TO_USER(pTarget)->ItemWoreOut(DEFENCE, damage);
+			}
 		}
 	}
 

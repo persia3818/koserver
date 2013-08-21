@@ -49,7 +49,7 @@ void CMagicProcess::MagicPacket(Packet & pkt, Unit * pCaster /*= nullptr*/)
 			if (pTarget != nullptr)
 			{
 				if (pTarget->isNPC()) 
-					if (!pTarget->CanAttack(pTarget))
+					if (!pTarget->isAttackable(pTarget))
 						instance.bSendSkillFailed = true;
 			}
 

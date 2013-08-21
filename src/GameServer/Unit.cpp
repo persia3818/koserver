@@ -835,15 +835,6 @@ bool Unit::CanAttack(Unit * pTarget)
 	if (GetZoneID() != pTarget->GetZoneID())
 		return false;
 
-	// NPC cannot attack.
-	if (pTarget->isNPC())
-	{
-		CNpc * pNpc = TO_NPC(pTarget);
-		if (pNpc != nullptr)
-			if (pNpc->GetType() == NPC_BIFROST_MONUMENT)
-				return false;
-	}
-
 	// We cannot attack our target if we are incapacitated 
 	// (should include debuffs & being blinded)
 	if (isIncapacitated()
@@ -855,6 +846,37 @@ bool Unit::CanAttack(Unit * pTarget)
 
 	// Finally, we can only attack the target if we are hostile towards them.
 	return isHostileTo(pTarget);
+}
+
+/**
+* @brief	Determine if this unit is basically able to attack the specified unit.
+* 			This should only be called to handle the minimal shared logic between
+* 			NPCs and players. 
+* 			
+* 			You should use the more appropriate CUser or CNpc specialization.
+*
+* @param	pTarget	Target for the attack.
+*
+* @return	true if we attackable, false if not.
+*/
+bool Unit::isAttackable(Unit * pTarget)
+{
+	if (pTarget == nullptr)
+		return false;
+
+	if (pTarget->isNPC())
+	{
+		CNpc * pNpc = TO_NPC(pTarget);
+		if (pNpc != nullptr)
+		{
+#if defined(GAMESERVER)
+			if (pNpc->GetType() == NPC_BIFROST_MONUMENT)
+				return (g_pMain->m_bAttackBifrostMonument);
+#endif
+		}
+	}
+
+	return true;
 }
 
 void Unit::OnDeath(Unit *pKiller)

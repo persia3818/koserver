@@ -174,6 +174,7 @@ public:
 	virtual void StateChangeServerDirect(uint8 bType, uint32 nBuff) {}
 	virtual bool isHostileTo(Unit * pTarget) = 0;
 	virtual bool CanAttack(Unit * pTarget);
+	virtual bool isAttackable(Unit * pTarget);
 
 	void OnDeath(Unit *pKiller);
 	void SendDeathAnimation(Unit *pKiller = nullptr);
