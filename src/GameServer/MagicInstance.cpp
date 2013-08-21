@@ -19,12 +19,15 @@ void MagicInstance::Run()
 	if (sTargetID != -1 && pSkillTarget == nullptr)
 		pSkillTarget = g_pMain->GetUnitPtr(sTargetID);
 
-	if (pSkillTarget->isNPC())
+	if (pSkillTarget != nullptr)
 	{
-		if (!pSkillTarget->isAttackable(pSkillTarget))
+		if (pSkillTarget->isNPC())
 		{
-			SendSkillFailed();
-			return;
+			if (!pSkillTarget->isAttackable(pSkillTarget))
+			{
+				SendSkillFailed();
+				return;
+			}
 		}
 	}
 
