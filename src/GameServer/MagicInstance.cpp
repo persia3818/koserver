@@ -19,42 +19,46 @@ void MagicInstance::Run()
 	if (sTargetID != -1 && pSkillTarget == nullptr)
 		pSkillTarget = g_pMain->GetUnitPtr(sTargetID);
 
-	if (pSkillTarget != nullptr)
+	bool bSendSkillFailed = false;
+
+	if (pSkillCaster != nullptr && pSkillTarget != nullptr)
 	{
+		if (pSkillCaster->isPlayer())
+		{
+			if (pSkill->bType[0] == 8 && sCasterID == sTargetID)
+				bSendSkillFailed = true;
+			else if (pSkill->sRange > 0)
+				if (!pSkillCaster->isInRange(pSkillTarget, ((float)pSkill->sRange) * 10.0f))
+					bSendSkillFailed = true;
+
+			CUser *pCaster = TO_USER(pSkillCaster);
+
+			if (pCaster != nullptr)
+			{
+				if (pCaster->m_CoolDownList.find(nSkillID) != pCaster->m_CoolDownList.end())
+				{
+					SkillCooldownList::iterator itr = pCaster->m_CoolDownList.find(nSkillID);
+					if (((UNIXTIME - itr->second) < (float) (pSkill->sReCastTime / 10.0f)))
+						bSendSkillFailed = true;
+					else
+						pCaster->m_CoolDownList.erase(nSkillID);
+				} 
+				if (((pSkill->bType[0] == pCaster->m_bLastSkillType) || (pSkill->bType[1] == pCaster->m_bLastSkillType))
+					&& (UNIXTIME - pCaster->m_fLastSkillUseTime < PLAYER_SKILL_REQUEST_INTERVAL))
+					bSendSkillFailed = true;
+			}
+		}
 		if (pSkillTarget->isNPC())
 		{
 			if (!pSkillTarget->isAttackable(pSkillTarget))
-			{
-				SendSkillFailed();
-				return;
-			}
+				bSendSkillFailed = true;
 		}
 	}
 
-	if (pSkillCaster->isPlayer())
+	if (bSendSkillFailed)
 	{
-		CUser *pCaster = TO_USER(pSkillCaster);
-
-		if (pCaster != nullptr)
-		{
-			if (pCaster->m_CoolDownList.find(nSkillID) != pCaster->m_CoolDownList.end())
-			{
-				SkillCooldownList::iterator itr = pCaster->m_CoolDownList.find(nSkillID);
-				if (((UNIXTIME - itr->second) < (float) (pSkill->sReCastTime / 10.0f)))
-				{
-					SendSkillFailed();
-					return;
-				}
-				else
-					pCaster->m_CoolDownList.erase(nSkillID);
-			} 
-			if (((pSkill->bType[0] == pCaster->m_bLastSkillType) || (pSkill->bType[1] == pCaster->m_bLastSkillType))
-				&& (UNIXTIME - pCaster->m_fLastSkillUseTime < PLAYER_SKILL_REQUEST_INTERVAL))
-			{
-				SendSkillFailed();
-				return;
-			}
-		}
+		SendSkillFailed();
+		return;
 	}
 
 	if (pSkill == nullptr
