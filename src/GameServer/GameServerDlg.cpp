@@ -615,6 +615,21 @@ uint32 CGameServerDlg::Timer_UpdateConcurrent(void * lpParam)
 	return 0;
 }
 
+uint32 CGameServerDlg::Timer_ReloadUserAndKnightsRating(void * lpParam)
+{
+	while (g_bRunning)
+	{
+		g_pMain->m_KnightsArray.DeleteAllData();
+		g_pMain->LoadAllKnights();
+		g_pMain->m_UserPersonalRankMap.clear();
+		g_pMain->m_UserKnightsRankMap.clear();
+		g_pMain->LoadUserRankings();
+
+		sleep(RELOAD_USER_AND_KNIGHTS_RATING * MINUTE);
+	}
+	return 0;
+}
+
 void CGameServerDlg::ReqUpdateConcurrent()
 {
 	Packet result(WIZ_ZONE_CONCURRENT);

@@ -167,6 +167,9 @@ enum InOutType
 #define MINI_ARENA_RESPAWN_Z		428
 #define MINI_ARENA_RESPAWN_RADIUS	5
 
+// Automatic Ranking Minutes
+#define RELOAD_USER_AND_KNIGHTS_RATING 5 // Minute
+
 // Where to respawn after dying in the Chaos Stone boss
 #define CHAOS_STONE_MONSTER_RESPAWN_RADIUS		20
 
@@ -197,6 +200,7 @@ enum InOutType
 //ID of the "Sling" item,given on Minning
 #define  SLING                   389043000 
 
+//ID of the "King Specter" item
 #define KING_SCEPTER 910074311
 
 // ID of the Seed quest, to be automatically started on first load.

@@ -74,6 +74,7 @@ public:
 	static uint32 THREADCALL Timer_UpdateGameTime(void * lpParam);
 	static uint32 THREADCALL Timer_UpdateSessions(void * lpParam);
 	static uint32 THREADCALL Timer_UpdateConcurrent(void * lpParam);
+	static uint32 THREADCALL Timer_ReloadUserAndKnightsRating(void * lpParam);
 
 	void ReqUpdateConcurrent();
 
