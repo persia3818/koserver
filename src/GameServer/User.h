@@ -21,7 +21,7 @@ typedef	std::map<uint32, time_t>			UserSavedMagicMap;
 // Time (in seconds) between each skill request (-1 sec).
 #define PLAYER_SKILL_REQUEST_INTERVAL	0.7f
 // Time (in seconds) between each r hit request (-1 sec).
-#define PLAYER_R_HIT_REQUEST_INTERVAL	0.7f
+#define PLAYER_R_HIT_REQUEST_INTERVAL	1.0f
 
 enum GameState
 {

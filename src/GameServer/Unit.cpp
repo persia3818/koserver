@@ -890,7 +890,7 @@ bool Unit::CanCastRHit(uint16 m_socketID)
 	if (pUser->m_RHitRepeatList.find(m_socketID) != pUser->m_RHitRepeatList.end())
 	{
 		RHitRepeatList::iterator itr = pUser->m_RHitRepeatList.find(m_socketID);
-		if ((UNIXTIME - itr->second) < (float)PLAYER_R_HIT_REQUEST_INTERVAL)
+		if ((UNIXTIME - itr->second) < PLAYER_R_HIT_REQUEST_INTERVAL)
 			return false;
 		else
 		{
