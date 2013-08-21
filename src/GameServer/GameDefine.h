@@ -609,8 +609,8 @@ struct _PREMIUM_ITEM_EXP
 
 struct _PVP_RANKINGS 
 {
-	uint16 m_bZone;
-	int16 s_SocketID;
+	uint16 m_socketID;
+ 	uint16 m_bZone;
 	uint8 m_bNation;
 	uint32 m_iLoyaltyDaily;
 	uint16 m_iLoyaltyPremiumBonus;

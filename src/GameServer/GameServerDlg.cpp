@@ -938,6 +938,19 @@ void CGameServerDlg::UpdateGameTime()
 		itr->second->CheckKingTimer();
 
 	// Every minute
+	if (m_sMin != now.GetMinute())
+	{
+		uint16 count = 0;
+		SessionMap & sessMap = g_pMain->m_socketMgr.GetActiveSessionMap();
+		foreach (itr, sessMap)
+		{
+			if (TO_USER(itr->second)->isInGame())
+				count++;
+		}
+		g_pMain->m_socketMgr.ReleaseLock();
+
+		g_pMain->SendNotice(string_format("Online User Count : %d",count).c_str(), Nation::ALL);
+	}
 
 	// Every hour
 	if (m_sHour != now.GetHour())
@@ -1076,7 +1089,7 @@ void CGameServerDlg::ResetPlayerRankings()
 			if (pRank == nullptr)
 				continue;
 
-			CUser * pUser = g_pMain->GetUserPtr(pRank->s_SocketID);
+			CUser * pUser = g_pMain->GetUserPtr(pRank->m_socketID);
 
 			if (pUser == nullptr)
 				continue;

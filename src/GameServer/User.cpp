@@ -4623,6 +4623,8 @@ void CUser::RecastSavedMagic()
 */
 void CUser::HandlePlayerRankings(Packet & pkt)
 {
+	return;
+
 	uint16 OwnRank = 0;
 	uint8 RankType = 1;
 
@@ -4630,17 +4632,6 @@ void CUser::HandlePlayerRankings(Packet & pkt)
 		RankType = 1;
 	else // BDW
 		RankType = 2;
-
-	std::vector<_PVP_RANKINGS> PVPRankings[2]; // both nations
-	foreach_stlmap_nolock(itr,g_pMain->m_PVPRankingsArray[KARUS_ARRAY])
-		PVPRankings[KARUS_ARRAY].push_back(*itr->second);
-
-	std::sort(PVPRankings[KARUS_ARRAY].begin(),PVPRankings[KARUS_ARRAY].end(),[](_PVP_RANKINGS const &a, _PVP_RANKINGS const &b){ return a.m_iLoyaltyDaily > b.m_iLoyaltyDaily; });
-
-	foreach_stlmap_nolock(itr,g_pMain->m_PVPRankingsArray[ELMORAD_ARRAY])
-		PVPRankings[ELMORAD_ARRAY].push_back(*itr->second);
-
-	std::sort(PVPRankings[ELMORAD_ARRAY].begin(),PVPRankings[ELMORAD_ARRAY].end(),[](_PVP_RANKINGS const &a, _PVP_RANKINGS const &b){ return a.m_iLoyaltyDaily > b.m_iLoyaltyDaily; });
 
 	Packet result(WIZ_RANK, RankType);
 	uint16 sClanID = 0;
@@ -4651,24 +4642,18 @@ void CUser::HandlePlayerRankings(Packet & pkt)
 	{
 		uint16 sCount = 0;
 		size_t wpos = result.wpos();
-		result << sCount; 
+		result << sCount;
 
-		for (int i = 0; i < (int)PVPRankings[nation].size(); i++)
-		{
-			_PVP_RANKINGS * pPlayerRankInfo = &PVPRankings[nation][i];
-
-			if (pPlayerRankInfo == nullptr)
-				continue;
-
-			CUser *pUser = g_pMain->GetUserPtr(pPlayerRankInfo->s_SocketID);
+		foreach_stlmap(itr, g_pMain->m_PVPRankingsArray[nation]) {
+			CUser *pUser = g_pMain->GetUserPtr(itr->second->m_socketID);
 
 			if( pUser == nullptr)
 				continue;
 
-			if (GetZoneID() != pPlayerRankInfo->m_bZone)
+			if (GetZoneID() != itr->second->m_bZone)
 				continue;
 
-			if (pUser->GetSocketID() == GetSocketID() && OwnRank == 0)
+			if (itr->second->m_socketID == GetSocketID() && OwnRank == 0)
 			{
 				OwnRank = sCount + 1;
 				if (sCount == 10)
@@ -4691,12 +4676,12 @@ void CUser::HandlePlayerRankings(Packet & pkt)
 				}
 
 				result	<< pUser->m_strUserID
-					<< true // seems to be 0 or 1, not sure what it does though
-					<< sClanID // clan ID
-					<< sMarkVersion // mark/symbol version
-					<< strClanName // clan name
-					<< pPlayerRankInfo->m_iLoyaltyDaily
-					<< pPlayerRankInfo->m_iLoyaltyPremiumBonus; // bonus from prem NP
+					<< true 
+					<< sClanID 
+					<< sMarkVersion 
+					<< strClanName 
+					<< itr->second->m_iLoyaltyDaily
+					<< itr->second->m_iLoyaltyPremiumBonus;
 
 				sCount++;
 			}

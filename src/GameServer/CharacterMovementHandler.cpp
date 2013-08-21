@@ -448,7 +448,7 @@ void CUser::PlayerRanking(uint16 ZoneID, bool RemoveInZone)
 	if(m_bZoneChangeSameZone)
 		return;
 
-	if (ZoneID == ZONE_ARDREAM || ZoneID == ZONE_RONARK_LAND || ZoneID == ZONE_RONARK_LAND_BASE)
+	if (ZoneID == ZONE_ARDREAM || ZoneID == ZONE_RONARK_LAND_BASE || ZoneID == ZONE_RONARK_LAND)
 	{
 		if (RemoveInZone)
 			RemovePlayerRanking();
@@ -469,13 +469,13 @@ void CUser::AddPlayerRanking(uint16 ZoneID)
 
 	_PVP_RANKINGS * pData = new _PVP_RANKINGS;
 
+	pData->m_socketID = GetSocketID();
 	pData->m_bZone = ZoneID;
 	pData->m_bNation = GetNation();
-	pData->s_SocketID = GetSocketID();
 	pData->m_iLoyaltyDaily = m_iLoyaltyDaily;
 	pData->m_iLoyaltyPremiumBonus = m_iLoyaltyPremiumBonus;
 
-	if (!g_pMain->m_PVPRankingsArray[GetNation() - 1].PutData(pData->s_SocketID, pData))
+	if (!g_pMain->m_PVPRankingsArray[GetNation() - 1].PutData(pData->m_socketID, pData))
 		delete pData;
 }
 
