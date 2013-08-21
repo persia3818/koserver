@@ -313,6 +313,10 @@ bool CUser::RobItem(uint8 bPos, _ITEM_TABLE * pTable, uint16 sCount /*= 1*/)
 		return false;
 
 	_ITEM_DATA *pItem = GetItem(bPos);
+
+	if (pItem == nullptr)
+		return false;
+
 	if (pItem->nNum != pTable->m_iNum
 		|| pItem->sCount < sCount)
 		return false;
