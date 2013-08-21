@@ -28,7 +28,7 @@ void MagicInstance::Run()
 			if (pSkill->bType[0] == 8 && sCasterID == sTargetID)
 				bSendSkillFailed = true;
 			else if (pSkill->sRange > 0)
-				if (!pSkillCaster->isInRange(pSkillTarget, ((float)pSkill->sRange) * 10.0f))
+				if (!pSkillCaster->isInRange(pSkillTarget, ((float)pSkill->sRange) * (10.0f * 3)))
 					bSendSkillFailed = true;
 
 			CUser *pCaster = TO_USER(pSkillCaster);
