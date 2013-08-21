@@ -19,10 +19,39 @@ void MagicInstance::Run()
 	if (sTargetID != -1 && pSkillTarget == nullptr)
 		pSkillTarget = g_pMain->GetUnitPtr(sTargetID);
 
-	if (bSendSkillFailed)
+	if (pSkillTarget->isNPC())
 	{
-		SendSkillFailed();
-		return;
+		if (!pSkillTarget->isAttackable(pSkillTarget))
+		{
+			SendSkillFailed();
+			return;
+		}
+	}
+
+	if (pSkillCaster->isPlayer())
+	{
+		CUser *pCaster = TO_USER(pSkillCaster);
+
+		if (pCaster != nullptr)
+		{
+			if (pCaster->m_CoolDownList.find(nSkillID) != pCaster->m_CoolDownList.end())
+			{
+				SkillCooldownList::iterator itr = pCaster->m_CoolDownList.find(nSkillID);
+				if (((UNIXTIME - itr->second) < (float) (pSkill->sReCastTime / 10.0f)))
+				{
+					SendSkillFailed();
+					return;
+				}
+				else
+					pCaster->m_CoolDownList.erase(nSkillID);
+			} 
+			if (((pSkill->bType[0] == pCaster->m_bLastSkillType) || (pSkill->bType[1] == pCaster->m_bLastSkillType))
+				&& (UNIXTIME - pCaster->m_fLastSkillUseTime < PLAYER_SKILL_REQUEST_INTERVAL))
+			{
+				SendSkillFailed();
+				return;
+			}
+		}
 	}
 
 	if (pSkill == nullptr
@@ -113,26 +142,18 @@ void MagicInstance::Run()
 
 		if (bInitialResult)
 		{
-			if (nSkillID < 400000)
+			if (pSkillCaster->isPlayer())
 			{
-				CUser * pCaster = TO_USER(pSkillCaster);
-				if (pCaster != nullptr) {
-					bool bSetLastSkillInformation = true;
+				CUser *pCaster = TO_USER(pSkillCaster);
 
-					if (pCaster->isPlayer()) {
+				if (!pSkillCaster->hasBuff(BUFF_TYPE_INSTANT_MAGIC)) 
+				{
+					pCaster->m_CoolDownList.insert(std::make_pair(nSkillID, UNIXTIME));
 
-						if (pCaster->isMage() && !pSkillCaster->hasBuff(BUFF_TYPE_INSTANT_MAGIC)) 	
-							bSetLastSkillInformation = false;
-
-						if (pCaster->isRogue()) 	
-							if (pSkill->bType[0] == 3)
-								bSetLastSkillInformation = false;
-
-						if (bSetLastSkillInformation) {
-							pCaster->m_LastSkillID = nSkillID;
-							pCaster->m_LastSkillUseTime = UNIXTIME;
-							pCaster->m_LastSkillType = pSkill->bType[0];
-						}
+					if (pSkill->bType[0] == 1 || pSkill->bType[0] == 2)
+					{
+						pCaster->m_bLastSkillType = pSkill->bType[0];
+						pCaster->m_fLastSkillUseTime = UNIXTIME;
 					}
 				}
 			}
@@ -1350,6 +1371,7 @@ bool MagicInstance::ExecuteType4()
 		return false;
 
 	_MAGIC_TYPE4* pType = g_pMain->m_Magictype4Array.GetData(nSkillID);
+
 	if (pType == nullptr)
 		return false;
 

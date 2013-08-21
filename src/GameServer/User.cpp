@@ -156,9 +156,8 @@ void CUser::Initialize()
 	m_bWeaponsDisabled = false;
 
 	m_teamColour = TeamColourNone;
-	m_LastSkillID = 0;
-	m_LastSkillUseTime = UNIXTIME;
-	m_LastSkillType = 0;
+	m_fLastSkillUseTime = UNIXTIME;
+	m_bLastSkillType = 0;
 	m_iLoyaltyDaily = 0;
 	m_iLoyaltyPremiumBonus = 0;
 }

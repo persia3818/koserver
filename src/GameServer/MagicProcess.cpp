@@ -35,40 +35,6 @@ void CMagicProcess::MagicPacket(Packet & pkt, Unit * pCaster /*= nullptr*/)
 		|| instance.sCasterID != pCaster->GetID()))
 		return;
 
-	if (instance.bSendSkillFailed)
-		instance.bSendSkillFailed = false;
-
-	if (instance.nSkillID < 400000) {
-
-		CUser * pUser = TO_USER(pCaster);
-
-		if (pUser != nullptr && pUser->isPlayer()) {
-			Unit * pTarget = g_pMain->GetUnitPtr(instance.sTargetID);
-
-			if (pTarget != nullptr)
-			{
-				if (!pTarget->isAttackable(pTarget))
-					instance.bSendSkillFailed = true;
-			} 
-
-			if (pUser->m_LastSkillID != instance.nSkillID) {
-				if (instance.pSkill->bType[0] == pUser->m_LastSkillType || instance.pSkill->bType[1] == pUser->m_LastSkillType)
-				{
-					if ((UNIXTIME - pUser->m_LastSkillUseTime) <= PLAYER_SKILL_REQUEST_INTERVAL) {
-						instance.bSendSkillFailed = true;
-					}
-				}
-			} else if (pUser->m_LastSkillID == instance.nSkillID) {
-				if (instance.pSkill->sReCastTime != 0)
-				{
-					if ((UNIXTIME - pUser->m_LastSkillUseTime) * 1000 <= (instance.pSkill->sReCastTime * 100)) {
-						instance.bSendSkillFailed = true;
-					}
-				}
-			}
-		}
-	}
-
 	instance.bIsRecastingSavedMagic = false;
 	instance.Run();
 }
