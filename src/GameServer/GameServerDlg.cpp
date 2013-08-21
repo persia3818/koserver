@@ -619,13 +619,14 @@ uint32 CGameServerDlg::Timer_ReloadUserAndKnightsRating(void * lpParam)
 {
 	while (g_bRunning)
 	{
-		g_pMain->m_KnightsArray.DeleteAllData();
-		g_pMain->LoadAllKnights();
-		g_pMain->m_UserPersonalRankMap.clear();
-		g_pMain->m_UserKnightsRankMap.clear();
+		// Update clan grades/rankings
+		Packet result(WIZ_KNIGHTS_PROCESS, uint8(KNIGHTS_ALLLIST_REQ));
+		g_pMain->AddDatabaseRequest(result);
+
+		// Update user rankings
 		g_pMain->LoadUserRankings();
 
-		sleep(RELOAD_USER_AND_KNIGHTS_RATING * MINUTE);
+		sleep(RELOAD_KNIGHTS_AND_USER_RATING * MINUTE);
 	}
 	return 0;
 }
@@ -981,12 +982,7 @@ void CGameServerDlg::UpdateGameTime()
 	// Every day
 	if (m_sDate != now.GetDay())
 	{
-		// Update clan grades/rankings
-		Packet result(WIZ_KNIGHTS_PROCESS, uint8(KNIGHTS_ALLLIST_REQ));
-		AddDatabaseRequest(result);
 
-		// Update user rankings
-		LoadUserRankings();
 	}
 
 	// Every month

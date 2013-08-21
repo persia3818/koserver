@@ -168,7 +168,7 @@ enum InOutType
 #define MINI_ARENA_RESPAWN_RADIUS	5
 
 // Automatic Ranking Minutes
-#define RELOAD_USER_AND_KNIGHTS_RATING 5 // Minute
+#define RELOAD_KNIGHTS_AND_USER_RATING 30 // Minute
 
 // Where to respawn after dying in the Chaos Stone boss
 #define CHAOS_STONE_MONSTER_RESPAWN_RADIUS		20
