@@ -879,6 +879,29 @@ bool Unit::isAttackable(Unit * pTarget)
 	return true;
 }
 
+bool Unit::CanCastRHit(uint16 m_socketID)
+{
+#if defined(GAMESERVER)
+	CUser *pUser = g_pMain->GetUserPtr(m_socketID);
+
+	if (pUser == nullptr)
+		return true;
+
+	if (pUser->m_RHitRepeatList.find(m_socketID) != pUser->m_RHitRepeatList.end())
+	{
+		RHitRepeatList::iterator itr = pUser->m_RHitRepeatList.find(m_socketID);
+		if ((UNIXTIME - itr->second) < (float)PLAYER_R_HIT_REQUEST_INTERVAL)
+			return false;
+		else
+		{
+			pUser->m_RHitRepeatList.erase(m_socketID);
+			return true;
+		}
+	} 
+#endif
+	return true;
+}
+
 void Unit::OnDeath(Unit *pKiller)
 {
 #ifdef GAMESERVER

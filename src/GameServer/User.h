@@ -13,12 +13,15 @@ struct _USER_SEAL_ITEM;
 typedef std::map<uint64, _USER_SEAL_ITEM*>	UserItemSealMap;
 typedef	std::list<_EXCHANGE_ITEM*>			ItemList;
 typedef	std::map<uint32, time_t>			SkillCooldownList;
+typedef	std::map<uint16, time_t>			RHitRepeatList; 
 typedef	std::map<uint32, time_t>			UserSavedMagicMap;
 
-// Time (in seconds) between each save request (5min).
+// Time (in seconds) between each save request (5 min).
 #define PLAYER_SAVE_INTERVAL	(5 * 60)
-// Time (in seconds) between each skill request (1sec).
+// Time (in seconds) between each skill request (-1 sec).
 #define PLAYER_SKILL_REQUEST_INTERVAL	0.7f
+// Time (in seconds) between each r hit request (-1 sec).
+#define PLAYER_R_HIT_REQUEST_INTERVAL	0.7f
 
 enum GameState
 {
@@ -166,6 +169,9 @@ public:
 
 	// Magic System Cooldown checks
 	SkillCooldownList	m_CoolDownList;
+
+	// Attack System Cooldown checks
+	RHitRepeatList	m_RHitRepeatList;
 
 	ArrowList m_flyingArrows;
 	FastMutex m_arrowLock;

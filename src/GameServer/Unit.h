@@ -175,6 +175,7 @@ public:
 	virtual bool isHostileTo(Unit * pTarget) = 0;
 	virtual bool CanAttack(Unit * pTarget);
 	virtual bool isAttackable(Unit * pTarget);
+	virtual bool CanCastRHit(uint16 m_SocketID);
 
 	void OnDeath(Unit *pKiller);
 	void SendDeathAnimation(Unit *pKiller = nullptr);
