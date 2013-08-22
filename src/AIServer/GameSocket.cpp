@@ -90,6 +90,9 @@ bool CGameSocket::HandlePacket(Packet & pkt)
 	case AG_MAGIC_ATTACK_REQ:
 		CMagicProcess::MagicPacket(pkt);
 		break;
+	case AG_NPC_PROPERTIES_UPDATE:
+		RecvNpcPropertiesUpdateRequest(pkt);
+		break;
 	}
 	return true;
 }
@@ -535,4 +538,16 @@ void CGameSocket::RecvNpcSpawnRequest(Packet & pkt)
 			fY, 
 			(float)(fZ + myrand(minRange, sRadius)));
 	}
+}
+
+void CGameSocket::RecvNpcPropertiesUpdateRequest(Packet & pkt)
+{
+	uint16 sSid;
+	bool bIsMonster;
+	uint8 byGroup = 0;
+	uint16 sPid = 0;	
+
+	pkt >> sSid >> bIsMonster >> byGroup >> sPid;
+
+	g_pMain->NpcPropertiesUpdate(sSid, bIsMonster, byGroup, sPid);
 }

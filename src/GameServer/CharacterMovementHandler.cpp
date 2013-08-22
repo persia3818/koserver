@@ -365,6 +365,8 @@ void CUser::ZoneChange(uint16 sNewZone, float x, float z)
 		if (GetAngerGauge() > 0)
 			UpdateAngerGauge(0);
 
+		m_bZoneChangeSameZone = false;
+
 		/* 
 		Here we also send a clan packet with subopcode 0x16 (with a byte flag of 2) if war zone/Moradon
 		or subopcode 0x17 (with nWarEnemyID) for all else
@@ -439,7 +441,6 @@ void CUser::ZoneChange(uint16 sNewZone, float x, float z)
 	result << GetSocketID() << GetZoneID();
 	Send_AIServer(&result);
 
-	m_bZoneChangeSameZone = false;
 	m_bZoneChangeFlag = false;
 }
 

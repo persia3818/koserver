@@ -272,6 +272,10 @@ void CGameServerDlg::GetTimeFromIni()
 	m_sBifrostRemainingTime = m_xBifrostRemainingTime + 60;
 	m_sBifrostTime = 0;
 
+	m_nPVPMonumentNation[0] = 0; // Ardream
+	m_nPVPMonumentNation[1] = 0; // Ronark Land Base
+	m_nPVPMonumentNation[2] = 0; // Ronark Land
+
 	g_timerThreads.push_back(new Thread(Timer_BifrostTime));
 	g_timerThreads.push_back(new Thread(Timer_UpdateGameTime));
 	g_timerThreads.push_back(new Thread(Timer_UpdateSessions));
@@ -479,6 +483,13 @@ void CGameServerDlg::SpawnEventNpc(uint16 sSid, bool bIsMonster, uint8 byZone, f
 		<< uint16(fX * 10) << uint16(fY * 10) << uint16(fZ * 10) 
 		<< sCount 
 		<< sRadius;
+	Send_AIServer(&result);
+}
+
+void CGameServerDlg::ChangeNpcProperties(uint16 sSid, bool bIsMonster, uint8 byGroup, uint16 sPid)
+{
+	Packet result(AG_NPC_PROPERTIES_UPDATE);
+	result	<< sSid << bIsMonster << byGroup << sPid;
 	Send_AIServer(&result);
 }
 

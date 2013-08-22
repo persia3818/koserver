@@ -568,6 +568,30 @@ void CUser::SendLoyaltyChange(int32 nChangeAmount /*= 0*/, bool bIsKillReward /*
 
 			// Add on any additional NP gained from items/skills.
 			nChangeAmount += m_bItemNPBonus + m_bSkillNPBonus;
+
+			if (isPVPZone())
+			{
+				int8 ZoneOpCode = -1;
+
+				switch (GetZoneID())
+				{
+				case ZONE_ARDREAM:
+					ZoneOpCode = 0;
+					break;
+				case ZONE_RONARK_LAND_BASE:
+					ZoneOpCode = 1;
+					break;
+				case ZONE_RONARK_LAND:
+					ZoneOpCode = 2;
+					break;
+				default:
+					break;
+				}
+
+				if (ZoneOpCode > -1 )
+					if (g_pMain->m_nPVPMonumentNation[ZoneOpCode] == GetNation())
+						nChangeAmount += PVP_MONUMENT_NP_BONUS;
+			}
 		}
 
 		if (m_iLoyalty + nChangeAmount > LOYALTY_MAX)
@@ -4580,7 +4604,7 @@ void CUser::RecastSavedMagic()
 	UserSavedMagicMap castSet;
 	foreach (itr, m_savedMagicMap)
 	{
-		if (itr->first != 0)
+		if (itr->first != 0 || itr->second != 0) 
 			castSet.insert(make_pair(itr->first, itr->second));
 	}
 

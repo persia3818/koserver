@@ -206,6 +206,10 @@ enum InOutType
 // ID of the Seed quest, to be automatically started on first load.
 #define STARTER_SEED_QUEST	500
 
+#define PVP_MONUMENT_KARUS_SPID		14003
+#define PVP_MONUMENT_ELMORAD_SPID	14004
+#define PVP_MONUMENT_ALL_SPID		14004
+
 enum UserStatus
 {
 	USER_STATUS_DOT	= 1,

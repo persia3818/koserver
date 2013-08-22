@@ -339,8 +339,15 @@ void CNpc::OnDeathProcess(Unit *pKiller)
 		{
 			if (!m_bMonster)
 			{
-				if (m_tNpcType == NPC_BIFROST_MONUMENT)
+				switch (m_tNpcType)
+				{
+				case NPC_BIFROST_MONUMENT:
 					pUser->BifrostProcess(pUser);
+				case NPC_PVP_MONUMENT:
+					PVPMonumentProcess(pUser);
+				default:
+					break;
+				}
 			}
 			else if (m_bMonster) // Seed Quest
 			{
@@ -351,8 +358,8 @@ void CNpc::OnDeathProcess(Unit *pKiller)
 				} else if (g_pMain->m_MonsterRespawnListArray.GetData(m_sSid) != nullptr) {
 					if (pUser->isPVPZone() || GetZoneID() == ZONE_JURAD_MOUNTAIN)
 						g_pMain->SpawnEventNpc(g_pMain->m_MonsterRespawnListArray.GetData(m_sSid)->sSid, true, GetZoneID(), GetX(), GetY(), GetZ(), g_pMain->m_MonsterRespawnListArray.GetData(m_sSid)->sCount);
-				} else if (m_tNpcType == 200 && pUser->isPVPZone()) {
-					ChaosStone(pUser,5);
+				} else if (m_tNpcType == NPC_CHAOS_STONE && pUser->isPVPZone()) {
+					ChaosStoneProcess(pUser,5);
 				}
 			}
 		}
@@ -365,12 +372,12 @@ void CNpc::OnDeathProcess(Unit *pKiller)
 * @param	pUser	The User.
 * @param	MonsterCount The Respawn boss count.
 */
-void CNpc::ChaosStone(CUser *pUser, uint16 MonsterCount)
+void CNpc::ChaosStoneProcess(CUser *pUser, uint16 MonsterCount)
 {
 	if (pUser == nullptr)
 		return;
 
-	g_pMain->SendNotice<CHAOS_STONE_ENEMY_NOTICE>("",GetZoneID(),pUser->GetNation() == ELMORAD ? Nation::KARUS : Nation::ELMORAD);
+	g_pMain->SendNotice<CHAOS_STONE_ENEMY_NOTICE>("",GetZoneID(), pUser->GetNation() == KARUS ? ELMORAD : KARUS);
 	g_pMain->SendNotice<ANNOUNCEMENT_WHITE_CHAT>("You have destroyed the [Summoning Stone of Chaos] and opened the Gates of Chaos.", GetZoneID(), pUser->GetNation());
 
 	std::vector<uint32> MonsterSpawned;
@@ -392,5 +399,43 @@ void CNpc::ChaosStone(CUser *pUser, uint16 MonsterCount)
 		}
 		else
 			i--;			
+	}
+}
+
+/**
+* @brief	Executes the pvp monument process.
+*
+* @param	pUser	The User.
+*/
+void CNpc::PVPMonumentProcess(CUser *pUser)
+{
+	if (pUser == nullptr)
+		return;
+
+	int8 ZoneOpCode = -1;
+
+	switch (GetZoneID())
+	{
+	case ZONE_ARDREAM:
+		ZoneOpCode = 0;
+		break;
+	case ZONE_RONARK_LAND_BASE:
+		ZoneOpCode = 1;
+		break;
+	case ZONE_RONARK_LAND:
+		ZoneOpCode = 2;
+		break;
+	default:
+		break;
+	}
+
+	if (ZoneOpCode > -1)
+	{
+		// Announcement...
+		g_pMain->SendNotice<ANNOUNCEMENT_WHITE_CHAT>(string_format("Enemy nation has captured center Monument").c_str(), GetZoneID(), pUser->GetNation() == KARUS ? ELMORAD : KARUS);
+		g_pMain->SendNotice<ANNOUNCEMENT_WHITE_CHAT>(string_format("<%s> has captured center Monument",pUser->GetName().c_str()).c_str(), GetZoneID(), pUser->GetNation());
+
+		g_pMain->m_nPVPMonumentNation[ZoneOpCode] = pUser->GetNation();
+		g_pMain->ChangeNpcProperties(m_sSid, m_bMonster, pUser->GetNation() == KARUS ? KARUS : ELMORAD, pUser->GetNation() == KARUS ? PVP_MONUMENT_KARUS_SPID : PVP_MONUMENT_ELMORAD_SPID);
 	}
 }

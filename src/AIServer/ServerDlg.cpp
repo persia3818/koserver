@@ -736,6 +736,25 @@ void CServerDlg::RemoveEventNPC(CNpc * pNpc)
 	itr->second->RemoveNPC(pNpc);
 }
 
+void CServerDlg::NpcPropertiesUpdate(uint16 sSid, bool bIsMonster, uint8 byGroup, uint16 sPid)
+{
+	CNpcTable * proto = nullptr;
+
+	if (bIsMonster)
+		proto = m_arMonTable.GetData(sSid);
+	else
+		proto = m_arNpcTable.GetData(sSid);
+
+	if (proto == nullptr)
+		return;
+
+	if (byGroup > 0)
+		proto->m_byGroup = byGroup;
+
+	if (sPid > 0)
+		proto->m_sPid = sPid;
+}
+
 MAP * CServerDlg::GetZoneByID(int zonenumber)
 {
 	return g_arZone.GetData(zonenumber);

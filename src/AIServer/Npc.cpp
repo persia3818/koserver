@@ -2974,7 +2974,7 @@ void CNpc::FillNpcInfo(Packet & result)
 		<< GetID() << GetProtoID() << m_proto->m_sPid
 		<< m_sSize << m_iWeapon_1 << m_iWeapon_2
 		<< GetZoneID() << GetName()
-		<< GetNation() << GetLevel()
+		<< m_proto->m_byGroup/*GetNation()*/ << GetLevel()
 		<< GetX() << GetZ() << GetY() << m_byDirection
 		<< GetType()
 		<< m_iSellingGroup << m_iMaxHP << m_iHP

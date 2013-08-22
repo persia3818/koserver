@@ -151,10 +151,12 @@ enum ItemSlotType
 
 ////////////////////////////////////////////////////////////
 
-#define RIVALRY_DURATION	(180)	// 3 minutes
-#define RIVALRY_NP_BONUS	(150)	// 150 additional NP on kill
+#define RIVALRY_DURATION		(180)	// 3 minutes
+#define RIVALRY_NP_BONUS		(150)	// 150 additional NP on kill
 
-#define MAX_ANGER_GAUGE		(5)		// Maximum of 5 deaths in a PVP zone to fill your gauge.
+#define MAX_ANGER_GAUGE			(5)		// Maximum of 5 deaths in a PVP zone to fill your gauge.
+
+#define PVP_MONUMENT_NP_BONUS	(5)	// 5 additional NP on kill
 
 ////////////////////////////////////////////////////////////
 // SKILL POINT DEFINE
