@@ -1674,13 +1674,21 @@ bool MagicInstance::ExecuteType5()
 
 		case REMOVE_TYPE4: // Remove type 4 debuffs
 			{
+				bool bRecastSavedMagic = false;
 				FastGuard lock(pTUser->m_buffLock);
 				Type4BuffMap buffMap = pTUser->m_buffMap; // copy the map so we can't break it while looping
 				foreach (itr, buffMap)
 				{
 					if (itr->second.isDebuff())
+					{
 						CMagicProcess::RemoveType4Buff(itr->first, pTUser);
+						pTUser->InitType4(true);
+						pTUser->RecastSavedMagic();
+					}
 				}
+
+				if (!bRecastSavedMagic)
+					bRecastSavedMagic = true;
 
 				// NOTE: This originally checked to see if there were any active debuffs.
 				// As this seems pointless (as we're removing all of them), it was removed
