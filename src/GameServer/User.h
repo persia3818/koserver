@@ -614,7 +614,7 @@ public:
 	void ShowEffect(uint32 nSkillID);
 	void ShowNpcEffect(uint32 nEffectID);
 	void SendAnvilRequest(uint16 sNpcID, uint8 bType = ITEM_UPGRADE_REQ);
-	void RecastSavedMagic();
+	void RecastSavedMagic(bool bFillMaxHealth = true);
 
 	// packet handlers start here
 	void VersionCheck(Packet & pkt);

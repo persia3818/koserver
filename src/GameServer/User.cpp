@@ -4598,7 +4598,7 @@ int16 CUser::GetSavedMagicDuration(uint32 nSkillID)
 /**
 * @brief	Recasts any saved skills on login/zone change.
 */
-void CUser::RecastSavedMagic()
+void CUser::RecastSavedMagic(bool bFillMaxHealth)
 {
 	FastGuard lock(m_savedMagicLock);
 	UserSavedMagicMap castSet;
@@ -4622,20 +4622,14 @@ void CUser::RecastSavedMagic()
 
 		instance.Run();
 
-		_MAGIC_TABLE * pSkill = g_pMain->m_MagictableArray.GetData(itr->first);
-		if (pSkill != nullptr)
+		_MAGIC_TYPE4 * pType =  g_pMain->m_Magictype4Array.GetData(itr->first);
+		if (pType != nullptr)
 		{
-			if (pSkill->bType[0] == 4 || pSkill->bType[1] == 4)
-			{
-				_MAGIC_TYPE4 * pType =  g_pMain->m_Magictype4Array.GetData(itr->first);
-				if (pType != nullptr) {
-					if (pType->bBuffType == BUFF_TYPE_HP_MP)
-						HpChange(GetMaxHealth());
-				}
-			}
+			if (pType->bBuffType == BUFF_TYPE_HP_MP)
+				if (bFillMaxHealth)
+					HpChange(GetMaxHealth());
 		}
 	}
-
 }
 
 /**

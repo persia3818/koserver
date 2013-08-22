@@ -600,9 +600,6 @@ bool CMagicProcess::RemoveType4Buff(uint8 byBuffType, Unit *pTarget, bool bRemov
 	if (pType == nullptr)
 		return false;
 
-	if (pSkill->iNum > 500000)
-		bRemoveSavedMagic = false;
-
 	// If this buff persists across logout, it should be removed here too.
 	if (bRemoveSavedMagic
 		&& pTarget->isPlayer()
