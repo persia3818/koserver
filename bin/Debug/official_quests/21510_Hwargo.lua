@@ -117,14 +117,15 @@ if EVENT == 6093 then
 end
 
 
-local PARTYCOUNT = 0;
+local Check3 = 0;
 
 if EVENT == 6094 then
-   --PARTYCOUNT = PartyCountMembers(UID, 0);
-   --if PARTYCOUNT == 0 then
-	 -- SelectMsg(UID, 2, savenum, 6044, NPC, 10, 193);
-   --else
-   ZoneChangeParty(UID , 82 , 202 ,199);
+   Check3 = isInParty(UID);
+   if Check3 then
+	  ZoneChangeParty(UID , 81 , 202 ,199);
+   else
+      SelectMsg(UID, 2, savenum, 6044, NPC, 10, 193);
+   end
 end
 
 --if EVENT == 6095 then
