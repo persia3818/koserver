@@ -232,7 +232,7 @@ if EVENT == 702 then
 end
 
 if EVENT == 500 then
-   SelectMsg(UID, 3, -1, 4901, NPC, 4286, 501, 4287, 502);
+   SelectMsg(UID, 3, -1, 4901, NPC, 4286, 501, 4287, 502, 4420, 511, 4421, 516, 4589, 521, 4588, 526, 4504, 531);
 end
 
 local ITEMARMOR = 0;
@@ -294,6 +294,193 @@ end
 if EVENT == 510 then
    RobItem(UID, 800170000, 1)
    GiveItem(UID, 508013321, 1)
+end
+
+local ITEMGRYPA = 0;
+local ITEMGRYPH = 0;
+local ITEMBHMTA = 0;
+local ITEMBHMTH = 0;
+local ITEMPTHS = 0;
+
+if EVENT == 511 then
+   ITEMGRYPA = HowmuchItem(UID, 800240000);
+   if ITEMGRYPA > 0 then
+      SelectMsg(UID, 3, -1, 4902, NPC, 4288, 512, 4289, 513, 4290, 514, 4291, 515);
+   else
+      SelectMsg(UID, 2, -1, 6488, NPC, 27, 168);
+   end
+end
+
+if EVENT == 512 then
+   RobItem(UID, 800240000, 1)
+   GiveItem(UID, 508471453, 1)
+end
+
+if EVENT == 513 then
+   RobItem(UID, 800240000, 1)
+   GiveItem(UID, 508471454, 1)
+end
+
+if EVENT == 514 then
+   RobItem(UID, 800240000, 1)
+   GiveItem(UID, 508471455, 1)
+end
+
+if EVENT == 515 then
+   RobItem(UID, 800240000, 1)
+   GiveItem(UID, 508471456, 1)
+end
+
+if EVENT == 516 then
+   ITEMGRYPH = HowmuchItem(UID, 800230000);
+   if ITEMGRYPH > 0 then
+      SelectMsg(UID, 3, -1, 4902, NPC, 4288, 517, 4289, 518, 4290, 519, 4291, 520);
+   else
+      SelectMsg(UID, 2, -1, 6497, NPC, 27, 168);
+   end
+end
+
+if EVENT == 517 then
+   RobItem(UID, 800230000, 1)
+   GiveItem(UID, 508473453, 1)
+end
+
+if EVENT == 518 then
+   RobItem(UID, 800230000, 1)
+   GiveItem(UID, 508473454, 1)
+end
+
+if EVENT == 519 then
+   RobItem(UID, 800230000, 1)
+   GiveItem(UID, 508473455, 1)
+end
+
+if EVENT == 520 then
+   RobItem(UID, 800230000, 1)
+   GiveItem(UID, 508473456, 1)
+end
+
+if EVENT == 521 then
+   ITEMBHMTA = HowmuchItem(UID, 800270000);
+   if ITEMBHMTA > 0 then
+      SelectMsg(UID, 3, -1, 4902, NPC, 4288, 522, 4289, 523, 4290, 524, 4291, 525);
+   else
+      SelectMsg(UID, 2, -1, 1126, NPC, 27, 168);
+   end
+end
+
+if EVENT == 522 then
+   RobItem(UID, 800270000, 1)
+   GiveItem(UID, 508051466, 1)
+end
+
+if EVENT == 523 then
+   RobItem(UID, 800270000, 1)
+   GiveItem(UID, 508051467, 1)
+end
+
+if EVENT == 524 then
+   RobItem(UID, 800270000, 1)
+   GiveItem(UID, 508051468, 1)
+end
+
+if EVENT == 525 then
+   RobItem(UID, 800270000, 1)
+   GiveItem(UID, 508051469, 1)
+end
+
+if EVENT == 526 then
+   ITEMBHMTH = HowmuchItem(UID, 800260000);
+   if ITEMBHMTH > 0 then
+      SelectMsg(UID, 3, -1, 4902, NPC, 4288, 527, 4289, 528, 4290, 529, 4291, 530);
+   else
+      SelectMsg(UID, 2, -1, 1126, NPC, 27, 168);
+   end
+end
+
+if EVENT == 527 then
+   RobItem(UID, 800260000, 1)
+   GiveItem(UID, 508053466, 1)
+end
+
+if EVENT == 528 then
+   RobItem(UID, 800260000, 1)
+   GiveItem(UID, 508053467, 1)
+end
+
+if EVENT == 529 then
+   RobItem(UID, 800260000, 1)
+   GiveItem(UID, 508053468, 1)
+end
+
+if EVENT == 530 then
+   RobItem(UID, 800260000, 1)
+   GiveItem(UID, 508053469, 1)
+end
+
+if EVENT == 531 then
+   ITEMPTHS = HowmuchItem(UID, 800250000);
+   if ITEMPTHS > 0 then
+      SelectMsg(UID, 3, -1, 748, NPC, 4509, 532, 4510, 533);
+   else
+      SelectMsg(UID, 2, -1, 749, NPC, 27, 168);
+   end
+end
+
+if EVENT == 532 then
+   SelectMsg(UID, 3, -1, 750, NPC, 4505, 534, 4506, 535, 4507, 536, 4508, 537);
+end
+
+if EVENT == 534 then
+   RobItem(UID, 800250000, 1)
+   GiveItem(UID, 502573462, 1)
+   SelectMsg(UID, 2, -1, 752, NPC, 27, 168);
+end
+
+if EVENT == 535 then
+   RobItem(UID, 800250000, 1)
+   GiveItem(UID, 503573463, 1)
+   SelectMsg(UID, 2, -1, 752, NPC, 27, 168);
+end
+
+if EVENT == 536 then
+   RobItem(UID, 800250000, 1)
+   GiveItem(UID , 504573464, 1)
+   SelectMsg(UID, 2, -1, 752, NPC, 27, 168);
+end
+
+if EVENT == 537 then
+   RobItem(UID, 800250000, 1)
+   GiveItem(UID, 505573465, 1)
+   SelectMsg(UID, 2, -1, 752, NPC, 27, 168);
+end
+
+if EVENT == 533 then
+   SelectMsg(UID, 3, -1, 751, NPC, 4514, 538, 4515, 539, 4516, 540, 4517, 541);
+end
+
+if EVENT == 538 then
+   RobItem(UID, 800250000, 1)
+   GiveItem(UID, 511573471, 1)
+   SelectMsg(UID, 2, -1, 752, NPC, 27, 168);
+end
+
+if EVENT == 539 then
+   RobItem(UID, 800250000, 1)
+   GiveItem(UID, 512573472, 1)
+   SelectMsg(UID, 2, -1, 752, NPC, 27, 168);
+end
+
+if EVENT == 540 then
+   RobItem(UID, 800250000, 1)
+   GiveItem(UID , 513573473, 1)
+   SelectMsg(UID, 2, -1, 752, NPC, 27, 168);
+end
+
+if EVENT == 541 then
+   RobItem(UID, 800250000, 1)
+   GiveItem(UID, 514573474, 1)
+   SelectMsg(UID, 2, -1, 752, NPC, 27, 168);
 end
 
 local ITEMEVENT = 0;
