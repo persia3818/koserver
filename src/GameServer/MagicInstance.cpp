@@ -25,9 +25,7 @@ void MagicInstance::Run()
 	{
 		if (pSkillCaster->isPlayer())
 		{
-			if (pSkill->bType[0] == 8 && sCasterID == sTargetID)
-				bSendSkillFailed = true;
-			else if (pSkill->sRange > 0)
+			if (pSkill->sRange > 0)
 				if (!pSkillCaster->isInRange(pSkillTarget, ((float)pSkill->sRange) * (10.0f * 3)))
 					bSendSkillFailed = true;
 
