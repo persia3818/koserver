@@ -291,6 +291,7 @@ void CNpc::Load(uint16 sNpcID, CNpcTable * proto, bool bMonster)
 	m_iMoney			= proto->m_iMoney;
 	m_iItem				= proto->m_iItem;
 
+
 	m_sRegenTime		= 10000 * SECOND;
 	m_sMaxPathCount		= 0;
 
@@ -2974,7 +2975,7 @@ void CNpc::FillNpcInfo(Packet & result)
 		<< GetID() << GetProtoID() << m_proto->m_sPid
 		<< m_sSize << m_iWeapon_1 << m_iWeapon_2
 		<< GetZoneID() << GetName()
-		<< m_proto->m_byGroup/*GetNation()*/ << GetLevel()
+		<< (m_proto->m_byGroupSpecial > 0 ? m_proto->m_byGroupSpecial : GetNation()) << GetLevel()
 		<< GetX() << GetZ() << GetY() << m_byDirection
 		<< GetType()
 		<< m_iSellingGroup << m_iMaxHP << m_iHP

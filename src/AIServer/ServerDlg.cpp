@@ -749,7 +749,7 @@ void CServerDlg::NpcPropertiesUpdate(uint16 sSid, bool bIsMonster, uint8 byGroup
 		return;
 
 	if (byGroup > 0)
-		proto->m_byGroup = byGroup;
+		proto->m_byGroupSpecial = byGroup;
 
 	if (sPid > 0)
 		proto->m_sPid = sPid;
