@@ -61,6 +61,8 @@ public:
 		_dbCommand->FetchUInt32(i++, pData->m_iMoney);
 		_dbCommand->FetchByte(i++, pData->m_byDirectAttack);
 		_dbCommand->FetchByte(i++, pData->m_byMagicAttack);
+		
+		pData->m_byGroupSpecial = 0; // Default value
 
 		// Certain NPCs are defined in the database with a type of 0, which is the monster type.
 		// This can potentially cause problems in the future, so fix it now.
