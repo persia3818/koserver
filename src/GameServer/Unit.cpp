@@ -952,10 +952,10 @@ void KOMap::SetZoneAttributes(int zoneNumber)
 	switch (zoneNumber)
 	{
 	case ZONE_MORADON:
-	case 51: // Orc Prisoner Quest arena
-	case 52: // Blood Don Quest arena
-	case 53: // Goblin Quest arena
-	case ZONE_FORGOTTEN_TEMPLE: // Forgotten Temple
+	case ZONE_ORC_ARENA:
+	case ZONE_BLOOD_DON_ARENA:
+	case ZONE_GOBLIN_ARENA:
+	case ZONE_FORGOTTEN_TEMPLE: 
 		m_zoneType = ZoneAbilityNeutral;
 		m_zoneFlags = ZF_TRADE_OTHER_NATION | ZF_TALK_OTHER_NATION | ZF_FRIENDLY_NPCS;
 #if __VERSION >= 1453
@@ -1065,8 +1065,8 @@ void KOMap::SetZoneAttributes(int zoneNumber)
 		m_zoneFlags = ZF_TRADE_OTHER_NATION | ZF_TALK_OTHER_NATION | ZF_FRIENDLY_NPCS; // also depends on current siege state, should be updated by CSW.
 		break;
 	case ZONE_BIFROST:
-		m_zoneType = ZoneAbilityPVP;
-		m_zoneFlags = ZF_ATTACK_OTHER_NATION;
+		m_zoneType = ZoneAbilityPVPNeutralNPCs; 
+		m_zoneFlags = ZF_ATTACK_OTHER_NATION | ZF_FRIENDLY_NPCS;
 		break;
 	case ZONE_KROWAZ_DOMINION:
 		m_zoneType = ZoneAbilityPVPNeutralNPCs;
