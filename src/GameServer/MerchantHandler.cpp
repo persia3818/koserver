@@ -144,13 +144,17 @@ void CUser::MerchantItemAdd(Packet & pkt)
 
 	bSrcPos += SLOT_MAX;
 	_ITEM_DATA *pSrcItem = GetItem(bSrcPos);
-	if (pSrcItem->nNum != nItemID
+	if (pSrcItem == nullptr || pSrcItem->nNum != nItemID 
 		|| pSrcItem->sCount < sCount
 		|| pSrcItem->isRented()
 		|| pSrcItem->isSealed())
 		return;
 
 	_MERCH_DATA *pMerch = &m_arMerchantItems[bDstPos];
+	
+	if(pMerch == nullptr)
+		return; 
+
 	pMerch->nNum = nItemID;
 	pMerch->nPrice = nGold;
 	pMerch->sCount = sCount;

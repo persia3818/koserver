@@ -162,6 +162,10 @@ void CUser::GetUserInfo(Packet & pkt)
 	foreach_array (i, equippedItems) 
 	{
 		_ITEM_DATA * pItem = GetItem(equippedItems[i]);
+		
+		if(pItem == nullptr)
+			continue; 
+
 		pkt << pItem->nNum << pItem->sDuration << pItem->bFlag;
 	}
 
@@ -650,7 +654,7 @@ void CUser::RecvZoneChange(Packet & pkt)
 		if (!m_bZoneChangeSameZone)
 		{
 			BlinkStart();
-			RecastSavedMagic();
+			RecastSavedMagic(m_sHp == m_iMaxHp ? true : false);
 		}
 
 		m_bZoneChangeFlag = false;

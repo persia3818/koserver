@@ -297,7 +297,7 @@ void CUser::GameStart(Packet & pkt)
 		BlinkStart();
 		SetUserAbility();
 		// rental
-		RecastSavedMagic(); //ItemMallRecast
+		RecastSavedMagic(m_sHp == m_iMaxHp ? true : false); //ItemMallRecast
 
 
 		// If we've relogged while dead, we need to make sure the client 

@@ -614,7 +614,7 @@ public:
 	void ShowEffect(uint32 nSkillID);
 	void ShowNpcEffect(uint32 nEffectID);
 	void SendAnvilRequest(uint16 sNpcID, uint8 bType = ITEM_UPGRADE_REQ);
-	void RecastSavedMagic(bool bFillMaxHealth = true);
+	void RecastSavedMagic(bool bFillToMaxHealth = false);
 
 	// packet handlers start here
 	void VersionCheck(Packet & pkt);
@@ -634,6 +634,8 @@ public:
 	void TempleJoin();
 	void TempleDisband();
 	void SendTempleCounterPacket();
+
+	void MonsterStoneProcess(); 
 
 	void GameStart(Packet & pkt);
 	void RentalSystem(Packet & pkt);

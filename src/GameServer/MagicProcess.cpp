@@ -473,7 +473,7 @@ bool CMagicProcess::GrantType4Buff(_MAGIC_TABLE * pSkill, _MAGIC_TYPE4 *pType, U
 		break;
 
 	case BUFF_TYPE_SPEED2:				// Cold Wave
-		pTarget->m_bSpeedAmount = (pTarget->m_bSpeedAmount / 100 * 65);
+		pTarget->m_bSpeedAmount = (pTarget->m_bSpeedAmount / 100 * pType->bSpeed); 
 		break;
 
 	case BUFF_TYPE_UNK_EXPERIENCE:		// unknown buff type, used for something relating to XP.
@@ -497,8 +497,9 @@ bool CMagicProcess::GrantType4Buff(_MAGIC_TABLE * pSkill, _MAGIC_TYPE4 *pType, U
 		pTarget->m_byDaggerRAmount = pTarget->m_byBowRAmount = 100 - (uint8) pType->sSpecialAmount;
 		break;
 
-	case 47:
-		break;
+	case BUFF_TYPE_STUN:
+		pTarget->m_bSpeedAmount = pType->bSpeed;
+		break; 
 
 	case BUFF_TYPE_LOYALTY_AMOUNT:		// Santa's Present (gives an extra +2NP per kill, unlike BUFF_TYPE_LOYALTY which uses an percent).
 		if (pTarget->isPlayer())
@@ -832,6 +833,10 @@ bool CMagicProcess::RemoveType4Buff(uint8 byBuffType, Unit *pTarget, bool bRemov
 		// Inflicts attacks as well as a bleeding curse on the enemy. Decreases 10% Dagger and Bow Defense of the enemy under the bleeding curse buff.
 		pTarget->m_byDaggerRAmount = pTarget->m_byBowRAmount = 100; // note: overwrite the percentage for now (nothing else uses it)
 		break;
+
+	case BUFF_TYPE_STUN : // Lighting Skill
+		pTarget->m_bSpeedAmount = 100;
+		break; 
 
 	case BUFF_TYPE_LOYALTY_AMOUNT:		// Santa's Present (gives an extra +2NP per kill, unlike BUFF_TYPE_LOYALTY which uses an percent).
 		if (pTarget->isPlayer())

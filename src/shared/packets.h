@@ -153,7 +153,7 @@ enum ChatType
 	WAR_SYSTEM_CHAT				= 8,
 	PERMANENT_CHAT				= 9,
 	END_PERMANENT_CHAT			= 10,
-	QUEST_ERROR_CHAT			= 11,	// Quest failed (red text, middle of screen)
+	MONUMENT_NOTICE				= 11,
 	GM_CHAT						= 12,
 	COMMAND_CHAT				= 13,
 	MERCHANT_CHAT				= 14,
@@ -261,7 +261,8 @@ enum NameChangeOpcode
 	NameChangeShowDialog	= 1,
 	NameChangeInvalidName	= 2,
 	NameChangeSuccess		= 3,
-	NameChangeInClan		= 4
+	NameChangeInClan		= 4,
+	NameChangeKing			= 5
 };
 
 enum KingSystemOpcodes
@@ -479,6 +480,7 @@ enum FriendOpcodes
 
 enum TempleOpCodes
 {
+	MONSTER_STONE = 6,
 	TEMPLE_EVENT = 7,
 	TEMPLE_JOIN = 8,
 	TEMPLE_DISBAND = 9,

@@ -377,8 +377,7 @@ void CNpc::ChaosStoneProcess(CUser *pUser, uint16 MonsterCount)
 	if (pUser == nullptr)
 		return;
 
-	g_pMain->SendNotice<CHAOS_STONE_ENEMY_NOTICE>("",GetZoneID(), pUser->GetNation() == KARUS ? ELMORAD : KARUS);
-	g_pMain->SendNotice<ANNOUNCEMENT_WHITE_CHAT>("You have destroyed the [Summoning Stone of Chaos] and opened the Gates of Chaos.", GetZoneID(), pUser->GetNation());
+	g_pMain->SendNotice<CHAOS_STONE_ENEMY_NOTICE>("",GetZoneID(), Nation::ALL);
 
 	std::vector<uint32> MonsterSpawned;
 	for (uint8 i = 0; i < MonsterCount;i++)
@@ -431,9 +430,9 @@ void CNpc::PVPMonumentProcess(CUser *pUser)
 
 	if (ZoneOpCode > -1)
 	{
-		// Announcement...
-		g_pMain->SendNotice<ANNOUNCEMENT_WHITE_CHAT>(string_format("Enemy nation has captured center Monument").c_str(), GetZoneID(), pUser->GetNation() == KARUS ? ELMORAD : KARUS);
-		g_pMain->SendNotice<ANNOUNCEMENT_WHITE_CHAT>(string_format("<%s> has captured center Monument",pUser->GetName().c_str()).c_str(), GetZoneID(), pUser->GetNation());
+		Packet result(WIZ_CHAT, uint8(MONUMENT_NOTICE));
+		result << uint8(FORCE_CHAT) << pUser->GetNation() << pUser->GetName().c_str();
+		g_pMain->Send_Zone(&result, GetZoneID(), nullptr, Nation::ALL);
 
 		g_pMain->m_nPVPMonumentNation[ZoneOpCode] = pUser->GetNation();
 		g_pMain->ChangeNpcProperties(m_sSid, m_bMonster, pUser->GetNation() == KARUS ? KARUS : ELMORAD, pUser->GetNation() == KARUS ? PVP_MONUMENT_KARUS_SPID : PVP_MONUMENT_ELMORAD_SPID);

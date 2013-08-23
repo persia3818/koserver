@@ -68,6 +68,9 @@ void CUser::ItemSealProcess(Packet & pkt)
 
 			_ITEM_TABLE* pItem = g_pMain->m_ItemtableArray.GetData(nItemID);
 
+			if(pItem == nullptr)
+				return; 
+
 #if 0 // this doesn't look right
 			// If the item's not equippable we not be lettin' you seal no moar!
 			if (pItem->m_bSlot >= SLOT_MAX)

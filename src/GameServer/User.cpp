@@ -961,7 +961,7 @@ void CUser::SetMaxHp(int iFlag)
 			+ 0.1 * (GetLevel() * temp_sta) + (temp_sta / 5)) + m_sMaxHPAmount + m_sItemMaxHp + 20);
 
 		// A player's max HP should be capped at (currently) 14,000 HP.
-		if (m_iMaxHp > MAX_PLAYER_HP)
+		if (m_iMaxHp > MAX_PLAYER_HP && !isGM()) 
 			m_iMaxHp = MAX_PLAYER_HP;
 
 		if( iFlag == 1 )	m_sHp = m_iMaxHp;
@@ -1038,8 +1038,8 @@ void CUser::SetZoneAbilityChange(uint16 sNewZone)
 	if (pMap == nullptr)
 		return;
 
-	/*if (!isGM())*/
-	PlayerRanking(sNewZone,false);
+	if (!isGM())
+		PlayerRanking(sNewZone,false);
 
 	if (sNewZone == ZONE_RONARK_LAND)
 		SendBifrostTime();
@@ -2602,7 +2602,7 @@ void CUser::LoyaltyChange(int16 tid, uint16 bonusNP /*= 0*/)
 
 	// TO-DO: Move this to a better place (death handler, preferrably)
 	// If a war's running, and we died/killed in a war zone... (this method should NOT be so tied up in specifics( 
-	if (g_pMain->m_byBattleOpen && GetZoneID() / 100 == 1) 
+	if (g_pMain->m_byBattleOpen && GetMap()->isWarZone()) 
 	{
 		// Update the casualty count
 		if (pTUser->GetNation() == KARUS)
@@ -3255,6 +3255,9 @@ int CUser::FindSlotForItem(uint32 nItemID, uint16 sCount /*= 1*/)
 		{
 			_ITEM_DATA *pItem = GetItem(i);
 
+			if(pItem == nullptr)
+				continue; 
+
 			// If it's the item we're after, and there will be room to store it...
 			if (pItem->nNum == nItemID
 				&& pItem->sCount + sCount <= ITEMCOUNT_MAX)
@@ -3282,6 +3285,10 @@ int CUser::GetEmptySlot()
 	for (int i = SLOT_MAX; i < SLOT_MAX+HAVE_MAX; i++)
 	{
 		_ITEM_DATA *pItem = GetItem(i);
+
+		if(pItem == nullptr)
+			continue; 
+
 		if (pItem->nNum == 0)
 			return i;
 	}
@@ -3727,6 +3734,9 @@ bool CUser::GetWarpList(int warp_group)
 	C3DMap* pMap = GetMap();
 	set<_WARP_INFO*> warpList;
 
+	if(pMap == nullptr)
+		return false; 
+
 	pMap->GetWarpList(warp_group, warpList);
 
 	result << uint16(warpList.size());
@@ -4106,7 +4116,8 @@ void CUser::NativeZoneReturn()
 {
 	_HOME_INFO* pHomeInfo = nullptr;	// Send user back home in case it was the battlezone.
 	pHomeInfo = g_pMain->m_HomeArray.GetData(m_bNation);
-	if (!pHomeInfo) return;
+	if (pHomeInfo == nullptr) 
+		return; 
 
 	m_bZone = m_bNation;
 
@@ -4598,7 +4609,7 @@ int16 CUser::GetSavedMagicDuration(uint32 nSkillID)
 /**
 * @brief	Recasts any saved skills on login/zone change.
 */
-void CUser::RecastSavedMagic(bool bFillMaxHealth)
+void CUser::RecastSavedMagic(bool bFillToMaxHealth)
 {
 	FastGuard lock(m_savedMagicLock);
 	UserSavedMagicMap castSet;
@@ -4626,7 +4637,7 @@ void CUser::RecastSavedMagic(bool bFillMaxHealth)
 		if (pType != nullptr)
 		{
 			if (pType->bBuffType == BUFF_TYPE_HP_MP)
-				if (bFillMaxHealth)
+				if (bFillToMaxHealth)
 					HpChange(GetMaxHealth());
 		}
 	}

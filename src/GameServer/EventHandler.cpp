@@ -49,6 +49,8 @@ void CUser::TempleProcess(Packet &pkt )
 
 	switch(opcode)
 	{
+	case MONSTER_STONE:
+		MonsterStoneProcess(); 
 	case TEMPLE_JOIN:
 		TempleJoin();
 		break;
@@ -57,6 +59,12 @@ void CUser::TempleProcess(Packet &pkt )
 		break;
 	}
 }
+
+void CUser::MonsterStoneProcess()
+{
+
+
+} 
 
 void CUser::TempleJoin()
 {

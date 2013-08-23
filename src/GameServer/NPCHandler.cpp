@@ -591,6 +591,8 @@ void CUser::HandlePlayerNameChange(Packet & pkt)
 		response = NameChangeInvalidName;
 	else if (isInClan())
 		response = NameChangeInClan;
+	else if (isKing())
+		response = NameChangeKing; 
 
 	if (response != NameChangeSuccess)
 	{
@@ -615,6 +617,7 @@ void CUser::HandlePlayerNameChange(Packet & pkt)
 * 					NameChangeSuccess confirms the name was changed.
 * 					NameChangeInvalidName throws an error reporting the name is invalid.
 * 					NameChangeInClan throws an error reporting the user's still in a clan (and needs to leave).
+*					NameChangeIsKing if the user is king
 */
 void CUser::SendNameChange(NameChangeOpcode opcode /*= NameChangeShowDialog*/)
 {

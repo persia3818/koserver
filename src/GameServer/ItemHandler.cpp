@@ -27,6 +27,10 @@ void CUser::WarehouseProcess(Packet & pkt)
 		for (int i = 0; i < WAREHOUSE_MAX; i++)
 		{
 			_ITEM_DATA *pItem = &m_sWarehouseArray[i];
+
+			if(pItem == nullptr)
+				continue; 
+
 			result	<< pItem->nNum 
 				<< pItem->sDuration << pItem->sCount
 				<< pItem->bFlag 
@@ -218,6 +222,10 @@ fail_return: // hmm...
 bool CUser::CheckWeight(uint32 nItemID, uint16 sCount)
 {
 	_ITEM_TABLE * pTable = g_pMain->GetItemPtr(nItemID);
+
+	if(pTable == nullptr)
+		return false; 
+
 	return CheckWeight(pTable, nItemID, sCount);
 }
 
@@ -386,7 +394,7 @@ bool CUser::GiveItem(uint32 itemid, uint16 count, bool send_packet /*= true*/)
 		return false;
 
 	_ITEM_DATA *pItem = GetItem(pos);
-	if (pItem->nNum != 0)
+	if (pItem->nNum != 0 || pItem == nullptr) 
 		bNewItem = false;
 
 	if (bNewItem)
@@ -1034,7 +1042,7 @@ void CUser::ItemRemove(Packet & pkt)
 	pItem = GetItem(bPos);
 
 	// Make sure the item matches what the client says it is
-	if (pItem->nNum != nItemID
+	if (pItem == nullptr || pItem->nNum != nItemID
 		|| pItem->isSealed() 
 		|| pItem->isRented())
 		goto fail_return;

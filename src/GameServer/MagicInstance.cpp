@@ -26,7 +26,7 @@ void MagicInstance::Run()
 		if (pSkillCaster->isPlayer())
 		{
 			if (pSkill->sRange > 0)
-				if (!pSkillCaster->isInRange(pSkillTarget, ((float)pSkill->sRange) * (10.0f * 3)))
+				if (!pSkillCaster->isInRange(pSkillTarget, ((float)pSkill->sRange) * (pSkill->sRange * pSkill->sRange))) 
 					bSendSkillFailed = true;
 
 			CUser *pCaster = TO_USER(pSkillCaster);
@@ -1130,6 +1130,10 @@ bool MagicInstance::ExecuteType3()
 		foreach (itr, unitList)
 		{		
 			Unit * pTarget = g_pMain->GetUnitPtr(*itr);
+
+			if(pTarget == nullptr)
+				continue; 
+
 			if (pSkillCaster != pTarget
 				&& !pTarget->isDead() && !pTarget->isBlinking()
 				&& CMagicProcess::UserRegionCheck(pSkillCaster, pTarget, pSkill, pType->bRadius, sData[0], sData[2]))
@@ -1171,6 +1175,9 @@ bool MagicInstance::ExecuteType3()
 	foreach (itr, casted_member)
 	{
 		Unit * pTarget = *itr; // it's checked above, not much need to check it again
+
+		if(pTarget == nullptr)
+			continue;
 
 		// If you are casting an attack spell.
 		if ((pType->sFirstDamage < 0) && (pType->bDirectType == 1 || pType->bDirectType == 8) 
@@ -1312,6 +1319,10 @@ bool MagicInstance::ExecuteType3()
 				for (int k = 0; k < MAX_TYPE3_REPEAT; k++) 
 				{
 					Unit::MagicType3 * pEffect = &pTarget->m_durationalSkills[k];
+
+					if(pEffect == nullptr)
+						continue; 
+
 					if (pEffect->m_byUsed)
 						continue;
 
@@ -1393,6 +1404,10 @@ bool MagicInstance::ExecuteType4()
 		foreach (itr, unitList)
 		{		
 			Unit * pTarget = g_pMain->GetUnitPtr(*itr);
+
+			if(pTarget == nullptr)
+				continue; 
+
 			if (!pTarget->isDead() && !pTarget->isBlinking()
 				&& CMagicProcess::UserRegionCheck(pSkillCaster, pTarget, pSkill, pType->bRadius, sData[0], sData[2]))
 				casted_member.push_back(pTarget);
@@ -1418,8 +1433,12 @@ bool MagicInstance::ExecuteType4()
 
 	foreach (itr, casted_member)
 	{
-		uint8 bResult = 1;
 		Unit * pTarget = *itr;
+
+		if(pTarget == nullptr)
+			continue;
+
+		uint8 bResult = 1;
 		_BUFF_TYPE4_INFO pBuffInfo;
 		bool bAllowCastOnSelf = false;
 		uint16 sDuration = pType->sDuration;
@@ -1531,8 +1550,8 @@ bool MagicInstance::ExecuteType4()
 			pBuffInfo.m_tEndTime = UNIXTIME + sDuration;
 
 			// Add the buff into the buff map.
-			if(pType->isDebuff())
-				pTarget->AddType4Buff(pType->bBuffType, pBuffInfo);
+			pTarget->AddType4Buff(pType->bBuffType, pBuffInfo);
+
 		}
 
 		// Update character stats.
@@ -1635,6 +1654,10 @@ bool MagicInstance::ExecuteType5()
 	{
 		Type4BuffMap::iterator buffIterator;
 		CUser * pTUser = (*itr);
+
+		if(pTUser == nullptr)
+			continue; 
+
 		int skillCount = 0;
 		bool bRemoveDOT = false;
 
@@ -1645,6 +1668,10 @@ bool MagicInstance::ExecuteType5()
 			for (int i = 0; i < MAX_TYPE3_REPEAT; i++)
 			{
 				Unit::MagicType3 * pEffect = &pTUser->m_durationalSkills[i];
+
+				if(pEffect == nullptr)
+					continue; 
+
 				if (!pEffect->m_byUsed)
 					continue;
 
@@ -1673,7 +1700,8 @@ bool MagicInstance::ExecuteType5()
 
 		case REMOVE_TYPE4: // Remove type 4 debuffs
 			{
-				bool bRemoveSavedMagic = true;
+				bool bRemoveSavedMagic = false;
+				bool bRecastSavedMagic = false;
 				FastGuard lock(pTUser->m_buffLock);
 				Type4BuffMap buffMap = pTUser->m_buffMap; // copy the map so we can't break it while looping
 				_MAGIC_TYPE4* pType4;
@@ -1682,6 +1710,8 @@ bool MagicInstance::ExecuteType5()
 				{
 					if (itr->second.isDebuff())
 					{
+						bRemoveSavedMagic = true;
+
 						pType4 = g_pMain->m_Magictype4Array.GetData(itr->second.m_nSkillID);
 
 						if (pType4 != nullptr)
@@ -1691,10 +1721,7 @@ bool MagicInstance::ExecuteType5()
 						CMagicProcess::RemoveType4Buff(itr->first, pTUser, bRemoveSavedMagic);
 
 						if (!bRemoveSavedMagic)
-						{
-							pTUser->InitType4(true);
-							pTUser->RecastSavedMagic(false);
-						}
+							bRecastSavedMagic = true;
 					}
 				}
 
@@ -1703,6 +1730,12 @@ bool MagicInstance::ExecuteType5()
 				// however leaving this note in, in case this behaviour in certain conditions
 				// is required.
 				pTUser->SendUserStatusUpdate(USER_STATUS_POISON, USER_STATUS_CURE);
+
+				if (bRecastSavedMagic)
+				{
+					pTUser->InitType4(true);
+					pTUser->RecastSavedMagic(false);
+				}
 			} break;
 
 		case RESURRECTION_SELF:
@@ -1848,6 +1881,10 @@ bool MagicInstance::ExecuteType8()
 		foreach (itr, sessMap)
 		{		
 			CUser* pTUser = TO_USER(itr->second);
+
+			if(pTUser == nullptr)
+				continue; 
+
 			if (CMagicProcess::UserRegionCheck(pSkillCaster, pTUser, pSkill, pType->sRadius, sData[0], sData[2]))
 				casted_member.push_back(pTUser);
 		}
@@ -1867,9 +1904,14 @@ bool MagicInstance::ExecuteType8()
 
 	foreach (itr, casted_member)
 	{
+		CUser* pTUser = *itr;
+
+		if(pTUser == nullptr)
+			continue; 
+
 		uint8 bResult = 0;
 		_OBJECT_EVENT* pEvent = nullptr;
-		CUser* pTUser = *itr;
+
 		// If we're in a home zone, we'll want the coordinates from there. Otherwise, assume our own home zone.
 		_HOME_INFO* pHomeInfo = g_pMain->m_HomeArray.GetData(pTUser->GetZoneID() <= ZONE_ELMORAD ? pTUser->GetZoneID() : pTUser->GetNation());
 		if (pHomeInfo == nullptr)
@@ -2031,6 +2073,10 @@ bool MagicInstance::ExecuteType9()
 		return false;
 
 	CUser * pCaster = TO_USER(pSkillCaster);
+
+	if(pCaster == nullptr)
+		return false; 
+
 	FastGuard lock(pCaster->m_buffLock);
 	Type9BuffMap & buffMap = pCaster->m_type9BuffMap;
 
@@ -2384,6 +2430,10 @@ void MagicInstance::Type3Cancel()
 	for (int i = 0; i < MAX_TYPE3_REPEAT; i++)
 	{
 		Unit::MagicType3 * pEffect = &pSkillCaster->m_durationalSkills[i];
+
+		if(pEffect == nullptr)
+			continue; 
+
 		if (!pEffect->m_byUsed
 			// we can only cancel healing-over-time skills
 				// damage-over-time skills must remain.

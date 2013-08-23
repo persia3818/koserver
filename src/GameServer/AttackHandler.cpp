@@ -222,7 +222,7 @@ void CUser::Regene(uint8 regene_type, uint32 magicid /*= 0*/)
 		// In PVP zones (not war zones), we must kick out players if they no longer
 		// have any national points.
 		if (GetMap()->isNationPVPZone() 
-			&& !GetMap()->isWarZone()
+			&& GetMap()->isWarZone()
 			&& GetLoyalty() == 0)
 			KickOutZoneUser(false);
 	}
