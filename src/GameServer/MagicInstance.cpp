@@ -1725,17 +1725,17 @@ bool MagicInstance::ExecuteType5()
 					}
 				}
 
-				// NOTE: This originally checked to see if there were any active debuffs.
-				// As this seems pointless (as we're removing all of them), it was removed
-				// however leaving this note in, in case this behaviour in certain conditions
-				// is required.
-				pTUser->SendUserStatusUpdate(USER_STATUS_POISON, USER_STATUS_CURE);
-
 				if (bRecastSavedMagic)
 				{
 					pTUser->InitType4(true);
 					pTUser->RecastSavedMagic(false);
 				}
+
+				// NOTE: This originally checked to see if there were any active debuffs.
+				// As this seems pointless (as we're removing all of them), it was removed
+				// however leaving this note in, in case this behaviour in certain conditions
+				// is required.
+				pTUser->SendUserStatusUpdate(USER_STATUS_POISON, USER_STATUS_CURE);
 			} break;
 
 		case RESURRECTION_SELF:
