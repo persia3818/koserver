@@ -1551,7 +1551,6 @@ bool MagicInstance::ExecuteType4()
 
 			// Add the buff into the buff map.
 			pTarget->AddType4Buff(pType->bBuffType, pBuffInfo);
-
 		}
 
 		// Update character stats.
@@ -1700,7 +1699,6 @@ bool MagicInstance::ExecuteType5()
 
 		case REMOVE_TYPE4: // Remove type 4 debuffs
 			{
-				bool bRemoveSavedMagic = false;
 				bool bRecastSavedMagic = false;
 				FastGuard lock(pTUser->m_buffLock);
 				Type4BuffMap buffMap = pTUser->m_buffMap; // copy the map so we can't break it while looping
@@ -1710,27 +1708,19 @@ bool MagicInstance::ExecuteType5()
 				{
 					if (itr->second.isDebuff())
 					{
-						bRemoveSavedMagic = true;
-
 						pType4 = g_pMain->m_Magictype4Array.GetData(itr->second.m_nSkillID);
-
-						if (pType4 != nullptr)
-							if (pType4->bBuffType == BUFF_TYPE_HP_MP || pType4->bBuffType == BUFF_TYPE_AC)
-								bRemoveSavedMagic = false;
-
-						CMagicProcess::RemoveType4Buff(itr->first, pTUser, bRemoveSavedMagic);
-
-						if (!bRemoveSavedMagic)
+						if (pType != nullptr && (pType4->bBuffType == BUFF_TYPE_HP_MP || pType4->bBuffType == BUFF_TYPE_AC))
 							bRecastSavedMagic = true;
+
+						CMagicProcess::RemoveType4Buff(itr->first, pTUser);
 					}
 				}
 
 				if (bRecastSavedMagic)
 				{
-					pTUser->InitType4(true);
+					pTUser->InitType4();
 					pTUser->RecastSavedMagic(false);
 				}
-
 				// NOTE: This originally checked to see if there were any active debuffs.
 				// As this seems pointless (as we're removing all of them), it was removed
 				// however leaving this note in, in case this behaviour in certain conditions

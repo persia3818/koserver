@@ -84,7 +84,37 @@ void LoginSession::HandleLogin(Packet & pkt)
 	else
 		resultCode = g_pMain->m_DBProcess.AccountLogin(account, password);
 
-	printf("Login ID : %s / PW : %s\n", account.c_str(), password.c_str());
+	std::string sAuthMessage;
+
+	switch (resultCode)
+	{
+	case AUTH_SUCCESS:
+		sAuthMessage = "SUCCESS";
+		break;
+	case AUTH_NOT_FOUND:
+		sAuthMessage = "NOT FOUND";
+		break;
+	case AUTH_INVALID:
+		sAuthMessage = "INVALID";
+		break;
+	case AUTH_BANNED:
+		sAuthMessage = "BANNED";
+		break;
+	case AUTH_IN_USE:
+		sAuthMessage = "IN USE";
+		break;
+	case AUTH_ERROR:
+		sAuthMessage = "ERROR";
+		break;
+	case AUTH_FAILED:
+		sAuthMessage = "FAILED";
+		break;
+	default:
+		sAuthMessage = string_format("UNKNOWN (%d)",resultCode);
+		break;
+	}
+
+	printf(string_format("Login : %s / PW : %s / Authentication : %s\n",account.c_str(),password.c_str(),sAuthMessage.c_str()).c_str());
 
 	result << uint8(resultCode);
 	if (resultCode == AUTH_SUCCESS)
@@ -92,7 +122,7 @@ void LoginSession::HandleLogin(Packet & pkt)
 		result << int8(-1) << int8(-1); // prem type, prem days/hours (what are we even with 19XX)
 		result << account; // it uses this for the game server now.
 	}
-	Send(&result);
+	Send(&result);	
 }
 
 void LoginSession::HandleServerlist(Packet & pkt)

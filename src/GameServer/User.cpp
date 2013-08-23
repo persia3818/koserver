@@ -4632,15 +4632,10 @@ void CUser::RecastSavedMagic(bool bFillToMaxHealth)
 		instance.bIsRecastingSavedMagic = true;
 
 		instance.Run();
-
-		_MAGIC_TYPE4 * pType =  g_pMain->m_Magictype4Array.GetData(itr->first);
-		if (pType != nullptr)
-		{
-			if (pType->bBuffType == BUFF_TYPE_HP_MP)
-				if (bFillToMaxHealth)
-					HpChange(GetMaxHealth());
-		}
 	}
+
+	if (bFillToMaxHealth)
+		HpChange(GetMaxHealth());
 }
 
 /**
