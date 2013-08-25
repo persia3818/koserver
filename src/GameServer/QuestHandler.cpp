@@ -449,7 +449,7 @@ void CUser::SendClanPointChange(int32 nChangeAmount)
 	if (!isInClan())
 		return;
 
-	CKnightsManager::UpdateClanPoint(GetClanID(), -nChangeAmount);
+	CKnightsManager::UpdateClanPoint(GetClanID(), nChangeAmount);
 }
 
 uint8 CUser::GetClanGrade()
