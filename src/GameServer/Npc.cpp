@@ -380,23 +380,33 @@ void CNpc::ChaosStoneProcess(CUser *pUser, uint16 MonsterCount)
 	g_pMain->SendNotice<CHAOS_STONE_ENEMY_NOTICE>("",GetZoneID(), Nation::ALL);
 
 	std::vector<uint32> MonsterSpawned;
+	std::vector<uint32> MonsterSpawnedFamily;
+	bool bLoopBack = true;
+
 	for (uint8 i = 0; i < MonsterCount;i++)
 	{
 		uint32 nMonsterNum = myrand(0, g_pMain->m_MonsterSummonListZoneArray.GetSize());
 
 		_MONSTER_SUMMON_LIST_ZONE * pMonsterSummonListZone = g_pMain->m_MonsterSummonListZoneArray.GetData(nMonsterNum);
 
-		if (std::find(MonsterSpawned.begin(),MonsterSpawned.end(),nMonsterNum) == MonsterSpawned.end() && pMonsterSummonListZone != nullptr)
+		if (pMonsterSummonListZone != nullptr)
 		{
 			if (pMonsterSummonListZone->ZoneID == GetZoneID())
 			{
-				g_pMain->SpawnEventNpc(pMonsterSummonListZone->sSid, true,GetZoneID(), GetX(), GetY(), GetZ(), 1, CHAOS_STONE_MONSTER_RESPAWN_RADIUS);
-				MonsterSpawned.push_back(nMonsterNum);
+				if (std::find(MonsterSpawned.begin(),MonsterSpawned.end(),nMonsterNum) == MonsterSpawned.end())
+				{
+					if (std::find(MonsterSpawnedFamily.begin(),MonsterSpawnedFamily.end(),pMonsterSummonListZone->byFamily) == MonsterSpawnedFamily.end())
+					{
+						g_pMain->SpawnEventNpc(pMonsterSummonListZone->sSid, true,GetZoneID(), GetX(), GetY(), GetZ(), 1, CHAOS_STONE_MONSTER_RESPAWN_RADIUS);
+						MonsterSpawned.push_back(nMonsterNum);
+						MonsterSpawnedFamily.push_back(pMonsterSummonListZone->byFamily);
+						bLoopBack = false;
+					}
+				}
 			}
-			else
-				i--;
 		}
-		else
+
+		if (bLoopBack)
 			i--;			
 	}
 }

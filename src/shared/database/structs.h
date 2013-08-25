@@ -262,6 +262,7 @@ struct _MONSTER_SUMMON_LIST_ZONE
 	uint32	nIndex;
 	uint16	ZoneID;
 	uint16	sSid;
+	uint8	byFamily;
 };
 
 struct _MONSTER_RESPAWN_LIST
