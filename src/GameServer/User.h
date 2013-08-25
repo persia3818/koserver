@@ -953,6 +953,7 @@ public:
 	bool isHostileTo(Unit * pTarget);
 	bool isInArena();
 	bool isInPVPZone();
+	bool isInSafetyArea();
 
 	void ResetWindows();
 

@@ -162,7 +162,7 @@ void CUser::GetUserInfo(Packet & pkt)
 	foreach_array (i, equippedItems) 
 	{
 		_ITEM_DATA * pItem = GetItem(equippedItems[i]);
-		
+
 		if(pItem == nullptr)
 			continue; 
 
@@ -236,6 +236,8 @@ bool CUser::CanChangeZone(C3DMap * pTargetMap, WarpListResponse & errorReason)
 		}
 		else
 			return GetNation() == KARUS; 
+
+		break;
 	case ZONE_ELMORAD_ESLANT:
 		if (GetLevel() < MIN_LEVEL_ESLANT)
 		{
@@ -245,15 +247,25 @@ bool CUser::CanChangeZone(C3DMap * pTargetMap, WarpListResponse & errorReason)
 		else
 			return GetNation() == ELMORAD;
 
-		// Delos (30) may be entered by anybody, unless CSW is started -- in which case, it should only allow members of the clans competing for the castle (right?).
-	case ZONE_DELOS: // TO-DO: implement CSW logic
-		return true;
+		break;
+	case ZONE_DELOS:
+		if (GetLevel() < MIN_LEVEL_NATION_BASE)
+		{
+			errorReason = WarpListMinLevel;
+			return false;
+		} 
 
-		// Bifrost (31) may only be entered if the zone is open by the event. 
-		// If it's open, it should only be open for the zone in control of the monument in the first stage. 
-		// After that, it's open to both zones (note: this extended logic won't be implemented until we actually implement the event -- #84).
-	case ZONE_BIFROST: // TO-DO: implement Bifrost logic
 		return true;
+		break;
+	case ZONE_BIFROST:
+		if (GetLevel() < MIN_LEVEL_NATION_BASE)
+		{
+			errorReason = WarpListMinLevel;
+			return false;
+		} 
+
+		return true;
+		break;
 	case ZONE_ARDREAM:
 		if (g_pMain->m_byBattleOpen != NO_BATTLE)
 		{

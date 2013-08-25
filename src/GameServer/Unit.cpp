@@ -1203,3 +1203,23 @@ bool CUser::isInPVPZone()
 
 	return false;
 }
+
+/**
+* @brief	Determine if this user is in an safety area.
+*
+* @return	true if in safety area, false if not.
+*/
+bool CUser::isInSafetyArea()
+{
+
+	switch (GetZoneID())
+	{
+	case ZONE_BIFROST:
+		if (GetNation() == ELMORAD)
+			return ((GetX() < 124.0f && GetX() > 56.0f) && ((GetZ() < 840.0f && GetZ() > 700.0f)));
+		else
+			return ((GetX() < 270.0f && GetX() > 190.0f) && ((GetZ() < 970.0f && GetZ() > 870.0f)));
+	}
+
+	return false;
+}

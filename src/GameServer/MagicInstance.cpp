@@ -33,6 +33,9 @@ void MagicInstance::Run()
 
 			if (pCaster != nullptr)
 			{
+				if (pCaster->isInSafetyArea())
+					return;
+
 				if (pCaster->m_CoolDownList.find(nSkillID) != pCaster->m_CoolDownList.end())
 				{
 					SkillCooldownList::iterator itr = pCaster->m_CoolDownList.find(nSkillID);
@@ -40,12 +43,14 @@ void MagicInstance::Run()
 						bSendSkillFailed = true;
 					else
 						pCaster->m_CoolDownList.erase(nSkillID);
-				} 
+				}
+
 				if (((pSkill->bType[0] == pCaster->m_bLastSkillType) || (pSkill->bType[1] == pCaster->m_bLastSkillType))
 					&& (UNIXTIME - pCaster->m_fLastSkillUseTime < PLAYER_SKILL_REQUEST_INTERVAL))
 					bSendSkillFailed = true;
 			}
 		}
+
 		if (pSkillTarget->isNPC())
 		{
 			if (!pSkillTarget->isAttackable(pSkillTarget))

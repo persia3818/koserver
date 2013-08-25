@@ -15,6 +15,9 @@ void CUser::Attack(Packet & pkt)
 	if (isIncapacitated())
 		return;
 
+	if (isInSafetyArea())
+		return;
+
 	if (m_bInvisibilityType != INVIS_NONE)
 	{
 		CMagicProcess::RemoveStealth(this, INVIS_DISPEL_ON_MOVE);

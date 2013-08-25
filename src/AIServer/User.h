@@ -70,6 +70,7 @@ public:
 	bool isHostileTo(Unit * pTarget);
 	bool isInArena();
 	bool isInPVPZone();
+	bool isInSafetyArea();
 
 	short GetDamage(Unit *pTarget, _MAGIC_TABLE *pSkill = nullptr, bool bPreviewOnly = false);
 
