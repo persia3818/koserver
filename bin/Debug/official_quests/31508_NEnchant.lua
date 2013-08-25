@@ -23,7 +23,7 @@ end
 
 if EVENT == 666 then
 	CastSkill(UID,302327)
-	GoldLose(UID, 5000)
+	GoldLose(UID, 50000)
 	NpcMsg(UID, 9137)
 end
 
