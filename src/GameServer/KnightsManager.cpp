@@ -644,24 +644,23 @@ void CKnightsManager::UpdateClanPoint(uint16 sClanID, int32 nChangeAmount)
 	if (pClan == nullptr)
 		return;
 
-	int32 iClanPointFund = pClan->m_nClanPointFund;
-
 	if (nChangeAmount > 0)
 	{
-		if (iClanPointFund + nChangeAmount > LOYALTY_MAX)
-			iClanPointFund = LOYALTY_MAX;
+		if (pClan->m_nClanPointFund + nChangeAmount > LOYALTY_MAX)
+			pClan->m_nClanPointFund = LOYALTY_MAX;
 		else
-			iClanPointFund += nChangeAmount;
+			pClan->m_nClanPointFund += nChangeAmount;
 	}
 	else
 	{
-		if (iClanPointFund < nChangeAmount)
-			return;
+		uint32 pChangeAmount = -nChangeAmount;
 
-		iClanPointFund -= nChangeAmount;
+		if (pChangeAmount > pClan->m_nClanPointFund)
+			pClan->m_nClanPointFund = 0;
+		else
+			pClan->m_nClanPointFund -= pChangeAmount;
 	}
 
-	pClan->m_nClanPointFund = iClanPointFund;
 	pClan->UpdateClanFund();
 }
 
