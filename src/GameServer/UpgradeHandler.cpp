@@ -1,4 +1,4 @@
-#include "stdafx.h"
+﻿#include "stdafx.h"
 
 // Some item ID definitions
 #define MIN_ITEM_ID 100000000
@@ -376,11 +376,126 @@ void CUser::ItemUpgradeAccessories(Packet & pkt)
 */
 void CUser::BifrostPieceProcess(Packet & pkt)
 {
-	enum GeneratorDisplayCodes
+	enum ResultOpCodes
 	{
-		GeneratorFailed		= 0,
-		GeneratorSucceeded	= 1
+		Failed	= 0,
+		Success = 1
 	};
+
+	enum ResultMessages
+	{
+		Red		= 1, // There will be better days.
+		Green	= 2, // Don't be too disappointed. You're luck isn't that bad.
+		White	= 3 // It must be your lucky day.
+	};
+
+	uint16 nObjectID = 0;
+	uint32 nExchangeItemID = 0;
+
+	pkt >> nObjectID >> nExchangeItemID;
+
+	std::vector<uint32> ExchangeIndexList;
+	ResultOpCodes resultOpCode = Success;
+	ResultMessages resultMessage = Red;
+	uint32 nItemID = 0;
+	uint8 sItemSlot  = 0;
+
+	if (g_pMain->m_ItemExchangeArray.GetSize() > 0)
+	{
+		foreach_stlmap_nolock(itr, g_pMain->m_ItemExchangeArray)
+		{
+			if (itr->second->nOriginItemNum[0] == nExchangeItemID
+				|| itr->second->nOriginItemNum[1] == nExchangeItemID
+				|| itr->second->nOriginItemNum[2] == nExchangeItemID
+				|| itr->second->nOriginItemNum[3] == nExchangeItemID
+				|| itr->second->nOriginItemNum[4] == nExchangeItemID)
+			{
+				if (std::find(ExchangeIndexList.begin(),ExchangeIndexList.end(),itr->second->nIndex) == ExchangeIndexList.end())
+					ExchangeIndexList.push_back(itr->second->nIndex);
+			}
+			else
+				continue;
+		}
+	}
+
+	if (ExchangeIndexList.size() > 0)
+	{
+		uint32 randIndex = myrand(0, (ExchangeIndexList.size() - 1));
+		uint32 nExchangeID = ExchangeIndexList[randIndex];
+
+		_ITEM_EXCHANGE * pExchange = g_pMain->m_ItemExchangeArray.GetData(nExchangeID);
+
+		if (pExchange == nullptr
+			|| !CheckExchange(nExchangeID)
+			|| pExchange->bRandomFlag > 101
+			|| !CheckExistItemAnd(
+			pExchange->nOriginItemNum[0], pExchange->sOriginItemCount[0], 
+			pExchange->nOriginItemNum[1], pExchange->sOriginItemCount[1], 
+			pExchange->nOriginItemNum[2], pExchange->sOriginItemCount[2], 
+			pExchange->nOriginItemNum[3], pExchange->sOriginItemCount[3], 
+			pExchange->nOriginItemNum[4], pExchange->sOriginItemCount[4])) 
+			resultOpCode = Failed;
+
+		if (pExchange->bRandomFlag == 101 && resultOpCode == Success)
+		{
+			uint32 nTotalPercent = 0;
+			for (int i = 0; i < ITEMS_IN_EXCHANGE_GROUP; i++)
+				nTotalPercent += pExchange->sExchangeItemCount[i];
+
+			if (nTotalPercent > 10000)
+				resultOpCode = Failed;
+
+			if (resultOpCode == Success)
+			{
+				uint8 bRandArray[10000];
+				memset(&bRandArray, 0, sizeof(bRandArray)); 
+				uint16 sExchangeCount[ITEMS_IN_EXCHANGE_GROUP];
+				memcpy(&sExchangeCount, &pExchange->sExchangeItemCount, sizeof(pExchange->sExchangeItemCount));
+
+				int offset = 0;
+				for (int n = 0, i = 0; n < 5; n++)
+				{
+					if (sExchangeCount[n] > 0)
+					{
+						memset(&bRandArray[offset], n, sExchangeCount[n]);
+						offset += sExchangeCount[n];
+					}
+				}
+
+				uint8 bRandSlot = bRandArray[myrand(0, 9999)];
+				nItemID = pExchange->nExchangeItemNum[bRandSlot];
+
+				RobItem(pExchange->nOriginItemNum[0], 1);
+				RobItem(pExchange->nOriginItemNum[1], 1);
+				RobItem(pExchange->nOriginItemNum[2], 1);
+				RobItem(pExchange->nOriginItemNum[3], 1);
+				RobItem(pExchange->nOriginItemNum[4], 1);
+
+				sItemSlot = FindSlotForItem(nItemID, 1) - SLOT_MAX;
+				GiveItem(nItemID, 1);
+
+				_ITEM_TABLE *pItem = g_pMain->m_ItemtableArray.GetData(nItemID);
+
+				if (pItem != nullptr)
+				{
+					if (pItem->m_ItemType == 4)
+						resultMessage = White;
+					else if (pItem->m_ItemType == 5 || pItem->m_ItemType == 11 || pItem->m_ItemType == 12)
+						resultMessage = Green;
+					else
+						resultMessage = Red;
+				}
+			}
+		}
+	} 
+
+	Packet result(WIZ_ITEM_UPGRADE,(uint8)ITEM_BIFROST_EXCHANGE);
+	result << (uint8)resultOpCode << nItemID << (uint8)sItemSlot << nExchangeItemID << (uint8)1 << (uint8)resultMessage;
+	Send(&result);
+
+	Packet result2(WIZ_OBJECT_EVENT,(uint8)OBJECT_ARTIFACT);
+	result2 << (uint8)resultMessage << (uint16)nObjectID;
+	Send(&result2);
 }
 
 /**
