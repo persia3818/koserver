@@ -384,9 +384,10 @@ void CUser::BifrostPieceProcess(Packet & pkt)
 
 	enum ResultMessages
 	{
-		Red		= 1, // There will be better days.
-		Green	= 2, // Don't be too disappointed. You're luck isn't that bad.
-		White	= 3 // It must be your lucky day.
+		EffectNone	= 0, // No effect
+		EffectRed	= 1, // There will be better days.
+		EffectGreen	= 2, // Don't be too disappointed. You're luck isn't that bad.
+		EffectWhite	= 3 // It must be your lucky day.
 	};
 
 	uint16 nObjectID = 0;
@@ -396,19 +397,18 @@ void CUser::BifrostPieceProcess(Packet & pkt)
 
 	std::vector<uint32> ExchangeIndexList;
 	ResultOpCodes resultOpCode = Success;
-	ResultMessages resultMessage = Red;
+	ResultMessages resultMessage = EffectNone;
 	uint32 nItemID = 0;
-	uint8 sItemSlot  = 0;
+	uint8 sItemSlot = 0;
+	uint8 sExchangeItemSlot = 0;
+
+	sExchangeItemSlot = FindSlotForItem(nExchangeItemID, 1) - SLOT_MAX;
 
 	if (g_pMain->m_ItemExchangeArray.GetSize() > 0)
 	{
 		foreach_stlmap_nolock(itr, g_pMain->m_ItemExchangeArray)
 		{
-			if (itr->second->nOriginItemNum[0] == nExchangeItemID
-				|| itr->second->nOriginItemNum[1] == nExchangeItemID
-				|| itr->second->nOriginItemNum[2] == nExchangeItemID
-				|| itr->second->nOriginItemNum[3] == nExchangeItemID
-				|| itr->second->nOriginItemNum[4] == nExchangeItemID)
+			if (itr->second->nOriginItemNum[0] == nExchangeItemID)
 			{
 				if (std::find(ExchangeIndexList.begin(),ExchangeIndexList.end(),itr->second->nIndex) == ExchangeIndexList.end())
 					ExchangeIndexList.push_back(itr->second->nIndex);
@@ -428,12 +428,7 @@ void CUser::BifrostPieceProcess(Packet & pkt)
 		if (pExchange == nullptr
 			|| !CheckExchange(nExchangeID)
 			|| pExchange->bRandomFlag > 101
-			|| !CheckExistItemAnd(
-			pExchange->nOriginItemNum[0], pExchange->sOriginItemCount[0], 
-			pExchange->nOriginItemNum[1], pExchange->sOriginItemCount[1], 
-			pExchange->nOriginItemNum[2], pExchange->sOriginItemCount[2], 
-			pExchange->nOriginItemNum[3], pExchange->sOriginItemCount[3], 
-			pExchange->nOriginItemNum[4], pExchange->sOriginItemCount[4])) 
+			|| !CheckExistItemAnd(pExchange->nOriginItemNum[0], pExchange->sOriginItemCount[0], 0, 0, 0, 0, 0, 0, 0, 0)) 
 			resultOpCode = Failed;
 
 		if (pExchange->bRandomFlag == 101 && resultOpCode == Success)
@@ -465,13 +460,8 @@ void CUser::BifrostPieceProcess(Packet & pkt)
 				uint8 bRandSlot = bRandArray[myrand(0, 9999)];
 				nItemID = pExchange->nExchangeItemNum[bRandSlot];
 
+				sItemSlot = GetEmptySlot() - SLOT_MAX;
 				RobItem(pExchange->nOriginItemNum[0], 1);
-				RobItem(pExchange->nOriginItemNum[1], 1);
-				RobItem(pExchange->nOriginItemNum[2], 1);
-				RobItem(pExchange->nOriginItemNum[3], 1);
-				RobItem(pExchange->nOriginItemNum[4], 1);
-
-				sItemSlot = FindSlotForItem(nItemID, 1) - SLOT_MAX;
 				GiveItem(nItemID, 1);
 
 				_ITEM_TABLE *pItem = g_pMain->m_ItemtableArray.GetData(nItemID);
@@ -479,23 +469,26 @@ void CUser::BifrostPieceProcess(Packet & pkt)
 				if (pItem != nullptr)
 				{
 					if (pItem->m_ItemType == 4)
-						resultMessage = White;
+						resultMessage = EffectWhite;
 					else if (pItem->m_ItemType == 5 || pItem->m_ItemType == 11 || pItem->m_ItemType == 12)
-						resultMessage = Green;
+						resultMessage = EffectGreen;
 					else
-						resultMessage = Red;
+						resultMessage = EffectRed;
 				}
 			}
 		}
 	} 
 
-	Packet result(WIZ_ITEM_UPGRADE,(uint8)ITEM_BIFROST_EXCHANGE);
-	result << (uint8)resultOpCode << nItemID << (uint8)sItemSlot << nExchangeItemID << (uint8)1 << (uint8)resultMessage;
+	Packet result(WIZ_ITEM_UPGRADE);
+	result << (uint8)ITEM_BIFROST_EXCHANGE << (uint8)resultOpCode << nItemID << (uint8)sItemSlot << nExchangeItemID << (uint8)sExchangeItemSlot << (uint8)resultMessage;
 	Send(&result);
 
-	Packet result2(WIZ_OBJECT_EVENT,(uint8)OBJECT_ARTIFACT);
-	result2 << (uint8)resultMessage << (uint16)nObjectID;
-	Send(&result2);
+	result.clear();
+	result.SetOpcode(WIZ_OBJECT_EVENT);
+	result << (uint8)OBJECT_ARTIFACT << (uint8)resultMessage << (uint16)nObjectID;
+
+	if (resultOpCode != Failed)
+	Send(&result);
 }
 
 /**
