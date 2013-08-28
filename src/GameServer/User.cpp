@@ -4646,20 +4646,23 @@ void CUser::RecastSavedMagic(bool bFillToMaxHealth)
 */
 void CUser::HandlePlayerRankings(Packet & pkt)
 {
-	return;
+	uint16 OwnRank = 1;
 
-	uint16 OwnRank = 0;
-	uint8 RankType = 1;
-
-	if (isPVPZone())
-		RankType = 1;
-	else // BDW
-		RankType = 2;
-
-	Packet result(WIZ_RANK, RankType);
+	Packet result(WIZ_RANK, (isPVPZone() ? (uint8)1 : (uint8)2));
 	uint16 sClanID = 0;
 	uint16 sMarkVersion = 0;
 	std::string strClanName;
+
+	std::vector<_PVP_RANKINGS> PVPRankings[2];
+	foreach_stlmap_nolock(itr,g_pMain->m_PVPRankingsArray[KARUS_ARRAY])
+		PVPRankings[KARUS_ARRAY].push_back(*itr->second);
+
+	std::sort(PVPRankings[KARUS_ARRAY].begin(),PVPRankings[KARUS_ARRAY].end(),[](_PVP_RANKINGS const &a, _PVP_RANKINGS const &b){ return a.m_iLoyaltyDaily > b.m_iLoyaltyDaily; });
+
+	foreach_stlmap_nolock(itr,g_pMain->m_PVPRankingsArray[ELMORAD_ARRAY])
+		PVPRankings[ELMORAD_ARRAY].push_back(*itr->second);
+
+	std::sort(PVPRankings[ELMORAD_ARRAY].begin(),PVPRankings[ELMORAD_ARRAY].end(),[](_PVP_RANKINGS const &a, _PVP_RANKINGS const &b){ return a.m_iLoyaltyDaily > b.m_iLoyaltyDaily; });
 
 	for (int nation = KARUS_ARRAY; nation <= ELMORAD_ARRAY; nation++)
 	{
@@ -4667,28 +4670,26 @@ void CUser::HandlePlayerRankings(Packet & pkt)
 		size_t wpos = result.wpos();
 		result << sCount;
 
-		foreach_stlmap(itr, g_pMain->m_PVPRankingsArray[nation]) {
-			CUser *pUser = g_pMain->GetUserPtr(itr->second->m_socketID);
+		for (int i = 0; i < ((int)PVPRankings[nation].size() - 1); i++)
+		{
+			_PVP_RANKINGS * pPlayerRankInfo = &PVPRankings[nation][i];
+
+			if (pPlayerRankInfo == nullptr)
+				continue; 
+
+			CUser *pUser = g_pMain->GetUserPtr(pPlayerRankInfo->m_socketID);
 
 			if( pUser == nullptr)
 				continue;
 
-			if (GetZoneID() != itr->second->m_bZone)
+			if (GetZoneID() != pPlayerRankInfo->m_bZone)
 				continue;
-
-			if (itr->second->m_socketID == GetSocketID() && OwnRank == 0)
-			{
-				OwnRank = sCount + 1;
-				if (sCount == 10)
-					break;
-			}
 
 			if (sCount < 10)
 			{
 				CKnights * pKnights = g_pMain->GetClanPtr(pUser->m_bKnights);
 
-				if (pKnights != nullptr)
-				{
+				if (pKnights != nullptr) {
 					sClanID = pKnights->m_sIndex;
 					sMarkVersion = pKnights->m_sMarkVersion;
 					strClanName = pKnights->m_strName;
@@ -4698,17 +4699,17 @@ void CUser::HandlePlayerRankings(Packet & pkt)
 					strClanName = "";
 				}
 
-				result	<< pUser->m_strUserID
+				result << pUser->m_strUserID
 					<< true 
 					<< sClanID 
 					<< sMarkVersion 
 					<< strClanName 
-					<< itr->second->m_iLoyaltyDaily
-					<< itr->second->m_iLoyaltyPremiumBonus;
+					<< pPlayerRankInfo->m_iLoyaltyDaily
+					<< pPlayerRankInfo->m_iLoyaltyPremiumBonus;
 
 				sCount++;
 			}
-		} 
+		}
 
 		result.put(wpos, sCount);
 		wpos = result.wpos();

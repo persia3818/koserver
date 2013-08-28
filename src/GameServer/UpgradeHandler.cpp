@@ -480,12 +480,12 @@ void CUser::BifrostPieceProcess(Packet & pkt)
 	} 
 
 	Packet result(WIZ_ITEM_UPGRADE);
-	result << (uint8)ITEM_BIFROST_EXCHANGE << (uint8)resultOpCode << nItemID << (uint8)sItemSlot << nExchangeItemID << (uint8)sExchangeItemSlot << (uint8)resultMessage;
+	result << (uint8)ITEM_BIFROST_EXCHANGE << (uint8)resultOpCode << nItemID << sItemSlot << nExchangeItemID << sExchangeItemSlot << (uint8)resultMessage;
 	Send(&result);
 
 	result.clear();
 	result.SetOpcode(WIZ_OBJECT_EVENT);
-	result << (uint8)OBJECT_ARTIFACT << (uint8)resultMessage << (uint16)nObjectID;
+	result << (uint8)OBJECT_ARTIFACT << (uint8)resultMessage << nObjectID;
 
 	if (resultOpCode != Failed)
 	Send(&result);
