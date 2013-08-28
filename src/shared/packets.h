@@ -417,10 +417,12 @@ enum
 	KNIGHTS_UPDATE_GRADE	= 0x30,
 	KNIGHTS_POINT_REQ		= 0x3B,
 	KNIGHTS_DONATE_POINTS	= 0x3D,
-	KNIGHTS_HANDOVER		= 0x3E,
-
+	KNIGHTS_HANDOVER_VICECHIEF_LIST	= 0x3E,
+	KNIGHTS_HANDOVER_REQ	= 0x3F,
+	
 	KNIGHTS_DONATION_LIST	= 0x40,
 	KNIGHTS_TOP10			= 0x41,
+	KNIGHTS_HANDOVER		= 0x4F,
 
 	// These are NOT official client opcodes.
 	// They are opcodes for the database thread only.

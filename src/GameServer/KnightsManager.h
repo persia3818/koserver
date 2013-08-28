@@ -12,6 +12,7 @@ public:
 	static void JoinKnights(CUser* pUser, Packet & pkt);
 	static void WithdrawKnights(CUser* pUser, Packet & pkt);
 	static void ModifyKnightsMember(CUser* pUser, Packet & pkt, uint8 opcode);
+	static void ModifyKnightsLeader(CUser* pUser, Packet & pkt, uint8 opcode);
 	static void DestroyKnights(CUser* pUser);
 	static void AllKnightsList(CUser* pUser, Packet & pkt);
 	static void AllKnightsMember(CUser* pUser);
