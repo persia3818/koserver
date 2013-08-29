@@ -1014,7 +1014,7 @@ int8 CDBAgent::CreateKnights(uint16 sClanID, uint8 bNation, string & strKnightsN
 	dbCommand->AddParameter(SQL_PARAM_INPUT, strKnightsName.c_str(), strKnightsName.length());
 	dbCommand->AddParameter(SQL_PARAM_INPUT, strChief.c_str(), strChief.length());
 
-	if (!dbCommand->Execute(string_format(_T("{call CREATE_KNIGHTS(?,%d,%d,%d,?,?)}"), sClanID, bNation, bFlag)))
+	if (!dbCommand->Execute(string_format(_T("{CALL CREATE_KNIGHTS(?,%d,%d,%d,?,?)}"), sClanID, bNation, bFlag)))
 		ReportSQLError(m_GameDB->GetError());
 
 	return (int8)(nRet);
@@ -1031,8 +1031,16 @@ int CDBAgent::UpdateKnights(uint8 bType, string & strCharID, uint16 sClanID, uin
 	dbCommand->AddParameter(SQL_PARAM_OUTPUT, &nRet);
 	dbCommand->AddParameter(SQL_PARAM_INPUT, strCharID.c_str(), strCharID.length());
 
-	if (!dbCommand->Execute(string_format(_T("{CALL UPDATE_KNIGHTS(?,%d,?,%d,%d)}"), bType+0x10, sClanID, bDomination)))
+	if (!dbCommand->Execute(string_format(_T("{CALL UPDATE_KNIGHTS(?,%d,?,%d,%d)}"), bType + 0x10, sClanID, bDomination)))
 		ReportSQLError(m_GameDB->GetError());
+
+	if (bType == KNIGHTS_VICECHIEF && nRet == 0) {
+		CKnights * pKnights = g_pMain->GetClanPtr(sClanID);
+		if (pKnights != nullptr)
+			if (pKnights->m_strViceChief_1 == "") pKnights->m_strViceChief_1 = strCharID;
+			else if (pKnights->m_strViceChief_2 == "") pKnights->m_strViceChief_2 = strCharID;
+			else if (pKnights->m_strViceChief_3 == "") pKnights->m_strViceChief_3 = strCharID;
+	}
 
 	return nRet;
 }

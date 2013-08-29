@@ -337,9 +337,12 @@ void CKnightsManager::ModifyKnightsLeader(CUser *pUser, Packet & pkt, uint8 opco
 	{
 		uint16 ViceChiefCount = 0;
 
-		if (pKnights->m_strViceChief_1 != "") ViceChiefCount++;
-		if (pKnights->m_strViceChief_2 != "") ViceChiefCount++;
-		if (pKnights->m_strViceChief_3 != "") ViceChiefCount++;
+		if (g_pMain->GetUserPtr(pKnights->m_strViceChief_1, TYPE_CHARACTER) != nullptr)
+			ViceChiefCount++;
+		if (g_pMain->GetUserPtr(pKnights->m_strViceChief_2, TYPE_CHARACTER) != nullptr)
+			ViceChiefCount++;
+		if (g_pMain->GetUserPtr(pKnights->m_strViceChief_3, TYPE_CHARACTER) != nullptr)
+			ViceChiefCount++;
 
 		result << opcode << isClanLeader << ViceChiefCount << pKnights->m_strViceChief_1 << pKnights->m_strViceChief_2 << pKnights->m_strViceChief_3;
 		pUser->Send(&result);
@@ -351,27 +354,33 @@ void CKnightsManager::ModifyKnightsLeader(CUser *pUser, Packet & pkt, uint8 opco
 			std::string strUserID;
 			pkt >> strUserID;
 
-			CUser *pTUser = g_pMain->GetUserPtr(strUserID,TYPE_CHARACTER);
+			CUser *pTUser = g_pMain->GetUserPtr(strUserID, TYPE_CHARACTER);
 
 			if (pTUser == nullptr)
 				return;
 
-			pKnights->m_strChief = strUserID.c_str();
+			pKnights->m_strChief = strUserID;
 
 			if (pKnights->m_strViceChief_1 == strUserID) pKnights->m_strViceChief_1 = "";
-			if (pKnights->m_strViceChief_2 == strUserID) pKnights->m_strViceChief_2 = "";
-			if (pKnights->m_strViceChief_3 == strUserID) pKnights->m_strViceChief_3 = "";
+			else if (pKnights->m_strViceChief_2 == strUserID) pKnights->m_strViceChief_2 = "";
+			else if (pKnights->m_strViceChief_3 == strUserID) pKnights->m_strViceChief_3 = "";
 
-			result << (uint8)KNIGHTS_HANDOVER << pUser->GetName().c_str() << strUserID.c_str();
-			pUser->Send(&result);
-			pUser->ChangeFame(NONE);
+			g_DBAgent.UpdateKnights((uint8)KNIGHTS_HANDOVER, strUserID, pUser->GetClanID(), 0);
+
+			pUser->ChangeFame(TRAINEE);
+			pUser->UserDataSaveToAgent();
 			AllKnightsMember(pUser);
 
-			result.clear();
-			result << (uint8)KNIGHTS_HANDOVER << strUserID.c_str() << pUser->GetName().c_str();
-			pTUser->Send(&result);
-			pUser->ChangeFame(CHIEF);
+			pTUser->ChangeFame(CHIEF);
+			pTUser->UserDataSaveToAgent();
 			AllKnightsMember(pTUser);
+
+			result << (uint8)KNIGHTS_HANDOVER << pUser->GetName() << strUserID;
+			pUser->Send(&result);
+
+			result.clear();
+			result << (uint8)KNIGHTS_HANDOVER << strUserID << pUser->GetName();
+			pTUser->Send(&result);
 		}
 	}
 }
