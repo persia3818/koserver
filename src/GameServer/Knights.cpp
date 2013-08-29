@@ -21,6 +21,7 @@ CKnights::CKnights()
 	m_sMarkLen = 0;
 	m_sMarkVersion = 0;
 	m_bCapeR = m_bCapeG = m_bCapeB = 0;
+	m_sClanPointMethod = 0;
 }
 
 void CKnights::OnLogin(CUser *pUser)

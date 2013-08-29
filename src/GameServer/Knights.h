@@ -51,8 +51,7 @@ public:
 	uint16	m_sMembers;
 
 	std::string m_strName;
-	std::string m_strChief, 
-		m_strViceChief_1, m_strViceChief_2, m_strViceChief_3;
+	std::string m_strChief, m_strViceChief_1, m_strViceChief_2, m_strViceChief_3;
 	std::string m_strClanNotice;
 
 	uint64	m_nMoney;
@@ -64,6 +63,7 @@ public:
 	uint16	m_sCape;
 	uint8	m_bCapeR, m_bCapeG, m_bCapeB;
 	uint16	m_sAlliance;
+	uint8	m_sClanPointMethod;
 
 	_KNIGHTS_USER m_arKnightsUser[MAX_CLAN_USERS];
 
@@ -71,6 +71,7 @@ public:
 	INLINE uint16 GetAllianceID() { return m_sAlliance; }
 	INLINE uint16 GetCapeID() { return m_sCape; }
 	INLINE std::string & GetName() { return m_strName; }
+	INLINE uint8 GetClanPointMethod() { return m_sClanPointMethod; }
 
 	INLINE bool isPromoted() { return m_byFlag >= ClanTypePromoted; }
 	INLINE bool isInAlliance() { return m_sAlliance > 0; }

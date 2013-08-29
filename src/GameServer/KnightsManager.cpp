@@ -373,7 +373,6 @@ void CKnightsManager::ModifyKnightsLeader(CUser *pUser, Packet & pkt, uint8 opco
 			pUser->UserDataSaveToAgent();
 			AllKnightsMember(pUser);
 
-
 			result.clear();
 			result << (uint8)KNIGHTS_HANDOVER << strUserID << pUser->GetName();
 			pTUser->Send(&result);

@@ -36,6 +36,7 @@ public:
 		_dbCommand->FetchUInt16(21, pData->m_sAlliance);
 		_dbCommand->FetchUInt32(22, (uint32 &) pData->m_nClanPointFund);
 		_dbCommand->FetchString(23, pData->m_strClanNotice);
+		_dbCommand->FetchByte(24, pData->m_sClanPointMethod);
 
 		pData->m_byGrade = g_pMain->GetKnightsGrade(pData->m_nPoints);
 

@@ -629,7 +629,7 @@ void CUser::SendLoyaltyChange(int32 nChangeAmount /*= 0*/, bool bIsKillReward /*
 		{
 			CKnights * pKnights = g_pMain->GetClanPtr(GetClanID());
 
-			if (pKnights != nullptr) {
+			if (pKnights != nullptr && pKnights->GetClanPointMethod() == 1) {
 				if (pKnights->m_byFlag >= ClanTypeAccredited5)
 				{
 					if (pKnights->m_sMembers <= 5)
@@ -645,7 +645,7 @@ void CUser::SendLoyaltyChange(int32 nChangeAmount /*= 0*/, bool bIsKillReward /*
 					else if (pKnights->m_sMembers <= 30)
 						nClanLoyaltyAmount = 6;
 					else if (pKnights->m_sMembers > 30)
-						nClanLoyaltyAmount = 6;
+						nClanLoyaltyAmount = 7;
 
 					m_iLoyalty -= nClanLoyaltyAmount;
 					CKnightsManager::AddUserDonatedNP(GetClanID(),m_strUserID,nClanLoyaltyAmount,true);
