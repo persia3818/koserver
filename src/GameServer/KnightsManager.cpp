@@ -41,6 +41,9 @@ void CKnightsManager::PacketProcess(CUser *pUser, Packet & pkt)
 	case KNIGHTS_HANDOVER:
 		ModifyKnightsLeader(pUser, pkt, opcode);
 		break;
+	case KNIGHTS_POINT_METHOD:
+		ModifyKnightsPointMethod(pUser, pkt);
+		break;
 	case KNIGHTS_DESTROY:
 		DestroyKnights(pUser);
 		break;
@@ -444,6 +447,34 @@ void CKnightsManager::ModifyKnightsMember(CUser *pUser, Packet & pkt, uint8 opco
 	} while (0);
 
 	result << bResult;
+	pUser->Send(&result);
+}
+
+
+void CKnightsManager::ModifyKnightsPointMethod(CUser *pUser, Packet & pkt)
+{
+	if (pUser == nullptr && !pUser->isClanLeader())
+		return;
+
+	CKnights *pKnights = g_pMain->GetClanPtr(pUser->GetClanID());
+
+	if (pKnights == nullptr)
+		return;
+
+	uint8 subCode = 0;
+	pkt >> subCode;
+
+	uint8 bResult = 1;
+
+	if (pKnights->m_byFlag >= ClanTypeAccredited5)
+		pKnights->m_sClanPointMethod  = subCode != 0 ? subCode - 1 : pKnights->m_sClanPointMethod;
+	else
+		bResult = 2;
+
+	g_DBAgent.UpdateKnights((uint8)KNIGHTS_POINT_METHOD, pUser->GetName(), pUser->GetClanID(), pKnights->GetClanPointMethod());
+
+	Packet result(WIZ_KNIGHTS_PROCESS, (uint8)KNIGHTS_POINT_METHOD);
+	result << bResult << pKnights->GetClanPointMethod();
 	pUser->Send(&result);
 }
 
