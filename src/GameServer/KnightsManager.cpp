@@ -367,20 +367,19 @@ void CKnightsManager::ModifyKnightsLeader(CUser *pUser, Packet & pkt, uint8 opco
 
 			g_DBAgent.UpdateKnights((uint8)KNIGHTS_HANDOVER, strUserID, pUser->GetClanID(), 0);
 
+			result << (uint8)KNIGHTS_HANDOVER << pUser->GetName() << strUserID;
+			pUser->Send(&result);
 			pUser->ChangeFame(TRAINEE);
 			pUser->UserDataSaveToAgent();
 			AllKnightsMember(pUser);
 
-			pTUser->ChangeFame(CHIEF);
-			pTUser->UserDataSaveToAgent();
-			AllKnightsMember(pTUser);
-
-			result << (uint8)KNIGHTS_HANDOVER << pUser->GetName() << strUserID;
-			pUser->Send(&result);
 
 			result.clear();
 			result << (uint8)KNIGHTS_HANDOVER << strUserID << pUser->GetName();
 			pTUser->Send(&result);
+			pTUser->ChangeFame(CHIEF);
+			pTUser->UserDataSaveToAgent();
+			AllKnightsMember(pTUser);
 		}
 	}
 }
