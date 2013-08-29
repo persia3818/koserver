@@ -1,12 +1,15 @@
+ALTER TABLE KNIGHTS ADD ClanPointMethod [tinyint] NULL
+ALTER TABLE KNIGHTS ADD  CONSTRAINT [DF_KNIGHTS_ClanPointMethod]  DEFAULT ((0)) FOR [ClanPointMethod]
+UPDATE KNIGHTS SET ClanPointMethod = 0
+GO
+
 ALTER PROCEDURE [dbo].[UPDATE_KNIGHTS]
 @nRet		smallint OUTPUT, 
 @Type		tinyint,
 @UserId 	char(21), 
 @KnightsIndex	smallint,
 @Domanation	tinyint
-
 AS
-
 DECLARE @Row tinyint 
 DECLARE @Members tinyint
 DECLARE @UserMembers tinyint
@@ -82,6 +85,10 @@ BEGIN
 	IF @ViceChief_3 = @UserId
 		UPDATE KNIGHTS SET ViceChief_3 = NULL WHERE IDNum = @KnightsIndex	
 END
+ELSE IF @Type = 76 -- Clan Point Method
+BEGIN
+	UPDATE KNIGHTS SET ClanPointMethod = @Domanation WHERE IDNum = @KnightsIndex
+END
 ELSE IF @Type = 95 -- Change Chief
 BEGIN
 	UPDATE KNIGHTS SET Chief = @UserId WHERE IDNum = @KnightsIndex
@@ -118,3 +125,4 @@ IF @Type = 20	-- REMOVE
 	
 COMMIT TRAN
 SET @nRet =  0
+GO
