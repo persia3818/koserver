@@ -1,4 +1,3 @@
-
 local UserClass;
 local QuestNum;
 local Ret = 0;
@@ -15,8 +14,180 @@ if EVENT == 241 then
 end
 
 if EVENT == 100 then
-	SelectMsg(UID, 3, savenum, 6421, NPC, 4333, 280, 4334, 110, 4335, 120, 4154, 241);
+	SelectMsg(UID, 3, savenum, 6421, NPC, 4333, 280, 4334, 110, 4335, 120, 4154, 241, 40140, 130, 40139, 140);
 end
+
+--## ACRICATED UPGRADE START 
+
+if EVENT == 130 then
+
+    GetClanGrade = CheckClanGrade(UID)
+        if GetClanGrade == 1 then
+		Check = isClanLeader(UID)
+            if Check then
+                SelectMsg(UID, 3, savenum, 6381, NPC, 40138, 40138, 40137, 40137, 40136, 40136, 40135, 40135);
+           
+        else
+        SelectMsg(UID, 2, savenum, 6385, NPC, 10, 241);
+        end
+    else -- Tran√Ωng G1 De√∞ilse
+    SelectMsg(UID, 2, savenum, 6404, NPC, 10, 241);
+    end
+end
+
+if EVENT == 40138 then
+ GetClanRank = CheckKnight(UID)
+    if GetClanRank == 3 then
+		Check = isClanLeader(UID)
+   
+    GetClanPoint = CheckClanPoint(UID)
+    if GetClanPoint < 180000 then
+	SelectMsg(UID, 2, savenum, 10626, NPC, 10, 241);
+	else       
+    RobClanPoint (UID , 180000)
+	PromoteKnight(UID,4)
+	SelectMsg(UID, 2, savenum, 6393, NPC, 10, 241)
+	end
+	end
+	end
+	
+	if EVENT == 40137 then
+ GetClanRank = CheckKnight(UID)
+    if GetClanRank == 4 then
+		Check = isClanLeader(UID)
+   
+    GetClanPoint = CheckClanPoint(UID)
+    if GetClanPoint < 360000 then
+	SelectMsg(UID, 2, savenum, 10627, NPC, 10, 241);
+	else       
+    RobClanPoint (UID , 360000)
+	PromoteKnight(UID,5)
+	SelectMsg(UID, 2, savenum, 6393, NPC, 10, 241)
+	end
+	end
+	end
+	
+	if EVENT == 40136 then
+ GetClanRank = CheckKnight(UID)
+    if GetClanRank == 5 then
+		Check = isClanLeader(UID)
+   
+    GetClanPoint = CheckClanPoint(UID)
+    if GetClanPoint < 540000 then
+	SelectMsg(UID, 2, savenum, 10628, NPC, 10, 241);
+	else       
+    RobClanPoint (UID , 540000)
+	PromoteKnight(UID,6)
+	SelectMsg(UID, 2, savenum, 6393, NPC, 10, 241)
+	end
+	end
+	end
+	
+	if EVENT == 40135 then
+ GetClanRank = CheckKnight(UID)
+    if GetClanRank == 6 then
+		Check = isClanLeader(UID)
+   
+    GetClanPoint = CheckClanPoint(UID)
+    if GetClanPoint < 720000 then
+	SelectMsg(UID, 2, savenum, 10629, NPC, 10, 241);
+	else       
+    RobClanPoint (UID , 720000)
+	PromoteKnight(UID,7)
+	SelectMsg(UID, 2, savenum, 6393, NPC, 10, 241)
+	end
+	end
+	end
+	
+--## ACRICATED UPGRADE END
+
+--## ROYAL UPGRADE START
+
+if EVENT == 140 then
+
+    GetClanGrade = CheckClanGrade(UID)
+        if GetClanGrade == 1 then
+		Check = isClanLeader(UID)
+            if Check then
+                SelectMsg(UID, 3, savenum, 6381, NPC, 40141, 40141, 40142, 40142, 40143, 40143, 40144, 40144);
+           
+        else
+        SelectMsg(UID, 2, savenum, 6385, NPC, 10, 241);
+        end
+    else -- Tran√Ωng G1 De√∞ilse
+    SelectMsg(UID, 2, savenum, 6404, NPC, 10, 241);
+    end
+end
+
+if EVENT == 40141 then
+ GetClanRank = CheckKnight(UID)
+    if GetClanRank == 8 then
+		Check = isClanLeader(UID)
+   
+    GetClanPoint = CheckClanPoint(UID)
+    if GetClanPoint < 900000 then
+	SelectMsg(UID, 2, savenum, 43607, NPC, 10, 241);
+	else       
+    RobClanPoint (UID , 900000)
+	PromoteKnight(UID,9)
+	SelectMsg(UID, 2, savenum, 6393, NPC, 10, 241)
+	end
+	end
+	end
+	
+	if EVENT == 40142 then
+ GetClanRank = CheckKnight(UID)
+    if GetClanRank == 9 then
+		Check = isClanLeader(UID)
+   
+    GetClanPoint = CheckClanPoint(UID)
+    if GetClanPoint < 1080000 then
+	SelectMsg(UID, 2, savenum, 43608, NPC, 10, 241);
+	else       
+    RobClanPoint (UID , 1080000)
+	PromoteKnight(UID,10)
+	SelectMsg(UID, 2, savenum, 6393, NPC, 10, 241)
+	end
+	end
+	end
+	
+	if EVENT == 40143 then
+ GetClanRank = CheckKnight(UID)
+    if GetClanRank == 10 then
+		Check = isClanLeader(UID)
+   
+    GetClanPoint = CheckClanPoint(UID)
+    if GetClanPoint < 1260000 then
+	SelectMsg(UID, 2, savenum, 43609, NPC, 10, 241);
+	else       
+    RobClanPoint (UID , 1260000)
+	PromoteKnight(UID,11)
+	SelectMsg(UID, 2, savenum, 6393, NPC, 10, 241)
+	end
+	end
+	end
+	
+	if EVENT == 40144 then
+ GetClanRank = CheckKnight(UID)
+    if GetClanRank == 11 then
+		Check = isClanLeader(UID)
+   
+    GetClanPoint = CheckClanPoint(UID)
+    if GetClanPoint < 1440000 then
+	SelectMsg(UID, 2, savenum, 43610, NPC, 10, 241);
+	else       
+    RobClanPoint (UID , 1440000)
+	PromoteKnight(UID,12)
+	SelectMsg(UID, 2, savenum, 6393, NPC, 10, 241)
+	end
+	end
+	end
+
+
+--## ROYAL UPGRADE END
+	
+	
+	
 
 --## ACRICATED START
 if EVENT == 110 then
@@ -33,7 +204,7 @@ GetClanRank = CheckKnight(UID)
         else
         SelectMsg(UID, 2, savenum, 6385, NPC, 10, 241);
         end
-    else -- Tran˝ng G1 Deilse
+    else -- Tran√Ωng G1 De√∞ilse
     SelectMsg(UID, 2, savenum, 6404, NPC, 10, 241);
     end
 end
@@ -66,9 +237,8 @@ if EVENT == 116 then
     elseif ItemB == 0 then
     SelectMsg(UID, 2, savenum, 6392, NPC, 10, 241);
     else
-	RobItem(UID, 389221000, 1)
-	GoldLose(UID, 10000000)
-    PromoteKnight(UID,3)
+	GoldLose(UID, 100000000)
+	PromoteKnight(UID,3)
 	SelectMsg(UID, 2, savenum, 6393, NPC, 10, 241)
     end
 end
@@ -81,10 +251,10 @@ GetClanRank = CheckKnight(UID)
 	Check = isClanLeader(UID)
        if Check then -- Clan Lideri ise
           SelectMsg(UID, 3, savenum, 6394, NPC, 4157, 121, 4158, 124, 4159, 125);
-       else -- Clan Ba˛kan˝ Deilse
+       else -- Clan Ba√ækan√Ω De√∞ilse
           SelectMsg(UID, 2, savenum, 4164, NPC, 10, 241);
        end
-    else -- Accr˝ted 1 Deilse
+    else -- Accr√Ωted 1 De√∞ilse
           SelectMsg(UID, 2, savenum, 6395, NPC, 10, 241);
     end
 end
@@ -130,17 +300,17 @@ if EVENT == 280 then
 GetClanRank = CheckKnight(UID)
     if GetClanRank == 1 then -- Clan Flag 1 ise 
     GetClanGrade = CheckClanGrade(UID)
-        if GetClanGrade < 4 then -- Clan Grade 3 ve yukar˝s˝ ise
+        if GetClanGrade < 4 then -- Clan Grade 3 ve yukar√Ωs√Ω ise
 		Check = isClanLeader(UID)
-           if Check then -- Clan Ba˛kan˝ ise
+           if Check then -- Clan Ba√ækan√Ω ise
                SelectMsg(UID, 3, savenum, 4165, NPC, 4157, 281, 4158, 286, 4159, 285);
-           else-- Clan Ba˛kan˝ deilse mesaj gˆster
+           else-- Clan Ba√ækan√Ω de√∞ilse mesaj g√∂ster
                SelectMsg(UID, 2, savenum, 4164, NPC, 10, 241);
            end
         else-- Clan Grade 4 veya 5 ise 
         SelectMsg(UID, 2, savenum, 4163, NPC, 10, 241);
         end
-    else-- Tran˝ng Clan Deilse
+    else-- Tran√Ωng Clan De√∞ilse
     SelectMsg(UID, 2, savenum, 6403, NPC, 10, 241);
     end
 end
@@ -162,6 +332,11 @@ ZoneChangeClan(UID, 54, 150, 150, 50)
 end
 
 
+
+
+	
+
+
 local ItemA
 local ItemB
 
@@ -173,7 +348,7 @@ end
 if EVENT == 287 then
     ItemA = HowmuchItem(UID, 900000000);
     ItemB = HowmuchItem(UID, 910045000);
-    if ItemA < 10000000 then -- ≥Îæ∆
+    if ItemA < 10000000 then -- ¬≥√´¬æ√Ü
     SelectMsg(UID, 2, savenum, 4170, NPC, 10, 241);
     elseif ItemB == 0 then
     SelectMsg(UID, 2, savenum, 4171, NPC, 10, 241);
@@ -183,6 +358,7 @@ if EVENT == 287 then
     PromoteKnight(UID,2)
     end
 end
+
 
 
 local Loyalty
